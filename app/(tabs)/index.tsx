@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
   },
   socialLoginContainer: {
     flexDirection: 'row',
+    gap: 25,
     justifyContent: 'space-between',
     marginTop: 10,
   },
