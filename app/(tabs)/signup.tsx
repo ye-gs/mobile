@@ -1,21 +1,40 @@
-import { StyleSheet, TextInput, Button } from 'react-native';
+import React, { useState } from 'react';
 import { Text, View } from '@/components/Themed';
+import { StyleSheet, Button, TextInput } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-export default function Home() {
-  const handleLogin = () => {
-    // Handle login logic here
-    console.log('Login button pressed');
+export default function SignUpScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const handleSignUp = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Por favor insira um endereço de email válido.');
+      return;
+    }
+
+    if (password.length < 8) {
+      alert('Senha deve ter pelo menos 8 caracteres.');
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      alert('Senhas não conferem.');
+      return;
+    }
+
+    // Handle sign up logic here
   };
 
-  const handleGoogleLogin = () => {
-    // Handle Google login logic here
-  };
+  function handleGoogleSignUp() {
+    throw new Error('Function not implemented.');
+  }
 
-  const handleFacebookLogin = () => {
-    // Handle Facebook login logic here
-  };
-
+  function handleFacebookSignUp() {
+    throw new Error('Function not implemented.');
+  }
 
   return (
     <View style={styles.container}>
@@ -25,41 +44,48 @@ export default function Home() {
       <TextInput
         autoComplete='email'
         style={styles.input}
-        placeholder="Email"
+        placeholder="Seu email"
         keyboardType="email-address"
         placeholderTextColor={styles.input.color}
+        onChangeText={setEmail}
         autoCapitalize="none"
       />
-
       <TextInput
         autoComplete='password'
         style={styles.input}
-        placeholder="Password"
-        placeholderTextColor={styles.input.color}
+        placeholder="Sua senha"
         secureTextEntry
+        placeholderTextColor={styles.input.color}
         autoCapitalize="none"
+        onChangeText={setPassword}
       />
-
-      <Button title="Entrar" onPress={handleLogin} />
-
+      <TextInput
+        autoComplete='password'
+        style={styles.input}
+        placeholder="Confirmar senha"
+        secureTextEntry
+        placeholderTextColor={styles.input.color}
+        autoCapitalize="none"
+        onChangeText={setPasswordConfirm}
+      />
+      <Button title="Registre-se" onPress={handleSignUp} />
       <View style={styles.socialLoginContainer}>
         <FontAwesome.Button
           name="google"
           backgroundColor="#DB4437"
-          onPress={handleGoogleLogin}
+          onPress={handleGoogleSignUp}
         >
         </FontAwesome.Button>
         <FontAwesome.Button
           name="facebook"
           backgroundColor="#3B5998"
-          onPress={handleFacebookLogin}
+          onPress={handleFacebookSignUp}
         >
         </FontAwesome.Button>
       </View>
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
