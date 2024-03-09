@@ -4,11 +4,12 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { HomeCard } from "@/components/HomeCard";
 import { HomeOption } from "@/components/HomeOption";
 import { HomeHistoryCard } from "@/components/HomeHistoryCard";
-
+import {Doctor} from "@/assets/images/index"
 export default function Home() {
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
+        <Doctor/>
         <Image
           style={styles.userImage}
           source={{
