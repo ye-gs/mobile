@@ -1,19 +1,28 @@
 import { StyleSheet, TextInput, Button } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { router } from 'expo-router';
 
 export default function Home() {
   const handleLogin = () => {
     // Handle login logic here
     console.log('Login button pressed');
+    router.navigate("/home")
+
   };
 
   const handleGoogleLogin = () => {
     // Handle Google login logic here
+    console.log('Google login button pressed');
+    router.navigate("/home")
+
   };
 
   const handleFacebookLogin = () => {
     // Handle Facebook login logic here
+    console.log('Facebook login button pressed');
+    router.navigate("/home")
+
   };
 
 

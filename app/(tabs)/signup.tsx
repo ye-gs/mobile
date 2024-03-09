@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, View } from '@/components/Themed';
 import { StyleSheet, Button, TextInput } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { router } from 'expo-router';
 
 export default function SignUpScreen() {
   const [email, setEmail] = useState('');
@@ -24,16 +25,20 @@ export default function SignUpScreen() {
       alert('Senhas não conferem.');
       return;
     }
-
-    // Handle sign up logic here
+    console.log('SignUp button pressed');
+    router.navigate("/home")
   };
 
   function handleGoogleSignUp() {
-    throw new Error('Function not implemented.');
+    console.log('Google SignUp button pressed');
+    router.navigate("/home")
+
   }
 
   function handleFacebookSignUp() {
-    throw new Error('Function not implemented.');
+    console.log('Facebook SignUp button pressed');
+    router.navigate("/home")
+
   }
 
   return (
