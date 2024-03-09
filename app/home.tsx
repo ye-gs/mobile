@@ -20,19 +20,19 @@ export default function Home() {
       <View style={styles.biometricInfo}>
         <HomeCard
           text="IMC"
-          imageUrl="https://img.stackshare.io/service/3244/1_Mr1Fy00XjPGNf1Kkp_hWtw_2x.png"
+          imageUrl="./assets/images/imc.svg"
           value="31,14"
           status="Obesidade 2"
         ></HomeCard>
         <HomeCard
           text="Glicemia"
-          imageUrl="https://img.stackshare.io/service/3244/1_Mr1Fy00XjPGNf1Kkp_hWtw_2x.png"
+          imageUrl="assets/images/Glicemia_sv.svg"
           value="85Mg/Dl"
           status="Normal"
         ></HomeCard>
         <HomeCard
           text="Pressão"
-          imageUrl="https://img.stackshare.io/service/3244/1_Mr1Fy00XjPGNf1Kkp_hWtw_2x.png"
+          imageUrl="assets/images/Heartbeat.svg"
           value="150x100"
           status="Normal"
         ></HomeCard>
@@ -45,23 +45,23 @@ export default function Home() {
       <View style={styles.options}>
         <HomeOption
           text="Exames"
-          imageUrl="https://cdn-icons-png.flaticon.com/512/4428/4428293.png"
+          imageUrl="assets/images/Doctor.svg"
         ></HomeOption>
         <HomeOption
           text="Medicação"
-          imageUrl="https://cdn-icons-png.flaticon.com/512/4428/4428293.png"
+          imageUrl="assets/images/Pill.svg"
         ></HomeOption>
       </View>
       <View style={styles.history}>
-          <View style={styles.history__heading}>
-            <Text style={styles.history__title}>
-              Próximas consultas
-            </Text>
-            <Text style={styles.history__link}>
-              Ver todas
-            </Text>
-          </View>
-          <HomeHistoryCard text="Exame de próstata com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"></HomeHistoryCard>
+        <View style={styles.history__heading}>
+          <Text style={styles.history__title}>
+            Próximas consultas
+          </Text>
+          <Text style={styles.history__link}>
+            Ver todas
+          </Text>
+        </View>
+        <HomeHistoryCard text="Exame de próstata com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"></HomeHistoryCard>
       </View>
     </View>
   );
@@ -104,20 +104,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 60,
   },
-  history:{
-    paddingTop:30,
-    width:'80%'
+  history: {
+    paddingTop: 30,
+    width: '80%'
   },
-  history__heading:{
+  history__heading: {
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  history__title:{
-    fontSize:16,
+  history__title: {
+    fontSize: 16,
     fontWeight: 'bold'
   },
-  history__link:{
-    fontSize:12,
-    alignSelf:'flex-end'
+  history__link: {
+    fontSize: 12,
+    alignSelf: 'flex-end'
   },
 });
