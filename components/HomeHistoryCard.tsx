@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     },
     date:{
         fontSize:8,
-        color: '#fff' //'rgba(34, 31, 31, 0.4)'
     }
 
 })

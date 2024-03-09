@@ -12,7 +12,7 @@ export function HomeOption(props:{text: string, imageUrl: string}){
 const styles = StyleSheet.create({
     container:{
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     optionImage:{
         width: 60,

@@ -1,4 +1,5 @@
 import { View, Text } from "@/components/Themed"
+import { useState } from "react"
 import { StyleSheet, Image } from "react-native"
 
 export function HomeCard(props: {text: string, value: string, imageUrl: string, status: string}){
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
         height:50,
     },
     title:{
-        fontSize:10,
+        fontSize:10
     },
     value:{
         fontSize:16
