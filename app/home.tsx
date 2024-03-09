@@ -4,12 +4,11 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { HomeCard } from "@/components/HomeCard";
 import { HomeOption } from "@/components/HomeOption";
 import { HomeHistoryCard } from "@/components/HomeHistoryCard";
-import {Doctor} from "@/assets/images/index"
+import {Doctor, Glicemia, Heartbeat, Imc, Pill} from "@/assets/images/index"
 export default function Home() {
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <Doctor/>
         <Image
           style={styles.userImage}
           source={{
@@ -21,19 +20,19 @@ export default function Home() {
       <View style={styles.biometricInfo}>
         <HomeCard
           text="IMC"
-          imageUrl="./assets/images/imc.svg"
+          ImageComponent={Imc}
           value="31,14"
           status="Obesidade 2"
-        ></HomeCard>
+        />
         <HomeCard
           text="Glicemia"
-          imageUrl="assets/images/Glicemia_sv.svg"
+          ImageComponent={Glicemia}
           value="85Mg/Dl"
           status="Normal"
-        ></HomeCard>
+        />
         <HomeCard
           text="Pressão"
-          imageUrl="assets/images/Heartbeat.svg"
+          ImageComponent={Heartbeat}
           value="150x100"
           status="Normal"
         ></HomeCard>
@@ -46,11 +45,11 @@ export default function Home() {
       <View style={styles.options}>
         <HomeOption
           text="Exames"
-          imageUrl="assets/images/Doctor.svg"
-        ></HomeOption>
+          ImageComponent={Doctor}
+        />
         <HomeOption
           text="Medicação"
-          imageUrl="assets/images/Pill.svg"
+          ImageComponent={Pill}
         ></HomeOption>
       </View>
       <View style={styles.history}>
