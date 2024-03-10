@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   userInfo: {
+    flex: 1.5,
     justifyContent: "flex-start",
     alignItems: "center",
     gap: 15,
@@ -105,8 +106,11 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 100,
+    borderWidth: 1,
+    borderColor: '#ccc'
   },
   biometricInfo: {
+    flex:1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-start",
@@ -114,10 +118,12 @@ const styles = StyleSheet.create({
     paddingTop:30,
   },
   options: {
+    flex:1,
     flexDirection: "row",
     gap: 60,
   },
   history: {
+    flex:2.5,
     paddingTop: 30,
     width: '80%',
     gap:10,
