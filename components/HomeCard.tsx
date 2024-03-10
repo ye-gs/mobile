@@ -26,12 +26,18 @@ const styles = StyleSheet.create({
         height: 50,
     },
     title: {
-        fontSize: 10
+        fontSize: 10,
+        fontWeight: "600",
+        color: "rgba(64, 124, 226, 0.74)"
     },
     value: {
-        fontSize: 16
+        fontSize: 16,
+        fontWeight: "600",
+        color: "rgba(64, 123, 255, 1)"
     },
     status: {
-        fontSize: 5
+        fontSize: 5,
+        fontWeight: "600",
+        color: "rgba(113, 158, 233, 1)"
     }
 })

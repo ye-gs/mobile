@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     },
     text:{
         fontSize:10,
-        fontWeight:'600',
+        fontWeight:'400',
     },
     date:{
         fontSize:8,
