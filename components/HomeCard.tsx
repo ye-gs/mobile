@@ -14,14 +14,12 @@ export function HomeCard(props: { text: string, value: string, ImageComponent: R
     )
 }
 
-
-
 const styles = StyleSheet.create({
     card: {
         justifyContent: 'center',
         alignItems: 'center',
         padding: 5,
-        width: 100
+        width: 100,
     },
     image: {
         width: 50,

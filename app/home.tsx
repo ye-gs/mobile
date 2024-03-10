@@ -24,12 +24,16 @@ export default function Home() {
           value="31,14"
           status="Obesidade 2"
         />
+        <View style={styles.verticalSeparator} lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"/>
         <HomeCard
           text="Glicemia"
           ImageComponent={Glicemia}
           value="85Mg/Dl"
           status="Normal"
         />
+        <View style={styles.verticalSeparator} lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"/>
         <HomeCard
           text="Pressão"
           ImageComponent={Heartbeat}
@@ -62,6 +66,8 @@ export default function Home() {
           </Text>
         </View>
         <HomeHistoryCard text="Exame de próstata com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"></HomeHistoryCard>
+        <HomeHistoryCard text="Exame de próstata com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"></HomeHistoryCard>
+        <HomeHistoryCard text="Exame de próstata com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"></HomeHistoryCard>
       </View>
     </View>
   );
@@ -79,13 +85,20 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   separator: {
-    marginVertical: 40,
+    marginVertical: 20,
     height: 1,
     width: "80%",
+  },
+  verticalSeparator:{
+    width:1,
+    height: "80%",
+    alignSelf: "center"
   },
   userInfo: {
     justifyContent: "flex-start",
     alignItems: "center",
+    gap: 15,
+    paddingTop:30,
   },
   userImage: {
     marginTop: 10,
@@ -97,8 +110,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-start",
-    gap: 20,
-    top: 30,
+    gap: 10,
+    paddingTop:30,
   },
   options: {
     flexDirection: "row",
@@ -106,7 +119,8 @@ const styles = StyleSheet.create({
   },
   history: {
     paddingTop: 30,
-    width: '80%'
+    width: '80%',
+    gap:10,
   },
   history__heading: {
     flexDirection: 'row',

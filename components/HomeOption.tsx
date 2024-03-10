@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
     optionImage: {
         width: 60,
-        height: 60
+        height: 60,
     },
     title: {
         fontSize: 14
