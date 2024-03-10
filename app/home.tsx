@@ -12,10 +12,10 @@ export default function Home() {
         <Image
           style={styles.userImage}
           source={{
-            uri: "https://img.freepik.com/vetores-premium/icone-de-perfil-de-usuario-em-estilo-plano-ilustracao-em-vetor-avatar-membro-em-fundo-isolado-conceito-de-negocio-de-sinal-de-permissao-humana_157943-15752.jpg",
+            uri: "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1165301142.jpg",
           }}
         />
-        <Text style={styles.title}>João Roberto</Text>
+        <Text style={styles.userName}>Gill Bates</Text>
       </View>
       <View style={styles.biometricInfo}>
         <HomeCard
@@ -78,19 +78,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  title: {
+  userName: {
     fontSize: 18,
+    fontWeight: '400'
   },
   subtitle: {
     fontSize: 15,
   },
   separator: {
     marginVertical: 20,
-    height: 1,
+    height: 1.5,
     width: "80%",
   },
   verticalSeparator:{
-    width:1,
+    width:1.5,
     height: "80%",
     alignSelf: "center"
   },
@@ -98,13 +99,13 @@ const styles = StyleSheet.create({
     flex: 1.5,
     justifyContent: "flex-start",
     alignItems: "center",
-    gap: 15,
+    gap: 10,
     paddingTop:30,
   },
   userImage: {
     marginTop: 10,
-    width: 80,
-    height: 80,
+    width: 90,
+    height: 90,
     borderRadius: 100,
     borderWidth: 1,
     borderColor: '#ccc'
@@ -138,6 +139,7 @@ const styles = StyleSheet.create({
   },
   history__link: {
     fontSize: 12,
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    color: 'rgba(64, 124, 226, 1)'
   },
 });
