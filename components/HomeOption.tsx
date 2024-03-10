@@ -7,7 +7,7 @@ export function HomeOption(props: { text: string, ImageComponent: React.Componen
     const { ImageComponent } = props;
     return (
         <View style={styles.container}>
-            <ImageComponent width={styles.optionImage.width} height={styles.optionImage.height} viewBox="40 40 80 80" />
+            <ImageComponent width={styles.optionImage.width} height={styles.optionImage.height} viewBox="56 40 50 50" />
             <Text style={styles.title}>{props.text}</Text>
         </View>
     )
