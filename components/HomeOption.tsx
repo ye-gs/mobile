@@ -3,11 +3,11 @@ import { Text, View } from "@/components/Themed"
 import { SvgProps } from "react-native-svg"
 
 export function HomeOption(props: { text: string, ImageComponent: React.ComponentType<SvgProps> }) {
-    
+
     const { ImageComponent } = props;
     return (
         <View style={styles.container}>
-            <ImageComponent width={styles.optionImage.width} height={styles.optionImage.height} />
+            <ImageComponent width={styles.optionImage.width} height={styles.optionImage.height} viewBox="40 40 80 80" />
             <Text style={styles.title}>{props.text}</Text>
         </View>
     )
@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     optionImage: {
-        width: 60,
-        height: 60,
+        width: 80,
+        height: 80,
     },
     title: {
         fontSize: 14
