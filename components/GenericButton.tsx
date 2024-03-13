@@ -1,5 +1,5 @@
-import { Button, StyleSheet, Pressable, DimensionValue } from "react-native";
-import { Text, View } from "./Themed";
+import { StyleSheet, Pressable, DimensionValue } from "react-native";
+import { Text } from "./Themed";
 
 
 export function GenericButton(props:{title: string, color?: string, onPress: Function, fontColor?:string, height?: DimensionValue}){

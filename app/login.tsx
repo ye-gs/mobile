@@ -1,10 +1,8 @@
-import { StyleSheet, TextInput, Button } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { router } from 'expo-router';
 import { GenericInput } from '@/components/GenericInput';
 import { GenericButton} from '@/components/GenericButton';
-
 import { Email, Password, EyeSlash } from "@/assets/images/index";
 
 export default function Home() {
@@ -40,7 +38,7 @@ export default function Home() {
       <View style={styles.signInOptions}>
         <GenericButton title="Entrar" color="#407CE2" onPress={handleLogin} height={"20%"}></GenericButton>
         <View style={styles.createAccount}>
-          <Text>Não tem conta?</Text><Text style={styles.createAccount__link}>Crie agora</Text>
+          <Text>Não tem conta?</Text><Text  onPress={() => router.navigate("/signup")} style={styles.createAccount__link}>Crie agora</Text>
         </View>
         <View style={styles.optionsSeparator}>
         <View style={styles.separator}></View><Text style={styles.optionsSeparator__text}>OU</Text><View style={styles.separator}></View>

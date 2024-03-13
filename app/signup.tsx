@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, View } from '@/components/Themed';
 import { StyleSheet, Button, TextInput } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+
 import { router } from 'expo-router';
 
 export default function SignUpScreen() {
@@ -88,6 +89,9 @@ export default function SignUpScreen() {
         >
         </FontAwesome.Button>
       </View>
+      <View style={styles.login}>
+        <Text>Já tem conta?</Text><Text onPress={() => router.navigate("/login")} style={styles.login__link}>Logue agora</Text>
+      </View>
     </View>
   );
 }
@@ -107,6 +111,11 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  login: {
+    flexDirection: 'row',
+    gap: 6,
+    fontSize: 14
+  },
   input: {
     width: '80%',
     height: 40,
@@ -122,4 +131,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
   },
+  login__link: {
+    color: '#407CE2',
+    fontWeight: '600',
+  }
 });
