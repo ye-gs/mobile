@@ -2,6 +2,10 @@ import { StyleSheet, TextInput, Button } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { router } from 'expo-router';
+import { GenericInput } from '@/components/GenericInput';
+import { GenericButton} from '@/components/GenericButton';
+
+import { Email, Password, EyeSlash } from "@/assets/images/index";
 
 export default function Home() {
   const handleLogin = () => {
@@ -28,43 +32,21 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>YE Gestão de Saúde</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
-      <TextInput
-        autoComplete='email'
-        style={styles.input}
-        placeholder="Email"
-        keyboardType="email-address"
-        placeholderTextColor={styles.input.color}
-        autoCapitalize="none"
-      />
-
-      <TextInput
-        autoComplete='password'
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor={styles.input.color}
-        secureTextEntry
-        autoCapitalize="none"
-      />
-
-      <Button title="Entrar" onPress={handleLogin} />
-
-      <View style={styles.socialLoginContainer}>
-        <FontAwesome.Button
-          name="google"
-          backgroundColor="#DB4437"
-          onPress={handleGoogleLogin}
-        >
-        </FontAwesome.Button>
-        <FontAwesome.Button
-          name="facebook"
-          backgroundColor="#3B5998"
-          onPress={handleFacebookLogin}
-        >
-        </FontAwesome.Button>
+      <View style={styles.form}>
+      <GenericInput placeholderText='Email' StartImageComponent={Email}></GenericInput>
+      <GenericInput placeholderText='Senha' StartImageComponent={Password} EndImageComponent={EyeSlash} shouldBeSecure={true}></GenericInput>
+      <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
       </View>
+      <View style={styles.signInOptions}>
+        <GenericButton title="Entrar" color="#407CE2" onPress={handleLogin} height={"20%"}></GenericButton>
+        <View style={styles.createAccount}>
+          <Text>Não tem conta?</Text><Text style={styles.createAccount__link}>Crie agora</Text>
+        </View>
+        <View style={styles.optionsSeparator}>
+        <View style={styles.separator}></View><Text style={styles.optionsSeparator__text}>OU</Text><View style={styles.separator}></View>
+      </View>
+      </View>
+      
     </View>
   );
 }
@@ -76,28 +58,52 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  form:{
+    flex: 2,
+    gap: 6,
+    borderWidth: 1,
+    borderColor: '#000',
+    width: '80%',
+    maxHeight: 'auto'
+  },
+  passwordReset:{
+    fontSize: 13,
+    alignSelf: 'flex-end',
+    color: 'rgba(64, 124, 226, 1)',
+    fontWeight: '500',
+  },
+  signInOptions:{
+    flex: 2,
+    borderColor: '#000',
+    borderWidth: 1,
+    width: '80%',
+    alignItems: 'center'
+  },
+  createAccount:{
+    flexDirection: 'row',
+    gap: 6,
+    fontSize: 14
+  },
+  createAccount__link:{
+    color: '#407CE2',
+    fontWeight: '600',
+  },
+  optionsSeparator:{
+    width: '100%',
+    height: 'auto',
+    flexDirection: 'row',
+    color: '#A1A8B0',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  optionsSeparator__text:{
+    color: '#A1A8B0',
+    fontSize: 16
   },
   separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-  input: {
-    width: '80%',
-    height: 40,
-    color: 'gray',
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-  socialLoginContainer: {
-    flexDirection: 'row',
-    gap: 25,
-    justifyContent: 'space-between',
-    marginTop: 10,
+    marginVertical: 20,
+    height: 1.5,
+    width: "40%",
+    backgroundColor: 'rgba(34,34,31,0.1)'
   },
 });
