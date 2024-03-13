@@ -8,4 +8,5 @@ import Bookmark from "./Bookmark.svg"
 import Email from "./Email.svg"
 import Password from "./Password.svg"
 import EyeSlash from "./EyeSlash.svg"
-export {Doctor, Glicemia, Heartbeat, Imc, Pill, MarkedBM, Bookmark, Email, Password, EyeSlash}
+import Eye from "./Eye.svg"
+export {Doctor, Glicemia, Heartbeat, Imc, Pill, MarkedBM, Bookmark, Email, Password, EyeSlash, Eye}

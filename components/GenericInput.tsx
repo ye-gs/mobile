@@ -3,32 +3,32 @@ import { View } from "./Themed";
 import { TextInput } from "react-native";
 import { StyleSheet } from "react-native";
 
-export function GenericInput(props:{placeholderText?: string, placeholderTextColor?: string, borderColor?: string, StartImageComponent?: React.ComponentType<SvgProps>, EndImageComponent?: React.ComponentType<SvgProps>, shouldBeSecure?: boolean}
-){
+export function GenericInput(props: { placeholderText?: string, placeholderTextColor?: string, borderColor?: string, StartImageComponent?: React.ComponentType<SvgProps>, EndImageComponent?: React.ComponentType<SvgProps>, shouldBeSecure?: boolean, onPress?: Function }
+) {
     const placeholderTextColor = props.placeholderTextColor ?? 'grey' //'rgba(34, 31, 31, 0.4)'
-    const  { StartImageComponent, EndImageComponent } = props
-    return(
+    const { StartImageComponent, EndImageComponent, onPress } = props
+    return (
         <View style={styles.container}>
             <View style={styles.startImageView}>
-            {StartImageComponent?<StartImageComponent/>: ""}
+                {StartImageComponent ? <StartImageComponent /> : ""}
             </View>
             <TextInput
-            style ={styles.input}
-            placeholder={props.placeholderText?props.placeholderText:""}
-            placeholderTextColor={placeholderTextColor}
-            secureTextEntry={props.shouldBeSecure}
-            keyboardType="default"
-            autoCapitalize="none">
+                style={styles.input}
+                placeholder={props.placeholderText ? props.placeholderText : ""}
+                placeholderTextColor={placeholderTextColor}
+                secureTextEntry={props.shouldBeSecure}
+                keyboardType="default"
+                autoCapitalize="none">
             </TextInput>
             <View style={styles.endImageView}>
-            {EndImageComponent?<EndImageComponent/>: ""}
+                {EndImageComponent ? <EndImageComponent onPress={() => onPress ? onPress() : ""} /> : ""}
             </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         height: '22%',
         width: '100%',
         borderColor: 'rgba(34, 31, 31, 0.1)',
@@ -38,23 +38,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingLeft: 8,
         gap: 8,
-        backgroundColor:'rgba(249, 250, 251, 1)'
+        backgroundColor: 'rgba(249, 250, 251, 1)'
     },
-    startImageView:{
+    startImageView: {
         width: '7%',
-        backgroundColor:'rgba(249, 250, 251, 1)'
+        backgroundColor: 'rgba(249, 250, 251, 1)'
     },
-    endImageView:{
+    endImageView: {
         width: '15%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:'rgba(249, 250, 251, 1)'
+        backgroundColor: 'rgba(249, 250, 251, 1)'
     },
-    input:{
-        flex:3,
+    input: {
+        flex: 3,
         fontSize: 14,
         left: '3%',
-        textAlignVertical:'center',
+        textAlignVertical: 'center',
         color: '#000'
     },
 })

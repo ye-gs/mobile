@@ -2,8 +2,9 @@ import { StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { router } from 'expo-router';
 import { GenericInput } from '@/components/GenericInput';
-import { GenericButton} from '@/components/GenericButton';
-import { Email, Password, EyeSlash } from "@/assets/images/index";
+import { GenericButton } from '@/components/GenericButton';
+import { Email, Password, EyeSlash, Eye } from "@/assets/images/index";
+import { useState } from 'react';
 
 export default function Home() {
   const handleLogin = () => {
@@ -27,24 +28,28 @@ export default function Home() {
 
   };
 
+  const [showPassword, setShowPassword] = useState(false);
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-      <GenericInput placeholderText='Email' StartImageComponent={Email}></GenericInput>
-      <GenericInput placeholderText='Senha' StartImageComponent={Password} EndImageComponent={EyeSlash} shouldBeSecure={true}></GenericInput>
-      <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
+        <GenericInput placeholderText='Email' StartImageComponent={Email}></GenericInput>
+        <GenericInput placeholderText='Senha' StartImageComponent={Password} EndImageComponent={showPassword ? EyeSlash : Eye} shouldBeSecure={!showPassword} onPress={toggleShowPassword}></GenericInput>
+        <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
       </View>
       <View style={styles.signInOptions}>
         <GenericButton title="Entrar" color="#407CE2" onPress={handleLogin} height={"20%"}></GenericButton>
         <View style={styles.createAccount}>
-          <Text>Não tem conta?</Text><Text  onPress={() => router.navigate("/signup")} style={styles.createAccount__link}>Crie agora</Text>
+          <Text>Não tem conta?</Text><Text onPress={() => router.navigate("/signup")} style={styles.createAccount__link}>Crie agora</Text>
         </View>
         <View style={styles.optionsSeparator}>
-        <View style={styles.separator}></View><Text style={styles.optionsSeparator__text}>OU</Text><View style={styles.separator}></View>
+          <View style={styles.separator}></View><Text style={styles.optionsSeparator__text}>OU</Text><View style={styles.separator}></View>
+        </View>
       </View>
-      </View>
-      
+
     </View>
   );
 }
@@ -56,7 +61,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  form:{
+  form: {
     flex: 2,
     gap: 6,
     borderWidth: 1,
@@ -64,29 +69,29 @@ const styles = StyleSheet.create({
     width: '80%',
     maxHeight: 'auto'
   },
-  passwordReset:{
+  passwordReset: {
     fontSize: 13,
     alignSelf: 'flex-end',
     color: 'rgba(64, 124, 226, 1)',
     fontWeight: '500',
   },
-  signInOptions:{
+  signInOptions: {
     flex: 2,
     borderColor: '#000',
     borderWidth: 1,
     width: '80%',
     alignItems: 'center'
   },
-  createAccount:{
+  createAccount: {
     flexDirection: 'row',
     gap: 6,
     fontSize: 14
   },
-  createAccount__link:{
+  createAccount__link: {
     color: '#407CE2',
     fontWeight: '600',
   },
-  optionsSeparator:{
+  optionsSeparator: {
     width: '100%',
     height: 'auto',
     flexDirection: 'row',
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  optionsSeparator__text:{
+  optionsSeparator__text: {
     color: '#A1A8B0',
     fontSize: 16
   },
