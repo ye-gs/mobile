@@ -5,5 +5,7 @@ import Imc from "./imc.svg"
 import Pill from "./Pill.svg"
 import MarkedBM from "./MarkedBM.svg"
 import Bookmark from "./Bookmark.svg"
-
-export {Doctor, Glicemia, Heartbeat, Imc, Pill, MarkedBM, Bookmark}
+import Email from "./Email.svg"
+import Password from "./Password.svg"
+import EyeSlash from "./EyeSlash.svg"
+export {Doctor, Glicemia, Heartbeat, Imc, Pill, MarkedBM, Bookmark, Email, Password, EyeSlash}
