@@ -2,7 +2,7 @@ import { StyleSheet, Pressable, DimensionValue } from "react-native";
 import { Text } from "./Themed";
 
 
-export function GenericButton(props:{title: string, color?: string, onPress: Function, fontColor?:string, height?: DimensionValue}){
+export function GenericButton(props:{title: string, color?: string, onPress: Function, fontColor?:string, height?: DimensionValue, width?: DimensionValue}){
     const styles = StyleSheet.create({
         container:{
             borderColor: 'rgba(229, 231, 235, 1)',
@@ -12,7 +12,7 @@ export function GenericButton(props:{title: string, color?: string, onPress: Fun
             justifyContent: 'center',
             alignItems: 'center',
             height: props.height ?? 'auto',      
-            width: '80%'
+            width: props.width ?? '80%'
         },
         text:{
             color: props.fontColor ?? "#fff",
@@ -30,5 +30,3 @@ export function GenericButton(props:{title: string, color?: string, onPress: Fun
     )
     
 }
-
-
