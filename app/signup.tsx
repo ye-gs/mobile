@@ -3,6 +3,8 @@ import { Text, View } from '@/components/Themed';
 import { StyleSheet, Button, TextInput } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
+import { router } from 'expo-router';
+
 export default function SignUpScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,16 +26,20 @@ export default function SignUpScreen() {
       alert('Senhas não conferem.');
       return;
     }
-
-    // Handle sign up logic here
+    console.log('SignUp button pressed');
+    router.navigate("/home")
   };
 
   function handleGoogleSignUp() {
-    throw new Error('Function not implemented.');
+    console.log('Google SignUp button pressed');
+    router.navigate("/home")
+
   }
 
   function handleFacebookSignUp() {
-    throw new Error('Function not implemented.');
+    console.log('Facebook SignUp button pressed');
+    router.navigate("/home")
+
   }
 
   return (
@@ -83,6 +89,9 @@ export default function SignUpScreen() {
         >
         </FontAwesome.Button>
       </View>
+      <View style={styles.login}>
+        <Text>Já tem conta?</Text><Text onPress={() => router.navigate("/login")} style={styles.login__link}>Logue agora</Text>
+      </View>
     </View>
   );
 }
@@ -102,6 +111,11 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  login: {
+    flexDirection: 'row',
+    gap: 6,
+    fontSize: 14
+  },
   input: {
     width: '80%',
     height: 40,
@@ -117,4 +131,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
   },
+  login__link: {
+    color: '#407CE2',
+    fontWeight: '600',
+  }
 });
