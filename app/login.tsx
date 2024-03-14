@@ -3,8 +3,9 @@ import { Text, View } from '@/components/Themed';
 import { router } from 'expo-router';
 import { GenericInput } from '@/components/GenericInput';
 import { GenericButton } from '@/components/GenericButton';
-import { Email, Password, EyeSlash, Eye } from "@/assets/images/index";
+import { Email, Password, EyeSlash, Eye, Google, Facebook } from "@/assets/images/index";
 import { useState } from 'react';
+import { GenericIconButton } from '@/components/GenericIconButton';
 
 export default function Home() {
   const handleLogin = () => {
@@ -36,17 +37,21 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-        <GenericInput placeholderText='Email' StartImageComponent={Email}></GenericInput>
-        <GenericInput placeholderText='Senha' StartImageComponent={Password} EndImageComponent={showPassword ? EyeSlash : Eye} shouldBeSecure={!showPassword} onPress={toggleShowPassword}></GenericInput>
+        <GenericInput placeholderText='Email' StartImageComponent={Email} height="20%"></GenericInput>
+        <GenericInput placeholderText='Senha' StartImageComponent={Password} EndImageComponent={showPassword ? EyeSlash : Eye} shouldBeSecure={!showPassword} onPress={toggleShowPassword} height="20%"></GenericInput>
         <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
       </View>
       <View style={styles.signInOptions}>
-        <GenericButton title="Entrar" color="#407CE2" onPress={handleLogin} height={"20%"}></GenericButton>
+        <GenericButton title="Entrar" color="#407CE2" onPress={handleLogin} height={"20%"} width={"100%"}></GenericButton>
         <View style={styles.createAccount}>
           <Text>Não tem conta?</Text><Text onPress={() => router.navigate("/signup")} style={styles.createAccount__link}>Crie agora</Text>
         </View>
         <View style={styles.optionsSeparator}>
           <View style={styles.separator}></View><Text style={styles.optionsSeparator__text}>OU</Text><View style={styles.separator}></View>
+        </View>
+        <View style={styles.extraOptions}>
+          <GenericIconButton text="Entrar com o Google" ImageComponent={Google}></GenericIconButton>
+          <GenericIconButton text="Entrar com o Facebook" ImageComponent={Facebook}></GenericIconButton>
         </View>
       </View>
 
@@ -62,12 +67,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   form: {
-    flex: 2,
-    gap: 6,
-    borderWidth: 1,
-    borderColor: '#000',
+    gap: 12,
     width: '80%',
-    maxHeight: 'auto'
+    justifyContent: 'center',
   },
   passwordReset: {
     fontSize: 13,
@@ -76,11 +78,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   signInOptions: {
-    flex: 2,
-    borderColor: '#000',
-    borderWidth: 1,
     width: '80%',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   createAccount: {
     flexDirection: 'row',
@@ -101,12 +101,18 @@ const styles = StyleSheet.create({
   },
   optionsSeparator__text: {
     color: '#A1A8B0',
-    fontSize: 16
+    fontSize: 16,
+    width: '12%',
+    textAlign: 'center'
   },
   separator: {
     marginVertical: 20,
     height: 1.5,
-    width: "40%",
+    width: "44%",
     backgroundColor: 'rgba(34,34,31,0.1)'
   },
+  extraOptions:{
+    width: "100%",
+    gap: 15
+  }
 });
