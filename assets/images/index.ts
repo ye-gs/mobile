@@ -9,4 +9,6 @@ import Email from "./Email.svg"
 import Password from "./Password.svg"
 import EyeSlash from "./EyeSlash.svg"
 import Eye from "./Eye.svg"
-export {Doctor, Glicemia, Heartbeat, Imc, Pill, MarkedBM, Bookmark, Email, Password, EyeSlash, Eye}
+import Google from "./Google.svg"
+import Facebook from "./Facebook.svg"
+export {Doctor, Glicemia, Heartbeat, Imc, Pill, MarkedBM, Bookmark, Email, Password, EyeSlash, Eye, Google, Facebook}
