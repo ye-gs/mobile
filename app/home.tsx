@@ -66,8 +66,8 @@ export default function Home() {
           </Text>
         </View>
         <HomeHistoryCard text="Exame de próstata com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg" isBookmarked={true}></HomeHistoryCard>
-        <HomeHistoryCard text="Exame de próstata com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"isBookmarked={false}></HomeHistoryCard>
-        <HomeHistoryCard text="Exame de próstata com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"isBookmarked={false}></HomeHistoryCard>
+        <HomeHistoryCard text="Tadalafila com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"isBookmarked={false}></HomeHistoryCard>
+        <HomeHistoryCard text="Exame de próstata sem as mãos com doutor Flamingo" date="Amanhã" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"isBookmarked={false}></HomeHistoryCard>
       </View>
     </View>
   );
