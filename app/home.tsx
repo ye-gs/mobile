@@ -1,6 +1,5 @@
-import { StyleSheet, TextInput, Button, Image } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import { Text, View } from "@/components/Themed";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { HomeCard } from "@/components/HomeCard";
 import { HomeOption } from "@/components/HomeOption";
 import { HomeHistoryCard } from "@/components/HomeHistoryCard";

@@ -1,9 +1,9 @@
-import { SvgProps } from "react-native-svg";
+import { G, SvgProps } from "react-native-svg";
 import { View } from "./Themed";
 import { DimensionValue, TextInput } from "react-native";
 import { StyleSheet } from "react-native";
 
-export function GenericInput(props: { placeholderText?: string, placeholderTextColor?: string, borderColor?: string, StartImageComponent?: React.ComponentType<SvgProps>, EndImageComponent?: React.ComponentType<SvgProps>, shouldBeSecure?: boolean, onPress?: Function, width?: DimensionValue, height?: DimensionValue }
+export function GenericInput(props: { placeholderText?: string, placeholderTextColor?: string, borderColor?: string, StartImageComponent?: React.ComponentType<SvgProps>, EndImageComponent?: React.ComponentType<SvgProps>, shouldBeSecure?: boolean, onPress?: Function, width?: DimensionValue, height?: DimensionValue, onChange?: Function}
 ) {
     const styles = StyleSheet.create({
         container: {
@@ -44,6 +44,7 @@ export function GenericInput(props: { placeholderText?: string, placeholderTextC
                 {StartImageComponent ? <StartImageComponent /> : ""}
             </View>
             <TextInput
+                onChangeText={(text) => props.onChange ? props.onChange(text) : ""}
                 style={styles.input}
                 placeholder={props.placeholderText ? props.placeholderText : ""}
                 placeholderTextColor={placeholderTextColor}

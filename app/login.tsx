@@ -6,27 +6,80 @@ import { GenericButton } from '@/components/GenericButton';
 import { Email, Password, EyeSlash, Eye, Google, Facebook } from "@/assets/images/index";
 import { useState } from 'react';
 import { GenericIconButton } from '@/components/GenericIconButton';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase/index";
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+
 
 export default function Home() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleLogin = () => {
-    // Handle login logic here
-    console.log('Login button pressed');
-    router.navigate("/home")
-
+    const emailRegex: RegExp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(email)) {
+      alert("Email inválido")
+      return;
+    }
+    if (password.length < 6) {
+      alert("Senha deve ter no mínimo 6 caracteres")
+      return;
+    }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        router.navigate("/home")
+        return user;
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(
+          `Erro ao fazer login: ${errorCode} - ${errorMessage}`
+        )
+        return;
+      });
   };
 
-  const handleGoogleLogin = () => {
-    // Handle Google login logic here
-    console.log('Google login button pressed');
-    router.navigate("/home")
 
-  };
+  const handleGoogleLogin = async () => {
+    //   try {
+    //     await GoogleSignin.hasPlayServices();
+    //     const userInfo = await GoogleSignin.signIn();
+    //     console.log({ userInfo, error: undefined });
+    //     router.navigate("/home")
+    //     return userInfo
+    //   } catch (error: unknown) {
+    //     if (error instanceof Error && "code" in error) {
+    //       switch (error.code) {
+    //         case statusCodes.SIGN_IN_CANCELLED:
+    //           // user cancelled the login flow
+    //           break;
+    //         case statusCodes.IN_PROGRESS:
+    //           // operation (eg. sign in) already in progress
+    //           break;
+    //         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+    //           // play services not available or outdated
+    //           break;
+    //         default:
+    //         // some other error happened
+    //       }
+    //     } else {
+    //       // an error that's not related to google sign in occurred
+    //     }
+    //   }
+    // };
+    console.log("Google login")
+  }
+
 
   const handleFacebookLogin = () => {
     // Handle Facebook login logic here
-    console.log('Facebook login button pressed');
-    router.navigate("/home")
-
+    console.log("Facebook login")
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -37,8 +90,8 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-        <GenericInput placeholderText='Email' StartImageComponent={Email} height="20%"></GenericInput>
-        <GenericInput placeholderText='Senha' StartImageComponent={Password} EndImageComponent={showPassword ? EyeSlash : Eye} shouldBeSecure={!showPassword} onPress={toggleShowPassword} height="20%"></GenericInput>
+        <GenericInput placeholderText='Email' onChange={setEmail} StartImageComponent={Email} height="20%"></GenericInput>
+        <GenericInput placeholderText='Senha' onChange={setPassword} StartImageComponent={Password} EndImageComponent={showPassword ? EyeSlash : Eye} shouldBeSecure={!showPassword} onPress={toggleShowPassword} height="20%"></GenericInput>
         <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
       </View>
       <View style={styles.signInOptions}>
@@ -50,8 +103,8 @@ export default function Home() {
           <View style={styles.separator}></View><Text style={styles.optionsSeparator__text}>OU</Text><View style={styles.separator}></View>
         </View>
         <View style={styles.extraOptions}>
-          <GenericIconButton text="Entrar com o Google" ImageComponent={Google}></GenericIconButton>
-          <GenericIconButton text="Entrar com o Facebook" ImageComponent={Facebook}></GenericIconButton>
+          <GenericIconButton onPress={handleGoogleLogin} text="Entrar com o Google" ImageComponent={Google}></GenericIconButton>
+          <GenericIconButton onPress={handleFacebookLogin} text="Entrar com o Facebook" ImageComponent={Facebook}></GenericIconButton>
         </View>
       </View>
 
@@ -111,7 +164,7 @@ const styles = StyleSheet.create({
     width: "44%",
     backgroundColor: 'rgba(34,34,31,0.1)'
   },
-  extraOptions:{
+  extraOptions: {
     width: "100%",
     gap: 15
   }

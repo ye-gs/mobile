@@ -9,7 +9,6 @@ export default function Home() {
             <GenericButton title="Login" onPress={() => router.navigate('login')} />
             <GenericButton title="Signup" onPress={() => router.navigate('signup')} />
         </View>
-
     );
 }
 
