@@ -8,11 +8,9 @@ import { useState } from 'react';
 import { GenericIconButton } from '@/components/GenericIconButton';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/index";
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
+GoogleSignin.configure();
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -47,39 +45,37 @@ export default function Home() {
 
 
   const handleGoogleLogin = async () => {
-    //   try {
-    //     await GoogleSignin.hasPlayServices();
-    //     const userInfo = await GoogleSignin.signIn();
-    //     console.log({ userInfo, error: undefined });
-    //     router.navigate("/home")
-    //     return userInfo
-    //   } catch (error: unknown) {
-    //     if (error instanceof Error && "code" in error) {
-    //       switch (error.code) {
-    //         case statusCodes.SIGN_IN_CANCELLED:
-    //           // user cancelled the login flow
-    //           break;
-    //         case statusCodes.IN_PROGRESS:
-    //           // operation (eg. sign in) already in progress
-    //           break;
-    //         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-    //           // play services not available or outdated
-    //           break;
-    //         default:
-    //         // some other error happened
-    //       }
-    //     } else {
-    //       // an error that's not related to google sign in occurred
-    //     }
-    //   }
-    // };
-    console.log("Google login")
+    console.log("Google login 111")
+    try {
+      console.log(await GoogleSignin.hasPlayServices());
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+      router.navigate("/home")
+
+    } catch (error) {
+      if (error instanceof Error && "code" in error) {
+        if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+          // user cancelled the login flow
+          console.log("Google login cancelled")
+        } else if (error.code === statusCodes.IN_PROGRESS) {
+          // operation (e.g. sign in) is in progress already
+          console.log("Google login in progress")
+        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+          // play services not available or outdated
+          console.log("Google login play services not available")
+        } else {
+          // some other error happened
+          console.log("Google login error: ", error)
+        }
+      }
+    }
   }
 
 
   const handleFacebookLogin = () => {
     // Handle Facebook login logic here
     console.log("Facebook login")
+    router.navigate("/home")
   };
 
   const [showPassword, setShowPassword] = useState(false);
