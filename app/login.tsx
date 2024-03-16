@@ -65,7 +65,7 @@ export default function Home() {
           console.log("Google login play services not available")
         } else {
           // some other error happened
-          console.log("Google login error: ", error)
+          console.log(error)
         }
       }
     }
