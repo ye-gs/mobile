@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ye",
-    "slug": "ye",
+    "slug": "ye-gestao-saude",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -41,8 +41,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "71572f39-b202-4974-afd9-86e5a96cdf2f"
+        "projectId": "044f2ae9-84ba-4a17-b434-2b5c66f84a42"
       }
-    }
+    },
+    "owner": "ye-gs"
   }
 }
