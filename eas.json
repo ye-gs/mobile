@@ -5,6 +5,11 @@
             "distribution": "internal",
             "channel": "development"
         },
+        "test": {
+            "developmentClient": true,
+            "distribution": "internal",
+            "channel": "test"
+        },
         "preview": {
             "distribution": "internal",
             "channel": "preview"

@@ -6,11 +6,11 @@ import { GenericButton } from '@/components/GenericButton';
 import { Email, Password, EyeSlash, Eye, Google, Facebook } from "@/assets/images/index";
 import { useState } from 'react';
 import { GenericIconButton } from '@/components/GenericIconButton';
-import { GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
+import { FacebookAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/index";
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { signInWithCredential } from 'firebase/auth';
-import { LoginManager } from "react-native-fbsdk-next";
+import { AccessToken, LoginManager } from "react-native-fbsdk-next";
 import { Settings } from 'react-native-fbsdk-next';
 
 
@@ -18,8 +18,7 @@ GoogleSignin.configure({
   webClientId: "147160860966-am6ip3ii0mro78t0rld4rrp3gmufrcqa.apps.googleusercontent.com"
 });
 
-Settings.initializeSDK();
-Settings.setAppID('326618207062192');
+
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -84,25 +83,39 @@ export default function Home() {
   }
 
 
-  const handleFacebookLogin = () => {
+  const handleFacebookLogin = async () => {
     console.log("Facebook login 3")
     // Attempt a login using the Facebook login dialog asking for default permissions.
-    LoginManager.logInWithPermissions(["public_profile"]).then(
-      function (result) {
+    await LoginManager.logInWithPermissions(["public_profile"]).then(
+      async function (result) {
         if (result.isCancelled) {
           console.log("Login cancelled");
+          return;
         } else {
           console.log(
             "Login success with permissions: " +
             result.grantedPermissions?.toString()
           );
+          const accessTokenResponse = await AccessToken.getCurrentAccessToken();
+          console.log(accessTokenResponse?.accessToken);
+          if (accessTokenResponse === null) {
+            console.log("No access token");
+            return;
+          };
+          const facebookCredential = FacebookAuthProvider.credential(accessTokenResponse.accessToken);
+          const user = await signInWithCredential(auth, facebookCredential);
+          console.log(user.user.displayName)
+          LoginManager.logOut();
+          router.navigate("/home")
+          return result;
+
         }
       },
       function (error) {
-        console.log("Login fail with error: " + error);
+        alert("Login fail with error: " + error);
+        return;
       }
     );
-    router.navigate("/home")
   };
 
   const [showPassword, setShowPassword] = useState(false);
