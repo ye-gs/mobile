@@ -11,8 +11,7 @@ import { auth } from "@/firebase/index";
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { signInWithCredential } from 'firebase/auth';
 import { AccessToken, LoginManager } from "react-native-fbsdk-next";
-import { Settings } from 'react-native-fbsdk-next';
-
+import { UserProvider, useUser } from "./contexts/user";
 
 GoogleSignin.configure({
   webClientId: "147160860966-am6ip3ii0mro78t0rld4rrp3gmufrcqa.apps.googleusercontent.com"
@@ -21,6 +20,7 @@ GoogleSignin.configure({
 
 
 export default function Home() {
+  const { setUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -38,6 +38,7 @@ export default function Home() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
+        setUser(user)
         router.navigate("/home")
         return user;
       })
@@ -59,6 +60,7 @@ export default function Home() {
       const googleCredential = GoogleAuthProvider.credential(userInfo.idToken);
       const user = await signInWithCredential(auth, googleCredential);
       console.log(user.user.displayName)
+      setUser(user.user)
       router.navigate("/home")
       GoogleSignin.signOut();
       return user;
@@ -104,6 +106,7 @@ export default function Home() {
           };
           const facebookCredential = FacebookAuthProvider.credential(accessTokenResponse.accessToken);
           const user = await signInWithCredential(auth, facebookCredential);
+          setUser(user.user)
           console.log(user.user.displayName)
           LoginManager.logOut();
           router.navigate("/home")
@@ -124,27 +127,29 @@ export default function Home() {
     setShowPassword(!showPassword);
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.form}>
-        <GenericInput placeholderText='Email' onChange={setEmail} StartImageComponent={Email} height="20%"></GenericInput>
-        <GenericInput placeholderText='Senha' onChange={setPassword} StartImageComponent={Password} EndImageComponent={showPassword ? EyeSlash : Eye} shouldBeSecure={!showPassword} onPress={toggleShowPassword} height="20%"></GenericInput>
-        <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
-      </View>
-      <View style={styles.signInOptions}>
-        <GenericButton title="Entrar" color="#407CE2" onPress={handleLogin} height={"20%"} width={"100%"}></GenericButton>
-        <View style={styles.createAccount}>
-          <Text>Não tem conta?</Text><Text onPress={() => router.navigate("/signup")} style={styles.createAccount__link}>Crie agora</Text>
+    <UserProvider>
+      <View style={styles.container}>
+        <View style={styles.form}>
+          <GenericInput placeholderText='Email' onChange={setEmail} StartImageComponent={Email} height="20%"></GenericInput>
+          <GenericInput placeholderText='Senha' onChange={setPassword} StartImageComponent={Password} EndImageComponent={showPassword ? EyeSlash : Eye} shouldBeSecure={!showPassword} onPress={toggleShowPassword} height="20%"></GenericInput>
+          <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
         </View>
-        <View style={styles.optionsSeparator}>
-          <View style={styles.separator}></View><Text style={styles.optionsSeparator__text}>OU</Text><View style={styles.separator}></View>
+        <View style={styles.signInOptions}>
+          <GenericButton title="Entrar" color="#407CE2" onPress={handleLogin} height={"20%"} width={"100%"}></GenericButton>
+          <View style={styles.createAccount}>
+            <Text>Não tem conta?</Text><Text onPress={() => router.navigate("/signup")} style={styles.createAccount__link}>Crie agora</Text>
+          </View>
+          <View style={styles.optionsSeparator}>
+            <View style={styles.separator}></View><Text style={styles.optionsSeparator__text}>OU</Text><View style={styles.separator}></View>
+          </View>
+          <View style={styles.extraOptions}>
+            <GenericIconButton onPress={handleGoogleLogin} text="Entrar com o Google" ImageComponent={Google}></GenericIconButton>
+            <GenericIconButton onPress={handleFacebookLogin} text="Entrar com o Facebook" ImageComponent={Facebook}></GenericIconButton>
+          </View>
         </View>
-        <View style={styles.extraOptions}>
-          <GenericIconButton onPress={handleGoogleLogin} text="Entrar com o Google" ImageComponent={Google}></GenericIconButton>
-          <GenericIconButton onPress={handleFacebookLogin} text="Entrar com o Facebook" ImageComponent={Facebook}></GenericIconButton>
-        </View>
-      </View>
 
-    </View>
+      </View>
+    </UserProvider>
   );
 }
 

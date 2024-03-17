@@ -3,73 +3,70 @@ import { Text, View } from "@/components/Themed";
 import { HomeCard } from "@/components/HomeCard";
 import { HomeOption } from "@/components/HomeOption";
 import { HomeHistoryCard } from "@/components/HomeHistoryCard";
-import {Doctor, Glicemia, Heartbeat, Imc, Pill} from "@/assets/images/index"
+import { Doctor, Glicemia, Heartbeat, Imc, Pill } from "@/assets/images/index"
+import { useUser } from './contexts/user';
+
 export default function Home() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.userInfo}>
-        <Image
-          style={styles.userImage}
-          source={{
-            uri: "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1165301142.jpg",
-          }}
-        />
-        <Text style={styles.userName}>Gill Bates</Text>
-      </View>
-      <View style={styles.biometricInfo}>
-        <HomeCard
-          text="IMC"
-          ImageComponent={Imc}
-          value="31,14"
-          status="Obesidade 2"
-        />
-        <View style={styles.verticalSeparator} lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"/>
-        <HomeCard
-          text="Glicemia"
-          ImageComponent={Glicemia}
-          value="85Mg/Dl"
-          status="Normal"
-        />
-        <View style={styles.verticalSeparator} lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"/>
-        <HomeCard
-          text="Pressão"
-          ImageComponent={Heartbeat}
-          value="150x100"
-          status="Normal"
-        ></HomeCard>
-      </View>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <View style={styles.options}>
-        <HomeOption
-          text="Exames"
-          ImageComponent={Doctor}
-        />
-        <HomeOption
-          text="Medicação"
-          ImageComponent={Pill}
-        ></HomeOption>
-      </View>
-      <View style={styles.history}>
-        <View style={styles.history__heading}>
-          <Text style={styles.history__title}>
-            Próximas consultas
-          </Text>
-          <Text style={styles.history__link}>
-            Ver todas
-          </Text>
-        </View>
-        <HomeHistoryCard text="Exame de próstata com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg" isBookmarked={true}></HomeHistoryCard>
-        <HomeHistoryCard text="Tadalafila com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"isBookmarked={false}></HomeHistoryCard>
-        <HomeHistoryCard text="Exame de próstata sem as mãos com doutor Flamingo" date="Amanhã" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"isBookmarked={false}></HomeHistoryCard>
-      </View>
+  const { user } = useUser();
+  console.log(user?.displayName)
+  return <View style={styles.container}>
+    <View style={styles.userInfo}>
+      <Image
+        style={styles.userImage}
+        source={{
+          uri: user?.photoURL || "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1165301142.jpg",
+        }} />
+      <Text style={styles.userName}>{user?.displayName || "Gill Bates"}</Text>
     </View>
-  );
+    <View style={styles.biometricInfo}>
+      <HomeCard
+        text="IMC"
+        ImageComponent={Imc}
+        value="31,14"
+        status="Obesidade 2" />
+      <View style={styles.verticalSeparator} lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)" />
+      <HomeCard
+        text="Glicemia"
+        ImageComponent={Glicemia}
+        value="85Mg/Dl"
+        status="Normal" />
+      <View style={styles.verticalSeparator} lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)" />
+      <HomeCard
+        text="Pressão"
+        ImageComponent={Heartbeat}
+        value="150x100"
+        status="Normal"
+      ></HomeCard>
+    </View>
+    <View
+      style={styles.separator}
+      lightColor="#eee"
+      darkColor="rgba(255,255,255,0.1)" />
+    <View style={styles.options}>
+      <HomeOption
+        text="Exames"
+        ImageComponent={Doctor} />
+      <HomeOption
+        text="Medicação"
+        ImageComponent={Pill}
+      ></HomeOption>
+    </View>
+    <View style={styles.history}>
+      <View style={styles.history__heading}>
+        <Text style={styles.history__title}>
+          Próximas consultas
+        </Text>
+        <Text style={styles.history__link}>
+          Ver todas
+        </Text>
+      </View>
+      <HomeHistoryCard text="Exame de próstata com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg" isBookmarked={true}></HomeHistoryCard>
+      <HomeHistoryCard text="Tadalafila com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg" isBookmarked={false}></HomeHistoryCard>
+      <HomeHistoryCard text="Exame de próstata sem as mãos com doutor Flamingo" date="Amanhã" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg" isBookmarked={false}></HomeHistoryCard>
+    </View>
+  </View>;
 }
 
 const styles = StyleSheet.create({
@@ -89,8 +86,8 @@ const styles = StyleSheet.create({
     height: 1.5,
     width: "80%",
   },
-  verticalSeparator:{
-    width:1.5,
+  verticalSeparator: {
+    width: 1.5,
     height: "80%",
     alignSelf: "center"
   },
@@ -99,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     gap: 10,
-    paddingTop:30,
+    paddingTop: 30,
   },
   userImage: {
     marginTop: 10,
@@ -110,23 +107,23 @@ const styles = StyleSheet.create({
     borderColor: '#ccc'
   },
   biometricInfo: {
-    flex:1,
+    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-start",
     gap: 10,
-    paddingTop:30,
+    paddingTop: 30,
   },
   options: {
-    flex:1,
+    flex: 1,
     flexDirection: "row",
     gap: 60,
   },
   history: {
-    flex:2.5,
+    flex: 2.5,
     paddingTop: 30,
     width: '80%',
-    gap:10,
+    gap: 10,
   },
   history__heading: {
     flexDirection: 'row',
