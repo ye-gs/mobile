@@ -10,11 +10,16 @@ import { GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/index";
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { signInWithCredential } from 'firebase/auth';
+import { LoginManager } from "react-native-fbsdk-next";
+import { Settings } from 'react-native-fbsdk-next';
 
 
 GoogleSignin.configure({
   webClientId: "147160860966-am6ip3ii0mro78t0rld4rrp3gmufrcqa.apps.googleusercontent.com"
 });
+
+Settings.initializeSDK();
+Settings.setAppID('326618207062192');
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -54,7 +59,9 @@ export default function Home() {
       const userInfo = await GoogleSignin.signIn();
       const googleCredential = GoogleAuthProvider.credential(userInfo.idToken);
       const user = await signInWithCredential(auth, googleCredential);
+      console.log(user.user.displayName)
       router.navigate("/home")
+      GoogleSignin.signOut();
       return user;
     } catch (error) {
       if (error instanceof Error && "code" in error) {
@@ -78,8 +85,23 @@ export default function Home() {
 
 
   const handleFacebookLogin = () => {
-    // Handle Facebook login logic here
-    console.log("Facebook login")
+    console.log("Facebook login 3")
+    // Attempt a login using the Facebook login dialog asking for default permissions.
+    LoginManager.logInWithPermissions(["public_profile"]).then(
+      function (result) {
+        if (result.isCancelled) {
+          console.log("Login cancelled");
+        } else {
+          console.log(
+            "Login success with permissions: " +
+            result.grantedPermissions?.toString()
+          );
+        }
+      },
+      function (error) {
+        console.log("Login fail with error: " + error);
+      }
+    );
     router.navigate("/home")
   };
 
