@@ -1,4 +1,4 @@
-package com.ye.ye
+package com.yegs.yegestaosaude
 
 import android.os.Build
 import android.os.Bundle
