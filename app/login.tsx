@@ -6,11 +6,15 @@ import { GenericButton } from '@/components/GenericButton';
 import { Email, Password, EyeSlash, Eye, Google, Facebook } from "@/assets/images/index";
 import { useState } from 'react';
 import { GenericIconButton } from '@/components/GenericIconButton';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/index";
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { signInWithCredential } from 'firebase/auth';
 
-GoogleSignin.configure();
+
+GoogleSignin.configure({
+  webClientId: "147160860966-am6ip3ii0mro78t0rld4rrp3gmufrcqa.apps.googleusercontent.com"
+});
 
 export default function Home() {
   const [email, setEmail] = useState('');
@@ -45,28 +49,29 @@ export default function Home() {
 
 
   const handleGoogleLogin = async () => {
-    console.log("Google login 111")
     try {
-      console.log(await GoogleSignin.hasPlayServices());
+      await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
+      const googleCredential = GoogleAuthProvider.credential(userInfo.idToken);
+      const user = await signInWithCredential(auth, googleCredential);
       router.navigate("/home")
-
+      return user;
     } catch (error) {
       if (error instanceof Error && "code" in error) {
         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
           // user cancelled the login flow
-          console.log("Google login cancelled")
+          alert("Google login cancelled")
         } else if (error.code === statusCodes.IN_PROGRESS) {
           // operation (e.g. sign in) is in progress already
-          console.log("Google login in progress")
+          alert("Google login in progress")
         } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
           // play services not available or outdated
-          console.log("Google login play services not available")
+          alert("Google login play services not available")
         } else {
           // some other error happened
-          console.log(error)
+          alert(error)
         }
+        return;
       }
     }
   }
