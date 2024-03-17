@@ -4677,6 +4677,11 @@ expo-dev-menu@4.5.7:
     expo-dev-menu-interface "1.7.2"
     semver "^7.5.3"
 
+expo-eas-client@~0.11.0:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/expo-eas-client/-/expo-eas-client-0.11.2.tgz#2e8d6f347dcea38b58c2b6a21db7c632383fb1ba"
+  integrity sha512-SY7rVFxb4ut/OMTgR7A39Jg+8+hXwQNRpZd+RBpB+B5XV2STj/pWXHnGFhBayEF4umI4SxrOvisY90rlPWVO9Q==
+
 expo-file-system@~16.0.0, expo-file-system@~16.0.8:
   version "16.0.8"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-16.0.8.tgz#13c79a8e06e42a8e76e9297df6920597a011d989"
@@ -4688,6 +4693,13 @@ expo-font@~11.10.3:
   integrity sha512-q1Td2zUvmLbCA9GV4OG4nLPw5gJuNY1VrPycsnemN1m8XWTzzs8nyECQQqrcBhgulCgcKZZJJ6U0kC2iuSoQHQ==
   dependencies:
     fontfaceobserver "^2.1.0"
+
+expo-insights@~0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/expo-insights/-/expo-insights-0.6.1.tgz#d338e4d1c957eed16f38acade8e97c53efb09c9a"
+  integrity sha512-0cCCKcFq7e7HME9uwVU5eE9LYEPnYEmTkE+LjJs/G15fnw+xK52jwx3p9nZcdI9lmZ23qBtqatlQKz/PMXSheQ==
+  dependencies:
+    expo-eas-client "~0.11.0"
 
 expo-json-utils@~0.12.0:
   version "0.12.3"
