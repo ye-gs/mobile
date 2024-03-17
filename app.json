@@ -31,8 +31,14 @@
         "plugins": [
             "expo-router",
             "@react-native-google-signin/google-signin",
-            "react-native-fbsdk-next",
-        
+            [
+                "react-native-fbsdk-next",
+                {
+                    "appID": "326618207062192",
+                    "clientToken": "6b8f4d07f76bc5382aa510ad42bde397",
+                    "displayName": "ye-gs"
+                }
+            ]
         ],
         "experiments": {
             "typedRoutes": true
