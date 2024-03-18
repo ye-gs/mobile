@@ -1,96 +1,125 @@
-import React, { useState } from 'react';
-import { Text, View } from '@/components/Themed';
-import { StyleSheet, Button, TextInput } from 'react-native';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import React, { useState } from "react";
+import { Text, View } from "@/components/Themed";
+import { StyleSheet, Button, TextInput, ImageComponent } from "react-native";
+import { GenericButton } from "@/components/GenericButton";
+import { GenericIconButton } from "@/components/GenericIconButton";
 
-import { router } from 'expo-router';
+import {
+  Email,
+  Password,
+  EyeSlash,
+  Eye,
+  Google,
+  Facebook,
+  Checkbox,
+} from "@/assets/images/index";
+import { GenericInput } from "@/components/GenericInput";
+import { router } from "expo-router";
 
 export default function SignUpScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
+  const placeHolderfunction = () => {};
   const handleSignUp = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      alert('Por favor insira um endereço de email válido.');
+      alert("Por favor insira um endereço de email válido.");
       return;
     }
 
     if (password.length < 8) {
-      alert('Senha deve ter pelo menos 8 caracteres.');
+      alert("Senha deve ter pelo menos 8 caracteres.");
       return;
     }
 
     if (password !== passwordConfirm) {
-      alert('Senhas não conferem.');
+      alert("Senhas não conferem.");
       return;
     }
-    console.log('SignUp button pressed');
-    router.navigate("/home")
+    console.log("SignUp button pressed");
+    router.navigate("/home");
   };
 
   function handleGoogleSignUp() {
-    console.log('Google SignUp button pressed');
-    router.navigate("/home")
-
+    console.log("Google SignUp button pressed");
+    router.navigate("/home");
   }
 
   function handleFacebookSignUp() {
-    console.log('Facebook SignUp button pressed');
-    router.navigate("/home")
-
+    console.log("Facebook SignUp button pressed");
+    router.navigate("/home");
   }
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const toggleShowPasswordConfirm = () => {
+    setShowPasswordConfirm(!showPasswordConfirm);
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>YE Gestão de Saúde</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
-      <TextInput
-        autoComplete='email'
-        style={styles.input}
-        placeholder="Seu email"
-        keyboardType="email-address"
-        placeholderTextColor={styles.input.color}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-      />
-      <TextInput
-        autoComplete='password'
-        style={styles.input}
-        placeholder="Sua senha"
-        secureTextEntry
-        placeholderTextColor={styles.input.color}
-        autoCapitalize="none"
-        onChangeText={setPassword}
-      />
-      <TextInput
-        autoComplete='password'
-        style={styles.input}
-        placeholder="Confirmar senha"
-        secureTextEntry
-        placeholderTextColor={styles.input.color}
-        autoCapitalize="none"
-        onChangeText={setPasswordConfirm}
-      />
-      <Button title="Registre-se" onPress={handleSignUp} />
-      <View style={styles.socialLoginContainer}>
-        <FontAwesome.Button
-          name="google"
-          backgroundColor="#DB4437"
-          onPress={handleGoogleSignUp}
-        >
-        </FontAwesome.Button>
-        <FontAwesome.Button
-          name="facebook"
-          backgroundColor="#3B5998"
-          onPress={handleFacebookSignUp}
-        >
-        </FontAwesome.Button>
+      <View style={styles.form}>
+        <GenericInput
+          placeholderText="Email"
+          StartImageComponent={Email}
+          height="20%"
+        ></GenericInput>
+        <GenericInput
+          placeholderText="Senha"
+          StartImageComponent={Password}
+          EndImageComponent={showPassword ? EyeSlash : Eye}
+          shouldBeSecure={!showPassword}
+          onPress={toggleShowPassword}
+          height="20%"
+        ></GenericInput>
+        <GenericInput
+          placeholderText="Confimar senha"
+          StartImageComponent={Password}
+          EndImageComponent={showPasswordConfirm ? EyeSlash : Eye}
+          shouldBeSecure={!showPasswordConfirm}
+          onPress={toggleShowPasswordConfirm}
+          height="20%"
+        ></GenericInput>
+        <View style={styles.terms}>
+          <Checkbox></Checkbox>
+          <View style={styles.termsText}>
+            <Text>
+              Concordo com os
+              <Text style={styles.termsLink}> Termos de serviço </Text>e
+              <Text style={styles.termsLink}> Política de privacidade</Text>
+            </Text>
+          </View>
+        </View>
       </View>
-      <View style={styles.login}>
-        <Text>Já tem conta?</Text><Text onPress={() => router.navigate("/login")} style={styles.login__link}>Logue agora</Text>
+      <View style={styles.signInOptions}>
+        <GenericButton
+          title="Criar conta"
+          color="#407CE2"
+          onPress={placeHolderfunction}
+          height={"20%"}
+          width={"100%"}
+        ></GenericButton>
+        <View style={styles.optionsSeparator}>
+          <View style={styles.separator}></View>
+          <Text style={styles.optionsSeparator__text}>OU</Text>
+          <View style={styles.separator}></View>
+        </View>
+        <View style={styles.extraOptions}>
+          <GenericIconButton
+            onPress={placeHolderfunction}
+            text="Entrar com o Google"
+            ImageComponent={Google}
+          ></GenericIconButton>
+          <GenericIconButton
+            onPress={placeHolderfunction}
+            text="Entrar com o Facebook"
+            ImageComponent={Facebook}
+          ></GenericIconButton>
+        </View>
       </View>
     </View>
   );
@@ -99,40 +128,90 @@ export default function SignUpScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  form: {
+    gap: 12,
+    width: "80%",
+    justifyContent: "center",
+    height: "48%",
+  },
+  terms: {
+    flexDirection: "row",
+    width: "80%",
+    gap: 10,
+  },
+  termsText: {
+    fontSize: 13,
+  },
+  termsLink: {
+    color: "#407CE2",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    fontWeight: "bold",
   },
   login: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 6,
-    fontSize: 14
+    fontSize: 14,
   },
   input: {
-    width: '80%',
+    width: "80%",
     height: 40,
-    color: 'gray',
-    borderColor: 'gray',
+    color: "gray",
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
   },
   socialLoginContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 25,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     marginTop: 10,
   },
   login__link: {
-    color: '#407CE2',
-    fontWeight: '600',
-  }
+    color: "#407CE2",
+    fontWeight: "600",
+  },
+  signInOptions: {
+    width: "80%",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  createAccount: {
+    flexDirection: "row",
+    gap: 6,
+    fontSize: 14,
+  },
+  createAccount__link: {
+    color: "#407CE2",
+    fontWeight: "600",
+  },
+  optionsSeparator: {
+    width: "100%",
+    height: "auto",
+    flexDirection: "row",
+    color: "#A1A8B0",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  optionsSeparator__text: {
+    color: "#A1A8B0",
+    fontSize: 16,
+    width: "12%",
+    textAlign: "center",
+  },
+  separator: {
+    marginVertical: 20,
+    height: 1.5,
+    width: "44%",
+    backgroundColor: "rgba(34,34,31,0.1)",
+  },
+  extraOptions: {
+    width: "100%",
+    gap: 15,
+  },
 });
