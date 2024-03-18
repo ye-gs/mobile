@@ -11,7 +11,7 @@ import { auth } from "@/firebase/index";
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { signInWithCredential } from 'firebase/auth';
 import { AccessToken, LoginManager } from "react-native-fbsdk-next";
-import { UserProvider, useUser } from "./contexts/user";
+import { UserProvider, useUser } from "../contexts/user";
 
 GoogleSignin.configure({
   webClientId: "147160860966-am6ip3ii0mro78t0rld4rrp3gmufrcqa.apps.googleusercontent.com"

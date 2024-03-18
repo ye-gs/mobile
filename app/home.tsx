@@ -4,7 +4,7 @@ import { HomeCard } from "@/components/HomeCard";
 import { HomeOption } from "@/components/HomeOption";
 import { HomeHistoryCard } from "@/components/HomeHistoryCard";
 import { Doctor, Glicemia, Heartbeat, Imc, Pill } from "@/assets/images/index"
-import { useUser } from './contexts/user';
+import { useUser } from '../contexts/user';
 
 export default function Home() {
   const { user } = useUser();

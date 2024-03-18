@@ -6,7 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
 import { useColorScheme } from '@/components/useColorScheme';
-import { UserProvider } from './contexts/user';
+import { UserProvider } from '../contexts/user';
 
 export {
   // Catch any errors thrown by the Layout component.
