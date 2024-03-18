@@ -1,8 +1,8 @@
 import { SvgProps } from "react-native-svg";
-import { StyleSheet, Pressable, DimensionValue } from "react-native";
+import { StyleSheet, Pressable, DimensionValue, GestureResponderEvent } from "react-native";
 import { Text, View } from "./Themed";
 
-export function GenericIconButton(props:{text:string, ImageComponent: React.ComponentType<SvgProps>, width?: DimensionValue, height?: DimensionValue, fontSize?: number}){
+export function GenericIconButton(props:{text:string, ImageComponent: React.ComponentType<SvgProps>, width?: DimensionValue, height?: DimensionValue, fontSize?: number, onPress?: Function}){
     const styles = StyleSheet.create({
         container:{
             flexDirection: 'row',
@@ -24,7 +24,7 @@ export function GenericIconButton(props:{text:string, ImageComponent: React.Comp
     })
     const  { ImageComponent } = props;
     return(
-        <Pressable style={styles.container}>
+        <Pressable style={styles.container} onPress={props.onPress as (event: GestureResponderEvent) => void}>
             <View style={styles.imageView}>
                 <ImageComponent></ImageComponent>
             </View>
