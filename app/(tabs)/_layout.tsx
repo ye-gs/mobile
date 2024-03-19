@@ -40,6 +40,13 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
+                name="camera"
+                options={{
+                    title: 'Exames',
+                    tabBarIcon: ({ color }) => <TabBarIcon name="camera" color={color} />,
+                }}
+            />
+            <Tabs.Screen
                 name="meds"
                 options={{
                     title: 'Medicação',

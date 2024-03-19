@@ -3,7 +3,7 @@ import { Text, View } from '@/components/Themed';
 import { router } from 'expo-router';
 import { GenericInput } from '@/components/GenericInput';
 import { GenericButton } from '@/components/GenericButton';
-import { Email, Password, EyeSlash, Eye, Google, Facebook } from "@/assets/images/index";
+import { Email, Password, EyeSlash, Eye, Google, Facebook, Heartbeat } from "@/assets/images/index";
 import { useState } from 'react';
 import { GenericIconButton } from '@/components/GenericIconButton';
 import { FacebookAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
@@ -84,6 +84,10 @@ export default function Home() {
     }
   }
 
+  const handleVagabundoLogin = async () => {
+    router.navigate("home")
+  }
+
 
   const handleFacebookLogin = async () => {
     console.log("Facebook login 3")
@@ -145,6 +149,7 @@ export default function Home() {
           <View style={styles.extraOptions}>
             <GenericIconButton onPress={handleGoogleLogin} text="Entrar com o Google" ImageComponent={Google}></GenericIconButton>
             <GenericIconButton onPress={handleFacebookLogin} text="Entrar com o Facebook" ImageComponent={Facebook}></GenericIconButton>
+            <GenericIconButton onPress={handleVagabundoLogin} text="Sou Vagabundo" ImageComponent={Heartbeat}></GenericIconButton>
           </View>
         </View>
 
