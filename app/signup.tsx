@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Text, View } from "@/components/Themed";
-import { StyleSheet, Button, TextInput, ImageComponent } from "react-native";
+import { StyleSheet } from "react-native";
 import { GenericButton } from "@/components/GenericButton";
 import { GenericIconButton } from "@/components/GenericIconButton";
-
+import { Button, Checkbox } from "react-native-paper";
 import {
   Email,
   Password,
@@ -11,7 +11,6 @@ import {
   Eye,
   Google,
   Facebook,
-  Checkbox,
 } from "@/assets/images/index";
 import { GenericInput } from "@/components/GenericInput";
 import { router } from "expo-router";
@@ -21,7 +20,9 @@ export default function SignUpScreen() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const placeHolderfunction = () => { };
+  const [loading, setLoading] = useState(false);
+
+  const placeHolderfunction = () => { setLoading(!loading) };
   const handleSignUp = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -50,7 +51,7 @@ export default function SignUpScreen() {
   }
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-
+  const [checked, setChecked] = useState(false);
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -82,7 +83,7 @@ export default function SignUpScreen() {
           height="20%"
         ></GenericInput>
         <View style={styles.terms}>
-          <Checkbox></Checkbox>
+          <Checkbox onPress={() => setChecked(!checked)} status={checked ? "checked" : "unchecked"} color="#407CE2"></Checkbox>
           <View style={styles.termsText}>
             <Text>
               Concordo com os
@@ -93,13 +94,18 @@ export default function SignUpScreen() {
         </View>
       </View>
       <View style={styles.signInOptions}>
-        <GenericButton
-          title="Criar conta"
-          color="#407CE2"
+        <Button
           onPress={placeHolderfunction}
-          height={"20%"}
-          width={"100%"}
-        ></GenericButton>
+          style={{ height: '20%', width: '100%', justifyContent: 'center', alignItems: 'center', borderRadius: 120, padding: 1, }}
+          disabled={!checked}
+          buttonColor="#407CE2"
+          textColor="#FFF"
+          mode="contained"
+          loading={loading}
+        >Criar conta</Button>
+        <View style={styles.createAccount}>
+          <Text>Já tem conta?</Text><Text onPress={() => router.navigate("/login")} style={styles.createAccount__link}>Logue agora</Text>
+        </View>
         <View style={styles.optionsSeparator}>
           <View style={styles.separator}></View>
           <Text style={styles.optionsSeparator__text}>OU</Text>
@@ -118,7 +124,7 @@ export default function SignUpScreen() {
           ></GenericIconButton>
         </View>
       </View>
-    </View>
+    </View >
   );
 }
 
@@ -140,7 +146,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   termsText: {
-    fontSize: 13,
   },
   termsLink: {
     color: "#407CE2",
