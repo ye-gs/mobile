@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   options: {
-    flex: 1,
+    flex: 0,
     flexDirection: "row",
     gap: 60,
   },
