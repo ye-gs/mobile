@@ -1,4 +1,5 @@
-import { StyleSheet, Image } from "react-native";
+import { ProfileCard } from '@/components/ProfileCard';
+import { StyleSheet } from "react-native";
 import { Text, View } from "@/components/Themed";
 import { HomeCard } from "@/components/HomeCard";
 import { HomeOption } from "@/components/HomeOption";
@@ -10,14 +11,7 @@ export default function Home() {
   const { user } = useUser();
   console.log(user?.displayName)
   return <View style={styles.container}>
-    <View style={styles.userInfo}>
-      <Image
-        style={styles.userImage}
-        source={{
-          uri: user?.photoURL || "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1165301142.jpg",
-        }} />
-      <Text style={styles.userName}>{user?.displayName || "Gill Bates"}</Text>
-    </View>
+    <ProfileCard user={user} />
     <View style={styles.biometricInfo}>
       <HomeCard
         text="IMC"
@@ -74,10 +68,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  userName: {
-    fontSize: 18,
-    fontWeight: '400'
-  },
   subtitle: {
     fontSize: 15,
   },
@@ -90,21 +80,6 @@ const styles = StyleSheet.create({
     width: 1.5,
     height: "80%",
     alignSelf: "center"
-  },
-  userInfo: {
-    flex: 1.5,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    gap: 10,
-    paddingTop: 30,
-  },
-  userImage: {
-    marginTop: 10,
-    width: 90,
-    height: 90,
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: '#ccc'
   },
   biometricInfo: {
     flex: 1,

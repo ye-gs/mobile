@@ -1,10 +1,13 @@
+import { ProfileCard } from '@/components/ProfileCard';
+import { useUser } from '@/contexts/user';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 const Meds = () => {
+    const { user } = useUser()
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Hello, React Native!</Text>
+            <ProfileCard user={user}></ProfileCard>
         </View>
     );
 };
