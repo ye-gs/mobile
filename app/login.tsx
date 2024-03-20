@@ -12,6 +12,7 @@ import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-si
 import { signInWithCredential } from 'firebase/auth';
 import { AccessToken, LoginManager } from "react-native-fbsdk-next";
 import { UserProvider, useUser } from "../contexts/user";
+import { ActivityIndicator } from 'react-native';
 
 GoogleSignin.configure({
   webClientId: "147160860966-am6ip3ii0mro78t0rld4rrp3gmufrcqa.apps.googleusercontent.com"
@@ -19,10 +20,12 @@ GoogleSignin.configure({
 
 
 
+
 export default function Home() {
   const { setUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = () => {
     const emailRegex: RegExp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -34,12 +37,14 @@ export default function Home() {
       alert("Senha deve ter no mínimo 6 caracteres")
       return;
     }
+    setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
         setUser(user)
         router.navigate("/home")
+        setIsLoading(false);
         return user;
       })
       .catch((error) => {
@@ -48,6 +53,7 @@ export default function Home() {
         alert(
           `Erro ao fazer login: ${errorCode} - ${errorMessage}`
         )
+        setIsLoading(false);
         return;
       });
   };
@@ -55,14 +61,14 @@ export default function Home() {
 
   const handleGoogleLogin = async () => {
     try {
+      setIsLoading(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const googleCredential = GoogleAuthProvider.credential(userInfo.idToken);
       const user = await signInWithCredential(auth, googleCredential);
-      console.log(user.user.displayName)
       setUser(user.user)
       router.navigate("/home")
-      GoogleSignin.signOut();
+      setIsLoading(false);
       return user;
     } catch (error) {
       if (error instanceof Error && "code" in error) {
@@ -79,6 +85,7 @@ export default function Home() {
           // some other error happened
           alert(error)
         }
+        setIsLoading(false);
         return;
       }
     }
@@ -90,7 +97,7 @@ export default function Home() {
 
 
   const handleFacebookLogin = async () => {
-    console.log("Facebook login 3")
+    setIsLoading(true);
     // Attempt a login using the Facebook login dialog asking for default permissions.
     await LoginManager.logInWithPermissions(["public_profile"]).then(
       async function (result) {
@@ -106,6 +113,7 @@ export default function Home() {
           console.log(accessTokenResponse?.accessToken);
           if (accessTokenResponse === null) {
             console.log("No access token");
+            setIsLoading(false);
             return;
           };
           const facebookCredential = FacebookAuthProvider.credential(accessTokenResponse.accessToken);
@@ -114,11 +122,12 @@ export default function Home() {
           console.log(user.user.displayName)
           LoginManager.logOut();
           router.navigate("/home")
+          setIsLoading(false);
           return result;
-
         }
       },
       function (error) {
+        setIsLoading(false);
         alert("Login fail with error: " + error);
         return;
       }
@@ -139,6 +148,9 @@ export default function Home() {
           <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
         </View>
         <View style={styles.signInOptions}>
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : null}
           <GenericButton title="Entrar" color="#407CE2" onPress={handleLogin} height={"20%"} width={"100%"}></GenericButton>
           <View style={styles.createAccount}>
             <Text>Não tem conta?</Text><Text onPress={() => router.navigate("/signup")} style={styles.createAccount__link}>Crie agora</Text>
@@ -154,7 +166,7 @@ export default function Home() {
         </View>
 
       </View>
-    </UserProvider>
+    </UserProvider >
   );
 }
 
