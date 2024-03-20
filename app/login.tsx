@@ -118,7 +118,6 @@ export default function Home() {
           const facebookCredential = FacebookAuthProvider.credential(accessTokenResponse.accessToken);
           const user = await signInWithCredential(auth, facebookCredential);
           setUser(user.user)
-          alert(user.user.displayName)
           LoginManager.logOut();
           router.navigate("/home")
           setIsLoading(false);
