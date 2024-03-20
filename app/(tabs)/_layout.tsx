@@ -41,7 +41,7 @@ export default function TabLayout() {
                     >Menu</Button>
                 }
             >
-                <Menu.Item onPress={handleSignOut} title="Sign Out" />
+                <Menu.Item onPress={handleSignOut} title="Sair" />
             </Menu >
         );
     }
