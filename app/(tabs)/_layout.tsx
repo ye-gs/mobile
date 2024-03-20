@@ -1,12 +1,12 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Tabs } from 'expo-router';
+import { Tabs, router } from 'expo-router';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+import { useUser } from '@/contexts/user';
+import { Button, Menu } from 'react-native-paper';
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>['name'];
     color: string;
@@ -16,13 +16,42 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
     const colorScheme = useColorScheme();
+    const { setUser } = useUser()
 
+    function MenuButton() {
+        const [visible, setVisible] = React.useState(false);
+
+        const openMenu = () => setVisible(true);
+        const closeMenu = () => setVisible(false);
+
+        const handleSignOut = () => {
+            setUser(null);
+            router.navigate("/login");
+            closeMenu();
+        };
+
+        return (
+            <Menu
+                visible={visible}
+                onDismiss={closeMenu}
+                anchor={
+                    <Button
+                        icon={() => <FontAwesome size={20} name="bars" />}
+                        onPress={openMenu}
+                    >Menu</Button>
+                }
+            >
+                <Menu.Item onPress={handleSignOut} title="Sign Out" />
+            </Menu >
+        );
+    }
     return (
         <Tabs
             screenOptions={{
                 tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
                 // Disable the static render of the header on web
                 // to prevent a hydration error in React Navigation v6.
+                headerRight: () => <MenuButton />,
                 headerShown: useClientOnlyValue(false, true),
             }}>
             <Tabs.Screen
