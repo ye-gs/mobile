@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import { UserProvider } from '../contexts/user';
+import { Provider } from 'react-native-paper';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,16 +50,16 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <UserProvider>
-
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="login" />
-          <Stack.Screen name="signup" />
-          <Stack.Screen name="(tabs)" />
-        </Stack>
-      </UserProvider>
-
-    </ThemeProvider>
+      <Provider>
+        <UserProvider>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="login" />
+            <Stack.Screen name="signup" />
+            <Stack.Screen name="(tabs)" />
+          </Stack>
+        </UserProvider>
+      </Provider>
+    </ThemeProvider >
   );
 }
