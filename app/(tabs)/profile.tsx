@@ -1,13 +1,17 @@
+import { GenericButton } from '@/components/GenericButton';
 import { ProfileCard } from '@/components/ProfileCard';
 import { useUser } from '@/contexts/user';
+import { router } from 'expo-router';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-const Meds = () => {
+const Profile = () => {
     const { user } = useUser()
+
     return (
         <View style={styles.container}>
             <ProfileCard user={user}></ProfileCard>
+
         </View>
     );
 };
@@ -24,4 +28,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Meds;
+export default Profile;
