@@ -148,13 +148,13 @@ export default function Home() {
           <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
         </View>
         <View style={styles.signInOptions}>
-          {isLoading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
-          ) : null}
           <GenericButton title="Entrar" color="#407CE2" onPress={handleLogin} height={"20%"} width={"100%"}></GenericButton>
           <View style={styles.createAccount}>
             <Text>Não tem conta?</Text><Text onPress={() => router.navigate("/signup")} style={styles.createAccount__link}>Crie agora</Text>
           </View>
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : null}
           <View style={styles.optionsSeparator}>
             <View style={styles.separator}></View><Text style={styles.optionsSeparator__text}>OU</Text><View style={styles.separator}></View>
           </View>
