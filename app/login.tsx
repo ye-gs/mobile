@@ -41,7 +41,6 @@ export default function Home() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
         setUser(user)
         router.navigate("/home")
         setIsLoading(false);
@@ -102,24 +101,24 @@ export default function Home() {
     await LoginManager.logInWithPermissions(["public_profile"]).then(
       async function (result) {
         if (result.isCancelled) {
-          console.log("Login cancelled");
+          alert("Login cancelled");
           return;
         } else {
-          console.log(
+          alert(
             "Login success with permissions: " +
             result.grantedPermissions?.toString()
           );
           const accessTokenResponse = await AccessToken.getCurrentAccessToken();
-          console.log(accessTokenResponse?.accessToken);
+          alert(accessTokenResponse?.accessToken);
           if (accessTokenResponse === null) {
-            console.log("No access token");
+            alert("No access token");
             setIsLoading(false);
             return;
           };
           const facebookCredential = FacebookAuthProvider.credential(accessTokenResponse.accessToken);
           const user = await signInWithCredential(auth, facebookCredential);
           setUser(user.user)
-          console.log(user.user.displayName)
+          alert(user.user.displayName)
           LoginManager.logOut();
           router.navigate("/home")
           setIsLoading(false);

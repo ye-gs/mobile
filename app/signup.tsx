@@ -21,7 +21,7 @@ export default function SignUpScreen() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const placeHolderfunction = () => {};
+  const placeHolderfunction = () => { };
   const handleSignUp = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -38,17 +38,14 @@ export default function SignUpScreen() {
       alert("Senhas não conferem.");
       return;
     }
-    console.log("SignUp button pressed");
     router.navigate("/home");
   };
 
   function handleGoogleSignUp() {
-    console.log("Google SignUp button pressed");
     router.navigate("/home");
   }
 
   function handleFacebookSignUp() {
-    console.log("Facebook SignUp button pressed");
     router.navigate("/home");
   }
   const [showPassword, setShowPassword] = useState(false);
