@@ -1,7 +1,6 @@
 import { GenericButton } from '@/components/GenericButton';
 import { ProfileCard } from '@/components/ProfileCard';
 import { useUser } from '@/contexts/user';
-import { router } from 'expo-router';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
@@ -11,7 +10,6 @@ const Profile = () => {
     return (
         <View style={styles.container}>
             <ProfileCard user={user}></ProfileCard>
-
         </View>
     );
 };

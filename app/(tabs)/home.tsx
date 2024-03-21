@@ -5,7 +5,7 @@ import { HomeCard } from "@/components/HomeCard";
 import { HomeOption } from "@/components/HomeOption";
 import { HomeHistoryCard } from "@/components/HomeHistoryCard";
 import { Doctor, Glicemia, Heartbeat, Imc, Pill } from "@/assets/images/index"
-import { useUser } from '../../contexts/user';
+import { useUser } from '@/contexts/user';
 
 export default function Home() {
   const { user } = useUser();
@@ -55,8 +55,8 @@ export default function Home() {
           Ver todas
         </Text>
       </View>
-      <HomeHistoryCard text="Tadalafila com doutor Flamingo" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg" isBookmarked={false}></HomeHistoryCard>
-      <HomeHistoryCard text="Exame de próstata sem as mãos com doutor Flamingo" date="Amanhã" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg" isBookmarked={false}></HomeHistoryCard>
+      <HomeHistoryCard text="Exame de sangue" date="Hoje" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg" isBookmarked={true}></HomeHistoryCard>
+      <HomeHistoryCard text="Exame de glicose" date="Amanhã" imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg" isBookmarked={false}></HomeHistoryCard>
     </View>
   </View>;
 }
