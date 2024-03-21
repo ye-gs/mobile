@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Text, View } from "@/components/Themed";
+import { View } from "@/components/Themed";
 import { StyleSheet } from "react-native";
-import { GenericButton } from "@/components/GenericButton";
 import { GenericIconButton } from "@/components/GenericIconButton";
-import { Button, Checkbox } from "react-native-paper";
+import { ActivityIndicator, Button, Checkbox, Text } from "react-native-paper";
 import {
   Email,
   Password,
@@ -14,41 +13,15 @@ import {
 } from "@/assets/images/index";
 import { GenericInput } from "@/components/GenericInput";
 import { router } from "expo-router";
+import { handleLoginMethods } from "@/utils/auth";
+import { useUser } from "@/contexts/user";
 
 export default function SignUpScreen() {
+  const { setUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-
-  const [loading, setLoading] = useState(false);
-
-  const placeHolderfunction = () => { setLoading(!loading) };
-  const handleSignUp = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      alert("Por favor insira um endereço de email válido.");
-      return;
-    }
-
-    if (password.length < 8) {
-      alert("Senha deve ter pelo menos 8 caracteres.");
-      return;
-    }
-
-    if (password !== passwordConfirm) {
-      alert("Senhas não conferem.");
-      return;
-    }
-    router.navigate("/home");
-  };
-
-  function handleGoogleSignUp() {
-    router.navigate("/home");
-  }
-
-  function handleFacebookSignUp() {
-    router.navigate("/home");
-  }
+  const [loading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -58,16 +31,22 @@ export default function SignUpScreen() {
   const toggleShowPasswordConfirm = () => {
     setShowPasswordConfirm(!showPasswordConfirm);
   };
+
+  const { handleGoogleLogin, handleFacebookLogin, handleSignUp } = handleLoginMethods(email, password, setIsLoading, setUser, passwordConfirm);
+
+
   return (
     <View style={styles.container}>
       <View style={styles.form}>
         <GenericInput
           placeholderText="Email"
+          onChange={(e: string) => setEmail(e)}
           StartImageComponent={Email}
           height="20%"
         ></GenericInput>
         <GenericInput
           placeholderText="Senha"
+          onChange={(e: string) => setPassword(e)}
           StartImageComponent={Password}
           EndImageComponent={showPassword ? EyeSlash : Eye}
           shouldBeSecure={!showPassword}
@@ -76,6 +55,7 @@ export default function SignUpScreen() {
         ></GenericInput>
         <GenericInput
           placeholderText="Confimar senha"
+          onChange={(e: string) => setPasswordConfirm(e)}
           StartImageComponent={Password}
           EndImageComponent={showPasswordConfirm ? EyeSlash : Eye}
           shouldBeSecure={!showPasswordConfirm}
@@ -95,14 +75,15 @@ export default function SignUpScreen() {
       </View>
       <View style={styles.signInOptions}>
         <Button
-          onPress={placeHolderfunction}
+          onPress={handleSignUp}
           style={{ height: '20%', width: '100%', justifyContent: 'center', alignItems: 'center', borderRadius: 120, padding: 1, }}
-          disabled={!checked}
           buttonColor="#407CE2"
           textColor="#FFF"
           mode="contained"
-          loading={loading}
         >Criar conta</Button>
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : null}
         <View style={styles.createAccount}>
           <Text>Já tem conta?</Text><Text onPress={() => router.navigate("/login")} style={styles.createAccount__link}>Logue agora</Text>
         </View>
@@ -113,12 +94,12 @@ export default function SignUpScreen() {
         </View>
         <View style={styles.extraOptions}>
           <GenericIconButton
-            onPress={placeHolderfunction}
+            onPress={handleGoogleLogin}
             text="Entrar com o Google"
             ImageComponent={Google}
           ></GenericIconButton>
           <GenericIconButton
-            onPress={placeHolderfunction}
+            onPress={handleFacebookLogin}
             text="Entrar com o Facebook"
             ImageComponent={Facebook}
           ></GenericIconButton>
@@ -133,6 +114,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  socialLoginButton: {
+    flexDirection: 'row',
+    borderWidth: 1,
+    width: "100%",
+    height: 50,
+    alignItems: 'center',
+    borderRadius: 6,
+    borderColor: '#E5E7EB'
   },
   form: {
     gap: 12,
@@ -216,4 +206,4 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 15,
   },
-});
+})
