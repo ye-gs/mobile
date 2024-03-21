@@ -3,10 +3,10 @@ import { StyleSheet } from "react-native"
 import { SvgProps } from "react-native-svg";
 
 export function HomeCard(props: { text: string, value: string, ImageComponent: React.ComponentType<SvgProps>, status: string }) {
-    const  { ImageComponent } = props;
+    const { ImageComponent } = props;
     return (
         <View style={styles.card}>
-            <ImageComponent width={styles.image.width} height={styles.image.height}/>
+            <ImageComponent width={styles.image.width} height={styles.image.height} />
             <Text style={styles.title}>{props.text}</Text>
             <Text style={styles.value}>{props.value}</Text>
             <Text style={styles.status}>{props.status}</Text>
