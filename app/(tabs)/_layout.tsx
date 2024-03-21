@@ -37,7 +37,7 @@ export default function TabLayout() {
                 anchor={
                     <Button
                         icon={() => <FontAwesome size={20} name="bars" />}
-                        onPress={openMenu}
+                        onPress={openMenu} textColor='#407CE2'
                     >Menu</Button>
                 }
             >
