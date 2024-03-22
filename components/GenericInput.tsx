@@ -1,6 +1,7 @@
-import { G, SvgProps } from "react-native-svg";
+import { SvgProps } from "react-native-svg";
 import { View } from "./Themed";
-import { DimensionValue, TextInput } from "react-native";
+import { DimensionValue } from "react-native";
+import { TextInput } from "react-native-paper";
 import { StyleSheet } from "react-native";
 
 export function GenericInput(props: { placeholderText?: string, placeholderTextColor?: string, borderColor?: string, StartImageComponent?: React.ComponentType<SvgProps>, EndImageComponent?: React.ComponentType<SvgProps>, shouldBeSecure?: boolean, onPress?: Function, width?: DimensionValue, height?: DimensionValue, onChange?: Function }
@@ -49,6 +50,7 @@ export function GenericInput(props: { placeholderText?: string, placeholderTextC
                 placeholder={props.placeholderText ? props.placeholderText : ""}
                 placeholderTextColor={placeholderTextColor}
                 secureTextEntry={props.shouldBeSecure}
+                allowFontScaling={true}
                 keyboardType="default"
                 autoCapitalize="none">
             </TextInput>
