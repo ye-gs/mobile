@@ -17,11 +17,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     useEffect(() => {
         const checkUserDocument = async (user: User | null) => {
             if (user) {
-                console.log('user exists');
                 const userDocRef = doc(db, 'users', user.uid);
                 const userDocSnap = await getDoc(userDocRef);
                 if (!userDocSnap.exists()) {
-                    console.log('user document does not exist');
                     await setDoc(userDocRef, { id: user.uid, email: user.email, displayName: user.displayName, photoURL: user.photoURL, createdAt: new Date(), updatedAt: new Date(), role: 'user', status: 'active', lastLogin: new Date(), lastLogout: new Date(), lastActivity: new Date(), lastPasswordChange: new Date(), lastEmailChange: new Date(), lastProfileUpdate: new Date(), emailVerified: user.emailVerified, phoneNumber: user.phoneNumber, providerId: user.providerId, isAnonymous: user.isAnonymous, tenantId: user.tenantId, });
                 }
                 // Save login time on collection loginHistory

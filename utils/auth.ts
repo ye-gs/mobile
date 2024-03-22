@@ -88,7 +88,6 @@ function handleLoginMethods(
 
     const handleSignUp = () => {
         setIsLoading(true);
-        console.log(email);
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             alert("Por favor insira um endereço de email válido.");

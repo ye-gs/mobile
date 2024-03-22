@@ -1,12 +1,12 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs, router } from 'expo-router';
-
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { useUser } from '@/contexts/user';
 import { Button, Menu } from 'react-native-paper';
+import { useTheme } from '@/contexts/theme';
+
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>['name'];
     color: string;
@@ -15,9 +15,20 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-    const colorScheme = useColorScheme();
-    const { setUser } = useUser()
+    type ColorSchemeMap = {
+        light: "moon-o",
+        dark: 'sun-o',
+    }
+    const colorSchemeMap: ColorSchemeMap = {
+        light: "moon-o",
+        dark: 'sun-o',
+    }
 
+    type ColorScheme = keyof ColorSchemeMap;
+    const [colorScheme, setColorScheme] = React.useState<ColorScheme>("light");
+
+    const { setUser } = useUser()
+    const { setTheme } = useTheme()
     function MenuButton() {
         const [visible, setVisible] = React.useState(false);
 
@@ -29,6 +40,12 @@ export default function TabLayout() {
             router.navigate("/login");
             closeMenu();
         };
+
+        function switchTheme() {
+            setColorScheme(colorScheme === 'light' ? 'dark' : 'light');
+            setTheme(colorScheme === 'light' ? 'dark' : 'light')
+            closeMenu();
+        }
 
         return (
             <Menu
@@ -42,6 +59,7 @@ export default function TabLayout() {
                 }
             >
                 <Menu.Item onPress={handleSignOut} title="Sair" />
+                <Menu.Item leadingIcon={() => <FontAwesome size={25} name={colorSchemeMap[colorScheme]}></FontAwesome>} onPress={(e) => { switchTheme() }} title="Mudar tema" />
             </Menu >
         );
     }
@@ -49,6 +67,15 @@ export default function TabLayout() {
         <Tabs
             screenOptions={{
                 tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+                tabBarStyle: {
+                    backgroundColor: Colors[colorScheme ?? 'light'].background,
+                },
+                headerStyle: {
+                    backgroundColor: Colors[colorScheme ?? 'light'].background,
+                },
+                headerTitleStyle: {
+                    color: Colors[colorScheme ?? 'light'].text,
+                },
                 // Disable the static render of the header on web
                 // to prevent a hydration error in React Navigation v6.
                 headerRight: () => <MenuButton />,
