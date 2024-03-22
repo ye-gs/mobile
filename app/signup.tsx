@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { View } from "@/components/Themed";
-import { StyleSheet } from "react-native";
+import { KeyboardAvoidingView, StyleSheet } from "react-native";
 import { GenericIconButton } from "@/components/GenericIconButton";
-import { ActivityIndicator, Checkbox, Text, Button, Dialog, Portal, RadioButton } from "react-native-paper";
 import {
-  Email,
-  Password,
-  EyeSlash,
-  Eye,
-  Google,
-} from "@/assets/images/index";
+  ActivityIndicator,
+  Checkbox,
+  Text,
+  Button,
+  Dialog,
+  Portal,
+  RadioButton,
+} from "react-native-paper";
+import { Email, Password, EyeSlash, Eye, Google } from "@/assets/images/index";
 import { router } from "expo-router";
 import { handleLoginMethods } from "@/utils/auth";
 import { useUser } from "@/contexts/user";
 import { FontAwesome } from "@expo/vector-icons";
 import { GenericInput } from "@/components/GenericInput";
-
+import { AuthError } from "expo-auth-session";
 
 export default function SignUpScreen() {
   const [visible, setVisible] = useState(false);
@@ -38,17 +40,24 @@ export default function SignUpScreen() {
     setShowPasswordConfirm(!showPasswordConfirm);
   };
 
-  const { handleGoogleLogin, handleSignUp } = handleLoginMethods(email, password, setIsLoading, setUser, passwordConfirm, username, gender);
-
+  const { handleGoogleLogin, handleSignUp } = handleLoginMethods(
+    email,
+    password,
+    setIsLoading,
+    setUser,
+    passwordConfirm,
+    username,
+    gender
+  );
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="height" keyboardVerticalOffset={-150}>
       <View style={styles.form}>
         <GenericInput
           placeholderText="Email"
           onChange={(e: string) => setEmail(e)}
           StartImageComponent={Email}
-          height="20%"
+          height="16%"
         ></GenericInput>
         <GenericInput
           placeholderText="Senha"
@@ -57,7 +66,7 @@ export default function SignUpScreen() {
           EndImageComponent={showPassword ? EyeSlash : Eye}
           shouldBeSecure={!showPassword}
           onPress={toggleShowPassword}
-          height="20%"
+          height="16%"
         ></GenericInput>
         <GenericInput
           placeholderText="Confimar senha"
@@ -66,19 +75,12 @@ export default function SignUpScreen() {
           EndImageComponent={showPasswordConfirm ? EyeSlash : Eye}
           shouldBeSecure={!showPasswordConfirm}
           onPress={toggleShowPasswordConfirm}
-          height="20%"
-        ></GenericInput>
-        <GenericInput
-          placeholderText="Usuário"
-          onChange={(e: string) => setUsername(e)}
-          StartImageComponent={Password}
-          EndImageComponent={showPasswordConfirm ? EyeSlash : Eye}
-          shouldBeSecure={!showPasswordConfirm}
-          onPress={toggleShowPasswordConfirm}
-          height="20%"
+          height="16%"
         ></GenericInput>
         <Button
-          icon={() => <FontAwesome name={gender || "space-shuttle"}></FontAwesome>}
+          icon={() => (
+            <FontAwesome name={gender || "space-shuttle"}></FontAwesome>
+          )}
           mode="outlined"
           onPress={showDialog}
           style={{
@@ -95,9 +97,7 @@ export default function SignUpScreen() {
             <Dialog.Title>Selecione seu gênero</Dialog.Title>
             <Dialog.Content>
               <RadioButton.Group
-                onValueChange={(value) =>
-                  setGender(value as "male" | "female")
-                }
+                onValueChange={(value) => setGender(value as "male" | "female")}
                 value={gender || "user"}
               >
                 <RadioButton.Item label="Homem" value="male" />
@@ -144,7 +144,10 @@ export default function SignUpScreen() {
         {loading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
         <View style={styles.createAccount}>
           <Text>Já tem conta?</Text>
-          <Text onPress={() => router.navigate("/login")} style={styles.createAccount__link}>
+          <Text
+            onPress={() => router.navigate("/login")}
+            style={styles.createAccount__link}
+          >
             Logue agora
           </Text>
         </View>
@@ -161,7 +164,7 @@ export default function SignUpScreen() {
           ></GenericIconButton>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -170,28 +173,30 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    color: 'fff'
   },
   socialLoginButton: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderWidth: 1,
     width: "100%",
     height: 50,
-    alignItems: 'center',
+    alignItems: "center",
     borderRadius: 6,
-    borderColor: '#E5E7EB'
+    borderColor: "#E5E7EB",
   },
   form: {
-    gap: 12,
+    gap: 10,
     width: "80%",
-    justifyContent: "center",
-    height: "48%",
+    justifyContent: "flex-end",
+    height: "56%",
   },
   terms: {
     flexDirection: "row",
-    width: "80%",
+    width: "100%",
     gap: 10,
   },
   termsText: {
+    flex: 1,
   },
   termsLink: {
     color: "#407CE2",
@@ -218,7 +223,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 25,
     justifyContent: "space-between",
-    marginTop: 10,
   },
   login__link: {
     color: "#407CE2",
@@ -227,7 +231,7 @@ const styles = StyleSheet.create({
   signInOptions: {
     width: "80%",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
   },
   createAccount: {
     flexDirection: "row",
@@ -240,7 +244,6 @@ const styles = StyleSheet.create({
   },
   optionsSeparator: {
     width: "100%",
-    height: "auto",
     flexDirection: "row",
     color: "#A1A8B0",
     justifyContent: "center",
@@ -262,4 +265,4 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 15,
   },
-})
+});
