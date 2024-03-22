@@ -3,19 +3,12 @@ import { Text, View } from '@/components/Themed';
 import { router } from 'expo-router';
 import { GenericInput } from '@/components/GenericInput';
 import { GenericButton } from '@/components/GenericButton';
-import { Email, Password, EyeSlash, Eye, Google, Facebook } from "@/assets/images/index";
+import { Email, Password, EyeSlash, Eye, Google } from "@/assets/images/index";
 import { useState } from 'react';
 import { GenericIconButton } from '@/components/GenericIconButton';
-import { FacebookAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/firebase/index";
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import { signInWithCredential } from 'firebase/auth';
-import { AccessToken, LoginManager } from "react-native-fbsdk-next";
-import { UserProvider, useUser } from "./contexts/user";
-
-GoogleSignin.configure({
-  webClientId: "147160860966-am6ip3ii0mro78t0rld4rrp3gmufrcqa.apps.googleusercontent.com"
-});
+import { UserProvider, useUser } from "@/contexts/user";
+import { ActivityIndicator } from 'react-native-paper';
+import { handleLoginMethods } from '@/utils/auth';
 
 
 
@@ -23,109 +16,14 @@ export default function Home() {
   const { setUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
-    const emailRegex: RegExp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailRegex.test(email)) {
-      alert("Email inválido")
-      return;
-    }
-    if (password.length < 6) {
-      alert("Senha deve ter no mínimo 6 caracteres")
-      return;
-    }
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-        setUser(user)
-        router.navigate("/home")
-        return user;
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(
-          `Erro ao fazer login: ${errorCode} - ${errorMessage}`
-        )
-        return;
-      });
-  };
-
-
-  const handleGoogleLogin = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      const googleCredential = GoogleAuthProvider.credential(userInfo.idToken);
-      const user = await signInWithCredential(auth, googleCredential);
-      console.log(user.user.displayName)
-      setUser(user.user)
-      router.navigate("/home")
-      GoogleSignin.signOut();
-      return user;
-    } catch (error) {
-      if (error instanceof Error && "code" in error) {
-        if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-          // user cancelled the login flow
-          alert("Google login cancelled")
-        } else if (error.code === statusCodes.IN_PROGRESS) {
-          // operation (e.g. sign in) is in progress already
-          alert("Google login in progress")
-        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-          // play services not available or outdated
-          alert("Google login play services not available")
-        } else {
-          // some other error happened
-          alert(error)
-        }
-        return;
-      }
-    }
-  }
-
-
-  const handleFacebookLogin = async () => {
-    console.log("Facebook login 3")
-    // Attempt a login using the Facebook login dialog asking for default permissions.
-    await LoginManager.logInWithPermissions(["public_profile"]).then(
-      async function (result) {
-        if (result.isCancelled) {
-          console.log("Login cancelled");
-          return;
-        } else {
-          console.log(
-            "Login success with permissions: " +
-            result.grantedPermissions?.toString()
-          );
-          const accessTokenResponse = await AccessToken.getCurrentAccessToken();
-          console.log(accessTokenResponse?.accessToken);
-          if (accessTokenResponse === null) {
-            console.log("No access token");
-            return;
-          };
-          const facebookCredential = FacebookAuthProvider.credential(accessTokenResponse.accessToken);
-          const user = await signInWithCredential(auth, facebookCredential);
-          setUser(user.user)
-          console.log(user.user.displayName)
-          LoginManager.logOut();
-          router.navigate("/home")
-          return result;
-
-        }
-      },
-      function (error) {
-        alert("Login fail with error: " + error);
-        return;
-      }
-    );
-  };
-
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+
+  const { handleLogin, handleGoogleLogin } = handleLoginMethods(email, password, setIsLoading, setUser);
   return (
     <UserProvider>
       <View style={styles.container}>
@@ -139,17 +37,19 @@ export default function Home() {
           <View style={styles.createAccount}>
             <Text>Não tem conta?</Text><Text onPress={() => router.navigate("/signup")} style={styles.createAccount__link}>Crie agora</Text>
           </View>
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : null}
           <View style={styles.optionsSeparator}>
             <View style={styles.separator}></View><Text style={styles.optionsSeparator__text}>OU</Text><View style={styles.separator}></View>
           </View>
           <View style={styles.extraOptions}>
             <GenericIconButton onPress={handleGoogleLogin} text="Entrar com o Google" ImageComponent={Google}></GenericIconButton>
-            <GenericIconButton onPress={handleFacebookLogin} text="Entrar com o Facebook" ImageComponent={Facebook}></GenericIconButton>
           </View>
         </View>
 
       </View>
-    </UserProvider>
+    </UserProvider >
   );
 }
 
