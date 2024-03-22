@@ -1,4 +1,3 @@
-import { GenericButton } from '@/components/GenericButton';
 import { ProfileCard } from '@/components/ProfileCard';
 import { useUser } from '@/contexts/user';
 import React from 'react';
