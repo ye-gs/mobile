@@ -2,23 +2,29 @@ import React, { useState } from "react";
 import { View } from "@/components/Themed";
 import { StyleSheet } from "react-native";
 import { GenericIconButton } from "@/components/GenericIconButton";
-import { ActivityIndicator, Button, Checkbox, Text } from "react-native-paper";
+import { ActivityIndicator, Checkbox, Text, Button, Dialog, Portal, RadioButton } from "react-native-paper";
 import {
   Email,
   Password,
   EyeSlash,
   Eye,
   Google,
-  Facebook,
 } from "@/assets/images/index";
-import { GenericInput } from "@/components/GenericInput";
 import { router } from "expo-router";
 import { handleLoginMethods } from "@/utils/auth";
 import { useUser } from "@/contexts/user";
+import { FontAwesome } from "@expo/vector-icons";
+import { GenericInput } from "@/components/GenericInput";
+
 
 export default function SignUpScreen() {
+  const [visible, setVisible] = useState(false);
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
   const { setUser } = useUser();
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [gender, setGender] = useState<"male" | "female" | null>(null);
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [loading, setIsLoading] = useState(false);
@@ -32,7 +38,7 @@ export default function SignUpScreen() {
     setShowPasswordConfirm(!showPasswordConfirm);
   };
 
-  const { handleGoogleLogin, handleFacebookLogin, handleSignUp } = handleLoginMethods(email, password, setIsLoading, setUser, passwordConfirm);
+  const { handleGoogleLogin, handleSignUp } = handleLoginMethods(email, password, setIsLoading, setUser, passwordConfirm, username, gender);
 
 
   return (
@@ -62,8 +68,53 @@ export default function SignUpScreen() {
           onPress={toggleShowPasswordConfirm}
           height="20%"
         ></GenericInput>
+        <GenericInput
+          placeholderText="Usuário"
+          onChange={(e: string) => setUsername(e)}
+          StartImageComponent={Password}
+          EndImageComponent={showPasswordConfirm ? EyeSlash : Eye}
+          shouldBeSecure={!showPasswordConfirm}
+          onPress={toggleShowPasswordConfirm}
+          height="20%"
+        ></GenericInput>
+        <Button
+          icon={() => <FontAwesome name={gender || "space-shuttle"}></FontAwesome>}
+          mode="outlined"
+          onPress={showDialog}
+          style={{
+            justifyContent: "center",
+            flexDirection: "row",
+            borderColor: "gray",
+            borderWidth: 1,
+          }}
+        >
+          Gênero: {gender || "Selecione"}
+        </Button>
+        <Portal>
+          <Dialog visible={visible} onDismiss={hideDialog}>
+            <Dialog.Title>Selecione seu gênero</Dialog.Title>
+            <Dialog.Content>
+              <RadioButton.Group
+                onValueChange={(value) =>
+                  setGender(value as "male" | "female")
+                }
+                value={gender || "user"}
+              >
+                <RadioButton.Item label="Homem" value="male" />
+                <RadioButton.Item label="Mulher" value="female" />
+              </RadioButton.Group>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={hideDialog}>Done</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
         <View style={styles.terms}>
-          <Checkbox onPress={() => setChecked(!checked)} status={checked ? "checked" : "unchecked"} color="#407CE2"></Checkbox>
+          <Checkbox
+            onPress={() => setChecked(!checked)}
+            status={checked ? "checked" : "unchecked"}
+            color="#407CE2"
+          ></Checkbox>
           <View style={styles.termsText}>
             <Text>
               Concordo com os
@@ -76,16 +127,26 @@ export default function SignUpScreen() {
       <View style={styles.signInOptions}>
         <Button
           onPress={handleSignUp}
-          style={{ height: '20%', width: '100%', justifyContent: 'center', alignItems: 'center', borderRadius: 120, padding: 1, }}
+          style={{
+            height: "20%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 120,
+            padding: 1,
+          }}
           buttonColor="#407CE2"
           textColor="#FFF"
           mode="contained"
-        >Criar conta</Button>
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : null}
+        >
+          Criar conta
+        </Button>
+        {loading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
         <View style={styles.createAccount}>
-          <Text>Já tem conta?</Text><Text onPress={() => router.navigate("/login")} style={styles.createAccount__link}>Logue agora</Text>
+          <Text>Já tem conta?</Text>
+          <Text onPress={() => router.navigate("/login")} style={styles.createAccount__link}>
+            Logue agora
+          </Text>
         </View>
         <View style={styles.optionsSeparator}>
           <View style={styles.separator}></View>
@@ -98,14 +159,9 @@ export default function SignUpScreen() {
             text="Entrar com o Google"
             ImageComponent={Google}
           ></GenericIconButton>
-          <GenericIconButton
-            onPress={handleFacebookLogin}
-            text="Entrar com o Facebook"
-            ImageComponent={Facebook}
-          ></GenericIconButton>
         </View>
       </View>
-    </View >
+    </View>
   );
 }
 

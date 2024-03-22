@@ -3,7 +3,7 @@ import { Text, View } from '@/components/Themed';
 import { router } from 'expo-router';
 import { GenericInput } from '@/components/GenericInput';
 import { GenericButton } from '@/components/GenericButton';
-import { Email, Password, EyeSlash, Eye, Google, Facebook, Heartbeat } from "@/assets/images/index";
+import { Email, Password, EyeSlash, Eye, Google } from "@/assets/images/index";
 import { useState } from 'react';
 import { GenericIconButton } from '@/components/GenericIconButton';
 import { UserProvider, useUser } from "@/contexts/user";
@@ -23,7 +23,7 @@ export default function Home() {
   };
 
 
-  const { handleLogin, handleGoogleLogin, handleFacebookLogin, handleVagabundoLogin } = handleLoginMethods(email, password, setIsLoading, setUser);
+  const { handleLogin, handleGoogleLogin } = handleLoginMethods(email, password, setIsLoading, setUser);
   return (
     <UserProvider>
       <View style={styles.container}>
@@ -45,8 +45,6 @@ export default function Home() {
           </View>
           <View style={styles.extraOptions}>
             <GenericIconButton onPress={handleGoogleLogin} text="Entrar com o Google" ImageComponent={Google}></GenericIconButton>
-            <GenericIconButton onPress={handleFacebookLogin} text="Entrar com o Facebook" ImageComponent={Facebook}></GenericIconButton>
-            <GenericIconButton onPress={handleVagabundoLogin} text="TESTE" ImageComponent={Heartbeat}></GenericIconButton>
           </View>
         </View>
 

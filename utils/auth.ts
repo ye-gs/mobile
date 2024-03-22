@@ -1,4 +1,3 @@
-import { Password } from "@/assets/images/index";
 import { auth } from "@/firebase";
 import {
     GoogleSignin,
@@ -6,21 +5,21 @@ import {
 } from "@react-native-google-signin/google-signin";
 import { router } from "expo-router";
 import {
-    FacebookAuthProvider,
     GoogleAuthProvider,
     User,
     createUserWithEmailAndPassword,
     signInWithCredential,
     signInWithEmailAndPassword,
 } from "firebase/auth";
-import { LoginManager, AccessToken } from "react-native-fbsdk-next";
 
 function handleLoginMethods(
     email: string,
     password: string,
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setUser: React.Dispatch<React.SetStateAction<User | null>>,
-    passwordConfirm?: string
+    passwordConfirm?: string,
+    username?: string,
+    gender?: string | null
 ) {
     const handleLogin = () => {
         const emailRegex: RegExp =
@@ -87,53 +86,6 @@ function handleLoginMethods(
         }
     };
 
-    const handleVagabundoLogin = async () => {
-        router.navigate("home");
-    };
-
-    const handleFacebookLogin = async () => {
-        setIsLoading(true);
-        // Attempt a login using the Facebook login dialog asking for default permissions.
-        await LoginManager.logInWithPermissions(["public_profile"]).then(
-            async function (result) {
-                if (result.isCancelled) {
-                    alert("Login cancelled");
-                    setIsLoading(false);
-                    return;
-                } else {
-                    alert(
-                        "Login success with permissions: " +
-                            result.grantedPermissions?.toString()
-                    );
-                    const accessTokenResponse =
-                        await AccessToken.getCurrentAccessToken();
-                    alert(accessTokenResponse?.accessToken);
-                    if (accessTokenResponse === null) {
-                        alert("No access token");
-                        setIsLoading(false);
-                        return;
-                    }
-                    const facebookCredential = FacebookAuthProvider.credential(
-                        accessTokenResponse.accessToken
-                    );
-                    const user = await signInWithCredential(
-                        auth,
-                        facebookCredential
-                    );
-                    setUser(user.user);
-                    LoginManager.logOut();
-                    router.navigate("/home");
-                    setIsLoading(false);
-                    return result;
-                }
-            },
-            function (error) {
-                setIsLoading(false);
-                alert("Login fail with error: " + error);
-                return;
-            }
-        );
-    };
     const handleSignUp = () => {
         setIsLoading(true);
         console.log(email);
@@ -176,8 +128,6 @@ function handleLoginMethods(
     return {
         handleLogin,
         handleGoogleLogin,
-        handleFacebookLogin,
-        handleVagabundoLogin,
         handleSignUp,
     };
 }
