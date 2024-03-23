@@ -10,6 +10,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithCredential,
     signInWithEmailAndPassword,
+    updateProfile,
 } from "firebase/auth";
 
 function handleLoginMethods(
@@ -17,9 +18,7 @@ function handleLoginMethods(
     password: string,
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setUser: React.Dispatch<React.SetStateAction<User | null>>,
-    passwordConfirm?: string,
-    username?: string,
-    gender?: string | null
+    passwordConfirm?: string
 ) {
     const handleLogin = () => {
         const emailRegex: RegExp =
@@ -58,11 +57,20 @@ function handleLoginMethods(
             const googleCredential = GoogleAuthProvider.credential(
                 userInfo.idToken
             );
-            const user = await signInWithCredential(auth, googleCredential);
-            setUser(user.user);
+
+            const userCredential = await signInWithCredential(
+                auth,
+                googleCredential
+            );
+            if (userCredential === null) {
+                setIsLoading(false);
+                alert("Erro ao fazer login com Google");
+                return;
+            }
+            setUser(userCredential.user);
             router.navigate("/home");
             setIsLoading(false);
-            return user;
+            return userCredential;
         } catch (error) {
             if (error instanceof Error && "code" in error) {
                 if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -112,6 +120,11 @@ function handleLoginMethods(
             .then((userCredential) => {
                 const user = userCredential.user;
                 setUser(user);
+                updateProfile(user, {
+                    displayName: email.split("@")[0],
+                });
+                const token = user.getIdToken();
+
                 router.navigate("/home");
                 setIsLoading(false);
                 return user;
