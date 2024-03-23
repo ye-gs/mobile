@@ -8,21 +8,21 @@ import { HomeRoutingOptions } from "@/components/home/HomeRoutingOptions";
 import { HomeBiometricInfo } from "@/components/home/HomeBiometricInfo";
 
 export default function Home() {
-  const { user } = useUser();
-  return (
-    <View style={styles.container}>
-      <ProfileCard user={user} />
-      <HomeBiometricInfo />
-      <Separator />
-      <HomeRoutingOptions />
-      <HomeAppointmentHistory />
-    </View>
-  );
+    const { user } = useUser();
+    return (
+        <View style={styles.container}>
+            <ProfileCard user={user} />
+            <HomeBiometricInfo />
+            <Separator />
+            <HomeRoutingOptions />
+            <HomeAppointmentHistory />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-  },
+    container: {
+        flex: 1,
+        alignItems: "center",
+    },
 });
