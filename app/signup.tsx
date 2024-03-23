@@ -297,6 +297,7 @@ export default function SignUpScreen() {
                 {loading ? (
                     <ActivityIndicator
                         size="large"
+                        style={{ marginTop: 10 }}
                         color={Colors[colorScheme ?? "light"].altTextColor}
                     />
                 ) : null}

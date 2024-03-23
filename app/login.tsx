@@ -130,6 +130,7 @@ export default function Home() {
                     {isLoading ? (
                         <ActivityIndicator
                             size="large"
+                            style={{ marginTop: 10 }}
                             color={Colors[colorScheme ?? "light"].altTextColor}
                         />
                     ) : null}
