@@ -1,6 +1,6 @@
 type ColorSchemeName = "light" | "dark" | null | undefined;
 export function useColorScheme(
-    colorSchemeName: ColorSchemeName
+  colorSchemeName: ColorSchemeName,
 ): ColorSchemeName {
-    return colorSchemeName ?? "light";
+  return colorSchemeName ?? "light";
 }

@@ -21,7 +21,7 @@ import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 
 export default function SignUpScreen() {
-  type Genero = "Homem" | "Mulher" | null
+  type Genero = "Homem" | "Mulher" | null;
   const [visible, setVisible] = useState(false);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -49,7 +49,7 @@ export default function SignUpScreen() {
     setUser,
     passwordConfirm,
     username,
-    gender
+    gender,
   );
 
   const { theme } = useTheme();
@@ -59,8 +59,8 @@ export default function SignUpScreen() {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: Colors[colorScheme ?? 'light'].background,
-      color: Colors[colorScheme ?? 'light'].text,
+      backgroundColor: Colors[colorScheme ?? "light"].background,
+      color: Colors[colorScheme ?? "light"].text,
     },
     socialLoginButton: {
       flexDirection: "row",
@@ -69,9 +69,9 @@ export default function SignUpScreen() {
       height: 50,
       alignItems: "center",
       borderRadius: 6,
-      backgroundColor: Colors[colorScheme ?? 'light'].background,
-      color: Colors[colorScheme ?? 'light'].text,
-      borderColor: Colors[colorScheme ?? 'light'].borderColor,
+      backgroundColor: Colors[colorScheme ?? "light"].background,
+      color: Colors[colorScheme ?? "light"].text,
+      borderColor: Colors[colorScheme ?? "light"].borderColor,
     },
     form: {
       gap: 10,
@@ -156,9 +156,12 @@ export default function SignUpScreen() {
     },
   });
 
-
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="height" keyboardVerticalOffset={-150}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="height"
+      keyboardVerticalOffset={-150}
+    >
       <View style={styles.form}>
         <GenericInput
           placeholderText="Email"
@@ -186,13 +189,14 @@ export default function SignUpScreen() {
         ></GenericInput>
         <Button
           icon={() => (
-            <FontAwesome name={gender === "Homem" ? "male" : "female" || "space-shuttle"}
+            <FontAwesome
+              name={gender === "Homem" ? "male" : "female" || "space-shuttle"}
               color={Colors[colorScheme ?? "light"].altTextColor}
             ></FontAwesome>
           )}
           mode="outlined"
           onPress={showDialog}
-          textColor={Colors[colorScheme ?? 'light'].altTextColor}
+          textColor={Colors[colorScheme ?? "light"].altTextColor}
           style={{
             justifyContent: "center",
             flexDirection: "row",
@@ -204,18 +208,37 @@ export default function SignUpScreen() {
         </Button>
         <Portal>
           <Dialog visible={visible} onDismiss={hideDialog}>
-            <Dialog.Title style={{ color: Colors[colorScheme ?? "light"].text }}>Selecione seu gênero</Dialog.Title>
+            <Dialog.Title
+              style={{ color: Colors[colorScheme ?? "light"].text }}
+            >
+              Selecione seu gênero
+            </Dialog.Title>
             <Dialog.Content>
               <RadioButton.Group
                 onValueChange={(value) => setGender(value as Genero)}
                 value={gender || "user"}
               >
-                <RadioButton.Item color={Colors[colorScheme].altTextColor} labelStyle={{ color: Colors[colorScheme ?? "light"].text }} label="Homem" value="Homem" />
-                <RadioButton.Item color={Colors[colorScheme].altTextColor} labelStyle={{ color: Colors[colorScheme].text }} label="Mulher" value="Mulher" />
+                <RadioButton.Item
+                  color={Colors[colorScheme].altTextColor}
+                  labelStyle={{ color: Colors[colorScheme ?? "light"].text }}
+                  label="Homem"
+                  value="Homem"
+                />
+                <RadioButton.Item
+                  color={Colors[colorScheme].altTextColor}
+                  labelStyle={{ color: Colors[colorScheme].text }}
+                  label="Mulher"
+                  value="Mulher"
+                />
               </RadioButton.Group>
             </Dialog.Content>
             <Dialog.Actions>
-              <Button textColor={Colors[colorScheme].altTextColor} onPress={hideDialog}>Pronto</Button>
+              <Button
+                textColor={Colors[colorScheme].altTextColor}
+                onPress={hideDialog}
+              >
+                Pronto
+              </Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>
@@ -274,7 +297,6 @@ export default function SignUpScreen() {
           ></GenericIconButton>
         </View>
       </View>
-    </KeyboardAvoidingView >
+    </KeyboardAvoidingView>
   );
 }
-

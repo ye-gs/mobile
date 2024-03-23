@@ -48,7 +48,8 @@ export function GenericInput(props: {
       color: "#000",
     },
   });
-  const placeholderTextColor = props.placeholderTextColor ?? 'rgba(34, 31, 31, 0.4)'; 
+  const placeholderTextColor =
+    props.placeholderTextColor ?? "rgba(34, 31, 31, 0.4)";
   const { StartImageComponent, EndImageComponent, onPress } = props;
   return (
     <View style={styles.container}>

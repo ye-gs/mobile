@@ -1,14 +1,10 @@
-import { ProfileCard } from "@/components/ProfileCard";
-import { useUser } from "@/contexts/user";
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
-const Profile = () => {
-  const { user } = useUser();
-
+const Exams = () => {
   return (
     <View style={styles.container}>
-      <ProfileCard user={user}></ProfileCard>
+      <Text style={styles.text}>Hello, React Native!</Text>
     </View>
   );
 };
@@ -25,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default Exams;

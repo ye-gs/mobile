@@ -29,8 +29,8 @@ export default function Home() {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: Colors[colorScheme ?? 'light'].background,
-      color: Colors[colorScheme ?? 'light'].text,
+      backgroundColor: Colors[colorScheme ?? "light"].background,
+      color: Colors[colorScheme ?? "light"].text,
     },
     form: {
       gap: 12,
@@ -54,7 +54,7 @@ export default function Home() {
       fontSize: 14,
     },
     createAccount__link: {
-      color: Colors[colorScheme ?? 'light'].url,
+      color: Colors[colorScheme ?? "light"].url,
       fontWeight: "600",
     },
     optionsSeparator: {
@@ -87,7 +87,7 @@ export default function Home() {
     email,
     password,
     setIsLoading,
-    setUser
+    setUser,
   );
   return (
     <UserProvider>
@@ -113,7 +113,7 @@ export default function Home() {
         <View style={styles.signInOptions}>
           <GenericButton
             title="Entrar"
-            color={Colors[colorScheme ?? 'light'].altTextColor}
+            color={Colors[colorScheme ?? "light"].altTextColor}
             onPress={handleLogin}
             height={"20%"}
             width={"100%"}

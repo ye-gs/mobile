@@ -5,14 +5,14 @@ import React from "react";
 import { StyleSheet, Image, Text, View } from "react-native";
 
 export function ProfileCard(props: { user: User | null }) {
-  const { theme } = useTheme()
-  const colorScheme = theme
+  const { theme } = useTheme();
+  const colorScheme = theme;
 
   const styles = StyleSheet.create({
     userName: {
       fontSize: 18,
-      color: Colors[colorScheme ?? 'light'].text,
-      fontWeight: '400'
+      color: Colors[colorScheme ?? "light"].text,
+      fontWeight: "400",
     },
     userInfo: {
       flex: 1.5,
@@ -27,15 +27,22 @@ export function ProfileCard(props: { user: User | null }) {
       height: 90,
       borderRadius: 100,
       borderWidth: 1,
-      borderColor: '#ccc'
-    }
+      borderColor: "#ccc",
+    },
   });
-  return <View style={styles.userInfo
-  } >
-    <Image style={styles.userImage} source={{
-      uri: props.user?.photoURL || "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1165301142.jpg"
-    }} />
-    <Text style={styles.userName}>{props.user?.displayName || "Gill Bates"}</Text>
-  </View >;
+  return (
+    <View style={styles.userInfo}>
+      <Image
+        style={styles.userImage}
+        source={{
+          uri:
+            props.user?.photoURL ||
+            "https://hips.hearstapps.com/hmg-prod/images/gettyimages-1165301142.jpg",
+        }}
+      />
+      <Text style={styles.userName}>
+        {props.user?.displayName || "Gill Bates"}
+      </Text>
+    </View>
+  );
 }
-
