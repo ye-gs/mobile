@@ -24,11 +24,8 @@ export default function TabLayout() {
         dark: "sun-o",
     };
 
-    type ColorScheme = keyof ColorSchemeMap;
-    const [colorScheme, setColorScheme] = React.useState<ColorScheme>("light");
-    const { theme } = useTheme();
+    const { theme, setTheme } = useTheme();
     const { setUser } = useUser();
-    const { setTheme } = useTheme();
     function MenuButton() {
         const [visible, setVisible] = React.useState(false);
 
@@ -42,8 +39,7 @@ export default function TabLayout() {
         };
 
         function switchTheme() {
-            setColorScheme(colorScheme === "light" ? "dark" : "light");
-            setTheme(colorScheme === "light" ? "dark" : "light");
+            setTheme(theme === "light" ? "dark" : "light");
             closeMenu();
         }
 
@@ -54,16 +50,15 @@ export default function TabLayout() {
                 anchor={
                     <Button
                         onPress={openMenu}
-                        textColor={Colors[theme ?? "light"].altTextColor}
+                        textColor={Colors[theme].altTextColor}
                         icon={() => (
                             <FontAwesome
-                                color={Colors[theme ?? "light"].text}
+                                color={Colors[theme].text}
                                 size={20}
                                 name="bars"
                             />
                         )}
                     >
-                        {" "}
                         Menu
                     </Button>
                 }
@@ -73,10 +68,10 @@ export default function TabLayout() {
                     leadingIcon={() => (
                         <FontAwesome
                             size={25}
-                            name={colorSchemeMap[colorScheme]}
+                            name={colorSchemeMap[theme]}
                         ></FontAwesome>
                     )}
-                    onPress={(e) => {
+                    onPress={() => {
                         switchTheme();
                     }}
                     title="Mudar tema"
@@ -87,15 +82,15 @@ export default function TabLayout() {
     return (
         <Tabs
             screenOptions={{
-                tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+                tabBarActiveTintColor: Colors[theme].tint,
                 tabBarStyle: {
-                    backgroundColor: Colors[colorScheme ?? "light"].background,
+                    backgroundColor: Colors[theme].background,
                 },
                 headerStyle: {
-                    backgroundColor: Colors[colorScheme ?? "light"].background,
+                    backgroundColor: Colors[theme].background,
                 },
                 headerTitleStyle: {
-                    color: Colors[colorScheme ?? "light"].text,
+                    color: Colors[theme].text,
                 },
                 // Disable the static render of the header on web
                 // to prevent a hydration error in React Navigation v6.
