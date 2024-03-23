@@ -34,6 +34,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
                         role: "user",
                         status: "active",
                         lastLogin: new Date(),
+                        creationDate: user.metadata.creationTime,
+                        lastLoginDate: user.metadata.lastSignInTime,
                         lastLogout: new Date(),
                         lastActivity: new Date(),
                         lastPasswordChange: new Date(),
