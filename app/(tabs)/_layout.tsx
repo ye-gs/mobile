@@ -26,7 +26,7 @@ export default function TabLayout() {
 
     type ColorScheme = keyof ColorSchemeMap;
     const [colorScheme, setColorScheme] = React.useState<ColorScheme>("light");
-
+    const { theme } = useTheme()
     const { setUser } = useUser()
     const { setTheme } = useTheme()
     function MenuButton() {
@@ -53,9 +53,10 @@ export default function TabLayout() {
                 onDismiss={closeMenu}
                 anchor={
                     <Button
-                        icon={() => <FontAwesome size={20} name="bars" />}
-                        onPress={openMenu} textColor='#407CE2'
-                    >Menu</Button>
+                        onPress={openMenu}
+                        textColor={Colors[theme ?? "light"].altTextColor}
+                        icon={() => <FontAwesome color={Colors[theme ?? "light"].text} size={20} name="bars" />}
+                    > Menu</Button >
                 }
             >
                 <Menu.Item onPress={handleSignOut} title="Sair" />

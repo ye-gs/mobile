@@ -3,7 +3,7 @@ import { View } from "./Themed";
 import { DimensionValue } from "react-native";
 import { TextInput } from "react-native";
 import { StyleSheet } from "react-native";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 export function GenericInput(props: {
   placeholderText?: string;
