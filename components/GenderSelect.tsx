@@ -12,7 +12,7 @@ export function GenderSelect() {
     const [gender, setGender] = useState<Genero>(null);
 
     const { theme } = useTheme();
-    const colorScheme = theme;
+
     return (
         <>
             <Button
@@ -23,12 +23,12 @@ export function GenderSelect() {
                                 ? "male"
                                 : "female" || "space-shuttle"
                         }
-                        color={Colors[colorScheme ?? "light"].altTextColor}
+                        color={Colors[theme].altTextColor}
                     ></FontAwesome>
                 )}
                 mode="outlined"
                 onPress={showDialog}
-                textColor={Colors[colorScheme ?? "light"].altTextColor}
+                textColor={Colors[theme].altTextColor}
                 style={{
                     justifyContent: "center",
                     flexDirection: "row",
@@ -42,7 +42,7 @@ export function GenderSelect() {
                 <Dialog visible={visible} onDismiss={hideDialog}>
                     <Dialog.Title
                         style={{
-                            color: Colors[colorScheme ?? "light"].text,
+                            color: Colors[theme].text,
                         }}
                     >
                         Selecione seu gênero
@@ -55,17 +55,17 @@ export function GenderSelect() {
                             value={gender || "user"}
                         >
                             <RadioButton.Item
-                                color={Colors[colorScheme].altTextColor}
+                                color={Colors[theme].altTextColor}
                                 labelStyle={{
-                                    color: Colors[colorScheme ?? "light"].text,
+                                    color: Colors[theme].text,
                                 }}
                                 label="Homem"
                                 value="Homem"
                             />
                             <RadioButton.Item
-                                color={Colors[colorScheme].altTextColor}
+                                color={Colors[theme].altTextColor}
                                 labelStyle={{
-                                    color: Colors[colorScheme].text,
+                                    color: Colors[theme].text,
                                 }}
                                 label="Mulher"
                                 value="Mulher"
@@ -74,7 +74,7 @@ export function GenderSelect() {
                     </Dialog.Content>
                     <Dialog.Actions>
                         <Button
-                            textColor={Colors[colorScheme].altTextColor}
+                            textColor={Colors[theme].altTextColor}
                             onPress={hideDialog}
                         >
                             Pronto

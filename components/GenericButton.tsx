@@ -12,14 +12,12 @@ export function GenericButton(props: {
     width?: DimensionValue;
 }) {
     const { theme } = useTheme();
-    const colorScheme = theme;
     const styles = StyleSheet.create({
         container: {
             borderColor: "rgba(229, 231, 235, 1)",
             borderWidth: 1,
             borderRadius: 100,
-            backgroundColor:
-                props.color ?? Colors[colorScheme ?? "light"].altTextColor,
+            backgroundColor: props.color ?? Colors[theme].altTextColor,
             justifyContent: "center",
             alignItems: "center",
             height: props.height ?? "auto",
