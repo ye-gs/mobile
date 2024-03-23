@@ -12,7 +12,6 @@ export function HomeCard(props: {
 }) {
     const { ImageComponent } = props;
     const { theme } = useTheme();
-    const colorScheme = theme;
     const styles = StyleSheet.create({
         card: {
             justifyContent: "center",
@@ -27,17 +26,17 @@ export function HomeCard(props: {
         title: {
             fontSize: 10,
             fontWeight: "600",
-            color: Colors[colorScheme ?? "light"].altTextColor,
+            color: Colors[theme].altTextColor,
         },
         value: {
             fontSize: 16,
             fontWeight: "600",
-            color: Colors[colorScheme ?? "light"].altTextColor,
+            color: Colors[theme].altTextColor,
         },
         status: {
             fontSize: 5,
             fontWeight: "600",
-            color: Colors[colorScheme ?? "light"].altTextColor,
+            color: Colors[theme].altTextColor,
         },
     });
     return (

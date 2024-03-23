@@ -22,15 +22,14 @@ export default function Home() {
         setShowPassword(!showPassword);
     };
     const { theme } = useTheme();
-    const colorScheme = theme;
 
     const styles = StyleSheet.create({
         container: {
             flex: 1,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: Colors[colorScheme ?? "light"].background,
-            color: Colors[colorScheme ?? "light"].text,
+            backgroundColor: Colors[theme].background,
+            color: Colors[theme].text,
         },
         form: {
             gap: 12,
@@ -54,7 +53,7 @@ export default function Home() {
             fontSize: 14,
         },
         createAccount__link: {
-            color: Colors[colorScheme ?? "light"].url,
+            color: Colors[theme].url,
             fontWeight: "600",
         },
         optionsSeparator: {
@@ -113,7 +112,7 @@ export default function Home() {
                 <View style={styles.signInOptions}>
                     <GenericButton
                         title="Entrar"
-                        color={Colors[colorScheme ?? "light"].altTextColor}
+                        color={Colors[theme].altTextColor}
                         onPress={handleLogin}
                         height={"20%"}
                         width={"100%"}
@@ -131,7 +130,7 @@ export default function Home() {
                         <ActivityIndicator
                             size="large"
                             style={{ marginTop: 10 }}
-                            color={Colors[colorScheme ?? "light"].altTextColor}
+                            color={Colors[theme].altTextColor}
                         />
                     ) : null}
                     <View style={styles.optionsSeparator}>

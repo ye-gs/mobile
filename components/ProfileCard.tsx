@@ -6,12 +6,11 @@ import { StyleSheet, Image, Text, View } from "react-native";
 
 export function ProfileCard(props: { user: User | null }) {
     const { theme } = useTheme();
-    const colorScheme = theme;
 
     const styles = StyleSheet.create({
         userName: {
             fontSize: 18,
-            color: Colors[colorScheme ?? "light"].text,
+            color: Colors[theme].text,
             fontWeight: "400",
         },
         userInfo: {

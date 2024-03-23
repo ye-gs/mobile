@@ -37,14 +37,13 @@ export default function SignUpScreen() {
     );
 
     const { theme } = useTheme();
-    const colorScheme = theme;
     const styles = StyleSheet.create({
         container: {
             flex: 1,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: Colors[colorScheme ?? "light"].background,
-            color: Colors[colorScheme ?? "light"].text,
+            backgroundColor: Colors[theme].background,
+            color: Colors[theme].text,
         },
         socialLoginButton: {
             flexDirection: "row",
@@ -53,9 +52,9 @@ export default function SignUpScreen() {
             height: 50,
             alignItems: "center",
             borderRadius: 6,
-            backgroundColor: Colors[colorScheme ?? "light"].background,
-            color: Colors[colorScheme ?? "light"].text,
-            borderColor: Colors[colorScheme ?? "light"].borderColor,
+            backgroundColor: Colors[theme].background,
+            color: Colors[theme].text,
+            borderColor: Colors[theme].borderColor,
         },
         form: {
             gap: 10,
@@ -72,7 +71,7 @@ export default function SignUpScreen() {
             flex: 1,
         },
         termsLink: {
-            color: Colors[colorScheme ?? "light"].url,
+            color: Colors[theme].url,
         },
         title: {
             fontSize: 20,
@@ -98,7 +97,7 @@ export default function SignUpScreen() {
             justifyContent: "space-between",
         },
         login__link: {
-            color: Colors[colorScheme ?? "light"].url,
+            color: Colors[theme].url,
             fontWeight: "600",
         },
         signInOptions: {
@@ -176,7 +175,7 @@ export default function SignUpScreen() {
                     <Checkbox
                         onPress={() => setChecked(!checked)}
                         status={checked ? "checked" : "unchecked"}
-                        color={Colors[colorScheme ?? "light"].altTextColor}
+                        color={Colors[theme].altTextColor}
                     ></Checkbox>
                     <View style={styles.termsText}>
                         <Text>
@@ -205,8 +204,8 @@ export default function SignUpScreen() {
                         borderRadius: 120,
                         padding: 1,
                     }}
-                    buttonColor={Colors[colorScheme ?? "light"].altTextColor}
-                    textColor={Colors[colorScheme ?? "light"].text}
+                    buttonColor={Colors[theme].altTextColor}
+                    textColor={Colors[theme].text}
                     mode="contained"
                 >
                     Criar conta
@@ -215,7 +214,7 @@ export default function SignUpScreen() {
                     <ActivityIndicator
                         size="large"
                         style={{ marginTop: 10 }}
-                        color={Colors[colorScheme ?? "light"].altTextColor}
+                        color={Colors[theme].altTextColor}
                     />
                 ) : null}
                 <View style={styles.createAccount}>
