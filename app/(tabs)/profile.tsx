@@ -3,15 +3,6 @@ import { useUser } from "@/contexts/user";
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { OptionButton } from "@/components/profile/OptionButton";
-import {
-    Chat,
-    ChatCircle,
-    Google,
-    Heart,
-    HeartCircle,
-    Settings,
-    SettingsCircle,
-} from "@/assets";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { AntDesign } from "@expo/vector-icons";
