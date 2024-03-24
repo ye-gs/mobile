@@ -1,19 +1,19 @@
-import { View } from "react-native";
+import { View, Text } from "@/components/Themed";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "@/contexts/theme";
-import { Text } from "react-native";
-export default function Modal() {
+import { GenderSelect } from "@/components/GenderSelect";
+import { useUser } from "@/contexts/user";
+export default function UserInfo() {
     const isPresented = router.canGoBack();
     const { theme } = useTheme();
+    const { user } = useUser();
     return (
         <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-            <Text>Modal</Text>
-
-            {/* add back button on header*/}
-            {isPresented && <Link href="../">Back</Link>}
+            <Text>Olá {user?.displayName}</Text>
+            <GenderSelect />
             <StatusBar style={theme} />
         </View>
     );

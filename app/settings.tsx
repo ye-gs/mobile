@@ -1,15 +1,17 @@
-import { View } from "react-native";
+import { View, Text } from "@/components/Themed";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "@/contexts/theme";
-export default function Modal() {
+import { useUser } from "@/contexts/user";
+export default function UserInfo() {
     const isPresented = router.canGoBack();
     const { theme } = useTheme();
+    const { user } = useUser();
     return (
         <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-            {!isPresented && <Link href="../">Dismiss</Link>}
+            <Text>Olá {user?.displayName}</Text>
             <StatusBar style={theme} />
         </View>
     );
