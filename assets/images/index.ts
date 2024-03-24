@@ -12,6 +12,13 @@ import Eye from "./Eye.svg";
 import Google from "./Google.svg";
 import Facebook from "./Facebook.svg";
 import Checkbox from "./Checkbox.svg";
+import ArrowRight from "./ArrowRight.svg";
+import Heart from "./Heart.svg";
+import Settings from "./Settings.svg";
+import Chat from "./Chat.svg";
+import HeartCircle from "./HeartCircle.svg";
+import SettingsCircle from "./SettingsCircle.svg";
+import ChatCircle from "./ChatCircle.svg";
 export {
     Doctor,
     Glicemia,
@@ -27,4 +34,11 @@ export {
     Google,
     Facebook,
     Checkbox,
+    ArrowRight,
+    Heart,
+    Settings,
+    Chat,
+    HeartCircle,
+    SettingsCircle,
+    ChatCircle,
 };
