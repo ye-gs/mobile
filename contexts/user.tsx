@@ -2,7 +2,8 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { User } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "@/firebase";
+import { db, auth } from "@/firebase";
+import { router } from "expo-router";
 
 interface UserContextProps {
     user: User | null;
@@ -17,6 +18,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const [user, setUser] = useState<User | null>(null);
+
+    auth.onAuthStateChanged((authUser) => {
+        setUser(authUser);
+        if (authUser) {
+            router.navigate("home");
+        }
+    });
 
     useEffect(() => {
         const checkUserDocument = async (user: User | null) => {
@@ -43,8 +51,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
                         lastProfileUpdate: new Date(),
                         emailVerified: user.emailVerified,
                         phoneNumber: user.phoneNumber,
-                        providerId: user.providerId,
-                        isAnonymous: user.isAnonymous,
                         tenantId: user.tenantId,
                     });
                 }

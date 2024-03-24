@@ -6,14 +6,12 @@ import { GenericButton } from "@/components/GenericButton";
 import { Email, Password, EyeSlash, Eye, Google } from "@/assets/images/index";
 import { useState } from "react";
 import { GenericIconButton } from "@/components/GenericIconButton";
-import { UserProvider, useUser } from "@/contexts/user";
 import { ActivityIndicator } from "react-native-paper";
 import { handleLoginMethods } from "@/utils/auth";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 
 export default function Home() {
-    const { setUser } = useUser();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +20,6 @@ export default function Home() {
         setShowPassword(!showPassword);
     };
     const { theme } = useTheme();
-
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -85,68 +82,65 @@ export default function Home() {
     const { handleLogin, handleGoogleLogin } = handleLoginMethods(
         email,
         password,
-        setIsLoading,
-        setUser
+        setIsLoading
     );
     return (
-        <UserProvider>
-            <KeyboardAvoidingView style={styles.container} behavior="height">
-                <View style={styles.form}>
-                    <GenericInput
-                        placeholderText="Email"
-                        onChange={setEmail}
-                        StartImageComponent={Email}
-                        height="20%"
-                    ></GenericInput>
-                    <GenericInput
-                        placeholderText="Senha"
-                        onChange={setPassword}
-                        StartImageComponent={Password}
-                        EndImageComponent={showPassword ? EyeSlash : Eye}
-                        shouldBeSecure={!showPassword}
-                        onPress={toggleShowPassword}
-                        height="20%"
-                    ></GenericInput>
-                    <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
+        <KeyboardAvoidingView style={styles.container} behavior="height">
+            <View style={styles.form}>
+                <GenericInput
+                    placeholderText="Email"
+                    onChange={setEmail}
+                    StartImageComponent={Email}
+                    height="20%"
+                ></GenericInput>
+                <GenericInput
+                    placeholderText="Senha"
+                    onChange={setPassword}
+                    StartImageComponent={Password}
+                    EndImageComponent={showPassword ? EyeSlash : Eye}
+                    shouldBeSecure={!showPassword}
+                    onPress={toggleShowPassword}
+                    height="20%"
+                ></GenericInput>
+                <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
+            </View>
+            <View style={styles.signInOptions}>
+                <GenericButton
+                    title="Entrar"
+                    color={Colors[theme].altTextColor}
+                    onPress={handleLogin}
+                    height={"20%"}
+                    width={"100%"}
+                ></GenericButton>
+                <View style={styles.createAccount}>
+                    <Text>Não tem conta?</Text>
+                    <Text
+                        onPress={() => router.navigate("/signup")}
+                        style={styles.createAccount__link}
+                    >
+                        Crie agora
+                    </Text>
                 </View>
-                <View style={styles.signInOptions}>
-                    <GenericButton
-                        title="Entrar"
+                {isLoading ? (
+                    <ActivityIndicator
+                        size="large"
+                        style={{ marginTop: 10 }}
                         color={Colors[theme].altTextColor}
-                        onPress={handleLogin}
-                        height={"20%"}
-                        width={"100%"}
-                    ></GenericButton>
-                    <View style={styles.createAccount}>
-                        <Text>Não tem conta?</Text>
-                        <Text
-                            onPress={() => router.navigate("/signup")}
-                            style={styles.createAccount__link}
-                        >
-                            Crie agora
-                        </Text>
-                    </View>
-                    {isLoading ? (
-                        <ActivityIndicator
-                            size="large"
-                            style={{ marginTop: 10 }}
-                            color={Colors[theme].altTextColor}
-                        />
-                    ) : null}
-                    <View style={styles.optionsSeparator}>
-                        <View style={styles.separator}></View>
-                        <Text style={styles.optionsSeparator__text}>OU</Text>
-                        <View style={styles.separator}></View>
-                    </View>
-                    <View style={styles.extraOptions}>
-                        <GenericIconButton
-                            onPress={handleGoogleLogin}
-                            text="Entrar com o Google"
-                            ImageComponent={Google}
-                        ></GenericIconButton>
-                    </View>
+                    />
+                ) : null}
+                <View style={styles.optionsSeparator}>
+                    <View style={styles.separator}></View>
+                    <Text style={styles.optionsSeparator__text}>OU</Text>
+                    <View style={styles.separator}></View>
                 </View>
-            </KeyboardAvoidingView>
-        </UserProvider>
+                <View style={styles.extraOptions}>
+                    <GenericIconButton
+                        onPress={handleGoogleLogin}
+                        text="Entrar com o Google"
+                        ImageComponent={Google}
+                    ></GenericIconButton>
+                </View>
+            </View>
+        </KeyboardAvoidingView>
     );
 }
