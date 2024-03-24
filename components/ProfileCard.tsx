@@ -19,6 +19,7 @@ export function ProfileCard(props: { user: User | null }) {
             alignItems: "center",
             gap: 10,
             paddingTop: 30,
+            height: "auto",
         },
         userImage: {
             marginTop: 10,
