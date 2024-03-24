@@ -1,14 +1,14 @@
 import { auth } from "@/firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     GoogleSignin,
     statusCodes,
 } from "@react-native-google-signin/google-signin";
-import { router } from "expo-router";
 import {
     GoogleAuthProvider,
-    User,
     createUserWithEmailAndPassword,
     signInWithCredential,
+    UserCredential,
     signInWithEmailAndPassword,
     updateProfile,
 } from "firebase/auth";
@@ -17,7 +17,6 @@ function handleLoginMethods(
     email: string,
     password: string,
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-    setUser: React.Dispatch<React.SetStateAction<User | null>>,
     passwordConfirm?: string
 ) {
     const handleLogin = () => {
@@ -33,12 +32,11 @@ function handleLoginMethods(
         }
         setIsLoading(true);
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                setUser(user);
-                router.navigate("/home");
-                setIsLoading(false);
-                return user;
+            .then(async (userCredential) => {
+                return await processUserCredentialAndRedirect(
+                    userCredential,
+                    setIsLoading
+                );
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -67,10 +65,10 @@ function handleLoginMethods(
                 alert("Erro ao fazer login com Google");
                 return;
             }
-            setUser(userCredential.user);
-            router.navigate("/home");
-            setIsLoading(false);
-            return userCredential;
+            return await processUserCredentialAndRedirect(
+                userCredential,
+                setIsLoading
+            );
         } catch (error) {
             if (error instanceof Error && "code" in error) {
                 if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -115,19 +113,16 @@ function handleLoginMethods(
         }
         setIsLoading(false);
 
-        router.navigate("/home");
         createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
                 const user = userCredential.user;
-                setUser(user);
                 updateProfile(user, {
                     displayName: email.split("@")[0],
                 });
-                const token = user.getIdToken();
-
-                router.navigate("/home");
-                setIsLoading(false);
-                return user;
+                return await processUserCredentialAndRedirect(
+                    userCredential,
+                    setIsLoading
+                );
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -143,4 +138,15 @@ function handleLoginMethods(
         handleSignUp,
     };
 }
+
+async function processUserCredentialAndRedirect(
+    userCredential: UserCredential,
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+) {
+    const token = await userCredential.user.getIdToken();
+    AsyncStorage.setItem("@app:session", token);
+    setIsLoading(false);
+    return userCredential;
+}
+
 export { handleLoginMethods };
