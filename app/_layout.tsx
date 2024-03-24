@@ -1,6 +1,6 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { ThemeProvider } from "@/contexts/theme";
@@ -51,6 +51,46 @@ function RootLayoutNav() {
                         <Stack.Screen name="index" />
                         <Stack.Screen name="login" />
                         <Stack.Screen name="signup" />
+                        <Stack.Screen
+                            name="userinfo"
+                            options={{
+                                headerLeft: () => (
+                                    <Link href="/profile">
+                                        <FontAwesome name="arrow-left" />
+                                    </Link>
+                                ),
+
+                                headerShown: true,
+                                headerTitle: "Suas Informações",
+                                headerTitleAlign: "center",
+                            }}
+                        />
+                        <Stack.Screen
+                            name="settings"
+                            options={{
+                                headerLeft: () => (
+                                    <Link href="/profile">
+                                        <FontAwesome name="arrow-left" />
+                                    </Link>
+                                ),
+                                headerShown: true,
+                                headerTitle: "Configurações",
+                                headerTitleAlign: "center",
+                            }}
+                        />
+                        <Stack.Screen
+                            name="about"
+                            options={{
+                                headerLeft: () => (
+                                    <Link href="/profile">
+                                        <FontAwesome name="arrow-left" />
+                                    </Link>
+                                ),
+                                headerShown: true,
+                                headerTitle: "Sobre nós",
+                                headerTitleAlign: "center",
+                            }}
+                        />
                         <Stack.Screen name="(tabs)" />
                     </Stack>
                 </UserProvider>

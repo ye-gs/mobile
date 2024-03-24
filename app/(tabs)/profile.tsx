@@ -7,6 +7,7 @@ import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 const Profile = () => {
     const { user } = useUser();
@@ -33,6 +34,9 @@ const Profile = () => {
             <ProfileCard user={user}></ProfileCard>
             <View style={styles.options}>
                 <OptionButton
+                    onPress={() => {
+                        router.navigate("userinfo");
+                    }}
                     text="Minhas informações"
                     ImageComponent={() => (
                         <AntDesign
@@ -45,6 +49,9 @@ const Profile = () => {
                 ></OptionButton>
                 <OptionButton
                     text="Configurações"
+                    onPress={() => {
+                        router.navigate("settings");
+                    }}
                     ImageComponent={() => (
                         <AntDesign
                             name="setting"
@@ -56,6 +63,9 @@ const Profile = () => {
                 ></OptionButton>
                 <OptionButton
                     text="Sobre Nós"
+                    onPress={() => {
+                        router.navigate("about");
+                    }}
                     ImageComponent={() => (
                         <Ionicons
                             name="chatbubble-ellipses-outline"
