@@ -6,14 +6,12 @@ import { ActivityIndicator, Checkbox, Text, Button } from "react-native-paper";
 import { Email, Password, EyeSlash, Eye, Google } from "@/assets/images/index";
 import { router } from "expo-router";
 import { handleLoginMethods } from "@/utils/auth";
-import { useUser } from "@/contexts/user";
 import { GenericInput } from "@/components/GenericInput";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { GenderSelect } from "@/components/GenderSelect";
 
 export default function SignUpScreen() {
-    const { setUser } = useUser();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -32,7 +30,6 @@ export default function SignUpScreen() {
         email,
         password,
         setIsLoading,
-        setUser,
         passwordConfirm
     );
 
