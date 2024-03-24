@@ -6,6 +6,7 @@ import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { useUser } from "@/contexts/user";
 import { Button, Menu } from "react-native-paper";
 import { useTheme } from "@/contexts/theme";
+import { auth } from "@/firebase";
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -32,7 +33,8 @@ export default function TabLayout() {
         const openMenu = () => setVisible(true);
         const closeMenu = () => setVisible(false);
 
-        const handleSignOut = () => {
+        const handleSignOut = async () => {
+            await auth.signOut();
             setUser(null);
             router.navigate("/login");
             closeMenu();
