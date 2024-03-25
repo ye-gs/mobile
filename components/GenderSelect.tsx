@@ -5,7 +5,7 @@ import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 
 export function GenderSelect() {
-    type Genero = "Homem" | "Mulher" | null;
+    type Genero = "Homem" | "Mulher" | "Outro" | null;
     const [visible, setVisible] = useState(false);
     const showDialog = () => setVisible(true);
     const hideDialog = () => setVisible(false);
@@ -21,8 +21,11 @@ export function GenderSelect() {
                         name={
                             gender === "Homem"
                                 ? "male"
-                                : "female" || "space-shuttle"
+                                : gender === "Mulher"
+                                  ? "female"
+                                  : "user"
                         }
+                        size={30}
                         color={Colors[theme].altTextColor}
                     ></FontAwesome>
                 )}
@@ -39,7 +42,15 @@ export function GenderSelect() {
                 Gênero: {gender || "Selecione"}
             </Button>
             <Portal>
-                <Dialog visible={visible} onDismiss={hideDialog}>
+                <Dialog
+                    visible={visible}
+                    onDismiss={hideDialog}
+                    style={{
+                        backgroundColor: Colors[theme].background,
+                        borderColor: Colors[theme].borderColor,
+                        borderWidth: 1,
+                    }}
+                >
                     <Dialog.Title
                         style={{
                             color: Colors[theme].text,
@@ -69,6 +80,14 @@ export function GenderSelect() {
                                 }}
                                 label="Mulher"
                                 value="Mulher"
+                            />
+                            <RadioButton.Item
+                                color={Colors[theme].altTextColor}
+                                labelStyle={{
+                                    color: Colors[theme].text,
+                                }}
+                                label="Outro"
+                                value="Outro"
                             />
                         </RadioButton.Group>
                     </Dialog.Content>
