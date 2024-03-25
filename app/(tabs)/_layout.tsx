@@ -123,7 +123,7 @@ export default function TabLayout() {
                 options={{
                     title: "Exames",
                     tabBarIcon: ({ color }) => (
-                        <TabBarIcon name="archive" color={color} />
+                        <TabBarIcon name="wpforms" color={color} />
                     ),
                 }}
             />
