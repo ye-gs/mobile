@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "@/components/Themed";
+import { StyleSheet } from "react-native";
 
 const Meds = () => {
     return (
