@@ -49,14 +49,19 @@ export default function TabLayout() {
             <Menu
                 visible={visible}
                 onDismiss={closeMenu}
+                style={{
+                    backgroundColor: Colors[theme].background,
+                    borderColor: Colors[theme].borderColor,
+                    borderWidth: 1,
+                }}
                 anchor={
                     <Button
                         onPress={openMenu}
-                        textColor={Colors[theme].altTextColor}
+                        textColor={Colors[theme].text}
                         icon={() => (
                             <FontAwesome
-                                color={Colors[theme].text}
-                                size={20}
+                                color={Colors[theme].altTextColor}
+                                size={30}
                                 name="bars"
                             />
                         )}

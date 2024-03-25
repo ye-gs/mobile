@@ -167,7 +167,6 @@ export default function SignUpScreen() {
                     onPress={toggleShowPasswordConfirm}
                     height="16%"
                 ></GenericInput>
-                <GenderSelect />
                 <View style={styles.terms}>
                     <Checkbox
                         onPress={() => setChecked(!checked)}
