@@ -14,7 +14,6 @@ export function ProfileCard(props: { user: User | null }) {
             fontWeight: "400",
         },
         userInfo: {
-            flex: 1.5,
             justifyContent: "flex-start",
             alignItems: "center",
             gap: 10,

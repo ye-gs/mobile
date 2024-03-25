@@ -56,7 +56,10 @@ function RootLayoutNav() {
                             options={{
                                 headerLeft: () => (
                                     <Link href="/profile">
-                                        <FontAwesome name="arrow-left" />
+                                        <FontAwesome
+                                            size={38}
+                                            name="arrow-left"
+                                        />
                                     </Link>
                                 ),
 
@@ -70,7 +73,10 @@ function RootLayoutNav() {
                             options={{
                                 headerLeft: () => (
                                     <Link href="/profile">
-                                        <FontAwesome name="arrow-left" />
+                                        <FontAwesome
+                                            size={38}
+                                            name="arrow-left"
+                                        />
                                     </Link>
                                 ),
                                 headerShown: true,
@@ -83,7 +89,10 @@ function RootLayoutNav() {
                             options={{
                                 headerLeft: () => (
                                     <Link href="/profile">
-                                        <FontAwesome name="arrow-left" />
+                                        <FontAwesome
+                                            size={38}
+                                            name="arrow-left"
+                                        />
                                     </Link>
                                 ),
                                 headerShown: true,
