@@ -23,16 +23,24 @@ const Profile = () => {
             top: "5%",
             height: "60%",
             justifyContent: "center",
+            
         },
         imageComponent: {
             borderRadius: 100,
             backgroundColor: "#12312313",
+            
         },
+        circleBackground: {
+            backgroundColor: '#E6EEFF',
+            padding: 5,
+            borderRadius: 15, 
+            overflow: 'hidden', 
+        }
     });
     return (
         <View style={styles.container}>
             <ProfileCard user={user}></ProfileCard>
-            <View style={styles.options}>
+            <View style={styles.options} >
                 <OptionButton
                     onPress={() => {
                         router.navigate("userinfo");
@@ -42,10 +50,12 @@ const Profile = () => {
                         <AntDesign
                             name="hearto"
                             size={30}
-                            color={Colors[theme].text}
+                            color={Colors[theme].tint}
+                            style={styles.circleBackground}
                         />
                     )}
                     borderBottomWidth={1}
+                    
                 ></OptionButton>
                 <OptionButton
                     text="Configurações"
@@ -56,7 +66,8 @@ const Profile = () => {
                         <AntDesign
                             name="setting"
                             size={30}
-                            color={Colors[theme].text}
+                            color={Colors[theme].tint}
+                            style={styles.circleBackground}
                         />
                     )}
                     borderBottomWidth={1}
@@ -70,7 +81,8 @@ const Profile = () => {
                         <Ionicons
                             name="chatbubble-ellipses-outline"
                             size={30}
-                            color={Colors[theme].text}
+                            color={Colors[theme].tint}
+                            style={styles.circleBackground}
                         />
                     )}
                 ></OptionButton>
