@@ -9,6 +9,8 @@ export function HomeCard(props: {
     value: string;
     ImageComponent: React.ComponentType<SvgProps>;
     status: string;
+    fill?: string;
+    stroke?: string;
 }) {
     const { ImageComponent } = props;
     const { theme } = useTheme();
@@ -18,12 +20,15 @@ export function HomeCard(props: {
             alignItems: "center",
             padding: 5,
             width: 100,
+            height: 50,
+
         },
         image: {
             width: 50,
             height: 50,
         },
         title: {
+          
             fontSize: 10,
             fontWeight: "600",
             color: Colors[theme].altTextColor,
@@ -39,11 +44,17 @@ export function HomeCard(props: {
             color: Colors[theme].altTextColor,
         },
     });
+
+    const fill = props.fill || "none";
+    const stroke = props.stroke || "none";
     return (
         <View style={styles.card}>
             <ImageComponent
                 width={styles.image.width}
                 height={styles.image.height}
+                stroke={stroke}
+                fill={fill}
+       
             />
             <Text style={styles.title}>{props.text}</Text>
             <Text style={styles.value}>{props.value}</Text>

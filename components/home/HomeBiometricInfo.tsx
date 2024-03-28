@@ -2,8 +2,11 @@ import { View } from "@/components/Themed";
 import { HomeCard } from "@/components/home/HomeCard";
 import { Glicemia, Heartbeat, Imc } from "@/assets/images/index";
 import { StyleSheet } from "react-native";
+import Colors from "@/constants/Colors";
+import { useTheme } from "@/contexts/theme";
 
 export function HomeBiometricInfo() {
+    const { theme } = useTheme();
     return (
         <View style={styles.biometricInfo}>
             <HomeCard
@@ -11,6 +14,10 @@ export function HomeBiometricInfo() {
                 ImageComponent={Imc}
                 value="31,14"
                 status="Obesidade 2"
+
+                stroke={Colors[theme].altTextColor}
+                fill={Colors[theme].altTextColor}
+               
             />
             <View
                 style={styles.verticalSeparator}
@@ -22,6 +29,11 @@ export function HomeBiometricInfo() {
                 ImageComponent={Glicemia}
                 value="85Mg/Dl"
                 status="Normal"
+
+                stroke={Colors[theme].altTextColor}
+                fill={Colors[theme].altTextColor}
+ 
+        
             />
             <View
                 style={styles.verticalSeparator}
@@ -33,6 +45,9 @@ export function HomeBiometricInfo() {
                 ImageComponent={Heartbeat}
                 value="150x100"
                 status="Normal"
+
+                fill={Colors[theme].altTextColor}
+                stroke="none"
             ></HomeCard>
         </View>
     );
