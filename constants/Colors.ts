@@ -11,6 +11,8 @@ export default {
         url: "#407CE2",
         borderColor: "#E5E7EB",
         altTextColor: "#556B2F",
+        primaryLighter: "#A3B18A",
+        primaryDarker: "#344E41"
     },
     dark: {
         text: "#fff",
@@ -21,5 +23,7 @@ export default {
         url: "#407CE2",
         borderColor: "#E5E7EB",
         altTextColor: "#556B2F",
+        primaryLighter: "A3B18A",
+        primaryDarker: "#344E41"
     },
 };
