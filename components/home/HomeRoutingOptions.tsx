@@ -25,7 +25,6 @@ export function HomeRoutingOptions() {
         <View style={styles.options}>
             <HomeOption
                 text="Exames"
-                onPress={() => router.replace("/exams")}
                 ImageComponent={() => (
                     <MaterialCommunityIcons
                         onPress={() => router.replace("/exams")}
