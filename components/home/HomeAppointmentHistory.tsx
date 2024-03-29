@@ -1,5 +1,6 @@
 import { View, Text } from "@/components/Themed";
 import { HomeHistoryCard } from "@/components/home/HomeHistoryCard";
+import { router } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -9,7 +10,12 @@ export function HomeAppointmentHistory() {
         <View style={styles.history}>
             <View style={styles.history__heading}>
                 <Text style={styles.history__title}>Próximas consultas</Text>
-                <Text style={styles.history__link}>Ver todas</Text>
+                <Text
+                    style={styles.history__link}
+                    onPress={() => router.replace("/appointments")}
+                >
+                    Ver todas
+                </Text>
             </View>
             <HomeHistoryCard
                 text="Exame de sangue"
