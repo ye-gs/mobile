@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { GestureResponderEvent, StyleSheet } from "react-native";
 import { Text, View } from "@/components/Themed";
 import { SvgProps } from "react-native-svg";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -6,13 +6,13 @@ import { RFValue } from "react-native-responsive-fontsize";
 export function HomeOption(props: {
     text: string;
     ImageComponent: React.ComponentType<SvgProps>;
-    onPress: Function;
+    onPress: (event: GestureResponderEvent) => void;
 }) {
     const { ImageComponent } = props;
     return (
         <View style={styles.container}>
             <ImageComponent
-                onPress={() => props.onPress}
+                onPress={props.onPress}
                 width={styles.optionImage.width}
                 height={styles.optionImage.height}
                 viewBox="56 40 50 50"

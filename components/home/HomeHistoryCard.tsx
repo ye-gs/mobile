@@ -2,6 +2,9 @@ import { View, Text } from "@/components/Themed";
 import { StyleSheet, Image } from "react-native";
 import { Bookmark, MarkedBM } from "@/assets/images/index";
 import { RFValue } from "react-native-responsive-fontsize";
+import { useTheme } from "@/contexts/theme";
+import Colors from "@/constants/Colors";
+import { useState } from "react";
 
 export function HomeHistoryCard(props: {
     text: string;
@@ -9,7 +12,13 @@ export function HomeHistoryCard(props: {
     imageUrl: string;
     isBookmarked: boolean;
 }) {
-    const BookmarkImage = props.isBookmarked ? MarkedBM : Bookmark;
+    const { theme } = useTheme();
+    const [isBookmarked, setBookmarked] = useState(props.isBookmarked);
+    const markBookmarked = () => {
+        setBookmarked(!isBookmarked);
+    };
+    const BookmarkImage = isBookmarked ? MarkedBM : Bookmark;
+
     return (
         <View style={styles.container}>
             <Image style={styles.image} source={{ uri: props.imageUrl }} />
@@ -20,6 +29,8 @@ export function HomeHistoryCard(props: {
             <View style={styles.bookmarkView}>
                 <BookmarkImage
                     style={styles.bookmark}
+                    onPress={markBookmarked}
+                    fill={Colors[theme].tabIconSelected}
                     width={styles.bookmark.width}
                     height={styles.bookmark.height}
                 />

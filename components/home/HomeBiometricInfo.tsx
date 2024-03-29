@@ -15,10 +15,8 @@ export function HomeBiometricInfo() {
                 ImageComponent={Imc}
                 value="31,14"
                 status="Obesidade 2"
-
                 stroke={Colors[theme].altTextColor}
                 fill={Colors[theme].altTextColor}
-               
             />
             <View
                 style={styles.verticalSeparator}
@@ -30,11 +28,8 @@ export function HomeBiometricInfo() {
                 ImageComponent={Glicemia}
                 value="85Mg/Dl"
                 status="Normal"
-
                 stroke={Colors[theme].altTextColor}
                 fill={Colors[theme].altTextColor}
- 
-        
             />
             <View
                 style={styles.verticalSeparator}
@@ -46,7 +41,6 @@ export function HomeBiometricInfo() {
                 ImageComponent={Heartbeat}
                 value="150x100"
                 status="Normal"
-
                 fill={Colors[theme].altTextColor}
                 stroke="none"
             ></HomeCard>

@@ -24,24 +24,18 @@ const Profile = () => {
             top: "5%",
             height: "60%",
             justifyContent: "center",
-            
         },
-        imageComponent: {
-            borderRadius: 100,
-            backgroundColor: "#12312313",
-            
-        },
-        circleBackground: {
-            backgroundColor: '#E6EEFF',
+        circle: {
+            backgroundColor: Colors[theme].circleBackground,
             padding: 5,
-            borderRadius: 15, 
-            overflow: 'hidden', 
-        }
+            borderRadius: 15,
+            overflow: "hidden",
+        },
     });
     return (
         <View style={styles.container}>
             <ProfileCard user={user}></ProfileCard>
-            <View style={styles.options} >
+            <View style={styles.options}>
                 <OptionButton
                     onPress={() => {
                         router.navigate("userinfo");
@@ -52,11 +46,10 @@ const Profile = () => {
                             name="hearto"
                             size={RFValue(30, 808)}
                             color={Colors[theme].tint}
-                            style={styles.circleBackground}
+                            style={styles.circle}
                         />
                     )}
                     borderBottomWidth={1}
-                    
                 ></OptionButton>
                 <OptionButton
                     text="Configurações"
@@ -68,7 +61,7 @@ const Profile = () => {
                             name="setting"
                             size={RFValue(30, 808)}
                             color={Colors[theme].tint}
-                            style={styles.circleBackground}
+                            style={styles.circle}
                         />
                     )}
                     borderBottomWidth={1}
@@ -83,7 +76,7 @@ const Profile = () => {
                             name="chatbubble-ellipses-outline"
                             size={RFValue(30, 808)}
                             color={Colors[theme].tint}
-                            style={styles.circleBackground}
+                            style={styles.circle}
                         />
                     )}
                 ></OptionButton>

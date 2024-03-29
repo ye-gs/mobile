@@ -28,7 +28,7 @@ export function HomeCard(props: {
             height: RFValue(50, 808),
         },
         title: {
-            fontSize: RFValue(10, 808),
+            fontSize: 10,
             fontWeight: "600",
             color: Colors[theme].altTextColor,
         },
