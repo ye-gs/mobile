@@ -28,6 +28,7 @@ export function HomeRoutingOptions() {
                 onPress={() => router.replace("/exams")}
                 ImageComponent={() => (
                     <MaterialCommunityIcons
+                        onPress={() => router.replace("/exams")}
                         name="stethoscope"
                         size={RFValue(40, 808)}
                         color={Colors[theme].tint}
@@ -37,9 +38,9 @@ export function HomeRoutingOptions() {
             />
             <HomeOption
                 text="Medicação"
-                onPress={() => router.replace("/meds")}
                 ImageComponent={() => (
                     <MaterialCommunityIcons
+                        onPress={() => router.replace("/meds")}
                         name="pill"
                         size={RFValue(40, 808)}
                         color={Colors[theme].tint}
