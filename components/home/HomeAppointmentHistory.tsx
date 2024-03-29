@@ -2,6 +2,7 @@ import { View, Text } from "@/components/Themed";
 import { HomeHistoryCard } from "@/components/home/HomeHistoryCard";
 import React from "react";
 import { StyleSheet } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export function HomeAppointmentHistory() {
     return (
@@ -28,21 +29,20 @@ export function HomeAppointmentHistory() {
 
 const styles = StyleSheet.create({
     history: {
-        flex: 2.5,
-        paddingTop: 30,
+        paddingTop: RFValue(30, 808),
         width: "80%",
-        gap: 10,
+        gap: RFValue(10, 808),
     },
     history__heading: {
         flexDirection: "row",
         justifyContent: "space-between",
     },
     history__title: {
-        fontSize: 16,
+        fontSize: RFValue(16, 808),
         fontWeight: "bold",
     },
     history__link: {
-        fontSize: 12,
+        fontSize: RFValue(12, 808),
         alignSelf: "flex-end",
         color: "rgba(64, 124, 226, 1)",
     },

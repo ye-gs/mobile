@@ -3,6 +3,7 @@ import { GenericIconButton } from "../GenericIconButton";
 import { AntDesign } from "@expo/vector-icons";
 import { useTheme } from "@/contexts/theme";
 import Colors from "@/constants/Colors";
+import { RFValue } from "react-native-responsive-fontsize";
 export const OptionButton = (props: {
     text: string;
     ImageComponent: React.ComponentType<SvgProps>;
@@ -21,7 +22,7 @@ export const OptionButton = (props: {
             borderBottomWidth={props.borderBottomWidth}
             borderTopWidth={props.borderTopWidth}
             EndImageComponent={() => (
-                <AntDesign name="right" size={22} color={Colors[theme].text} />
+                <AntDesign name="right" size={RFValue(22, 808)} color={Colors[theme].text} />
             )}
             width={"90%"}
             height={"25%"}

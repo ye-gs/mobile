@@ -1,6 +1,7 @@
 import { View, Text } from "@/components/Themed";
 import { StyleSheet, Image } from "react-native";
 import { Bookmark, MarkedBM } from "@/assets/images/index";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export function HomeHistoryCard(props: {
     text: string;
@@ -30,28 +31,27 @@ export function HomeHistoryCard(props: {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        borderWidth: 1,
+        borderWidth: RFValue(1, 808),
         borderColor: "#ccc",
         borderRadius: 10,
+        height: 'auto',
     },
     image: {
-        flex: 1,
-        width: 50,
-        height: 50,
+        width: RFValue(50, 808),
+        height: RFValue(50, 808),
         borderRadius: 8,
-        margin: 4,
+        margin: RFValue(4, 808),
     },
     cardText: {
-        flex: 4,
         alignItems: "flex-start",
         justifyContent: "space-around",
     },
     text: {
-        fontSize: 10,
+        fontSize: RFValue(10, 808),
         fontWeight: "400",
     },
     date: {
-        fontSize: 8,
+        fontSize: RFValue(8, 808),
     },
     bookmarkView: {
         flex: 1,
@@ -59,9 +59,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     bookmark: {
-        width: 22,
-        height: 22,
-        marginTop: 3,
-        marginRight: 8,
+        width: RFValue(22, 808),
+        height: RFValue(22, 808),
+        marginTop: RFValue(3, 808),
+        marginRight: RFValue(8, 808),
     },
 });

@@ -3,6 +3,7 @@ import { useTheme } from "@/contexts/theme";
 import { StyleSheet } from "react-native";
 import { SvgProps } from "react-native-svg";
 import Colors from "@/constants/Colors";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export function HomeCard(props: {
     text: string;
@@ -16,30 +17,28 @@ export function HomeCard(props: {
     const { theme } = useTheme();
     const styles = StyleSheet.create({
         card: {
+            minWidth: "auto",
+            width: "20%",
+            height: "auto",
             justifyContent: "center",
             alignItems: "center",
-            padding: 5,
-            width: 100,
-            height: 50,
-
         },
         image: {
-            width: 50,
-            height: 50,
+            width: RFValue(50, 808),
+            height: RFValue(50, 808),
         },
         title: {
-          
-            fontSize: 10,
+            fontSize: RFValue(10, 808),
             fontWeight: "600",
             color: Colors[theme].altTextColor,
         },
         value: {
-            fontSize: 16,
+            fontSize: RFValue(16, 808),
             fontWeight: "600",
             color: Colors[theme].altTextColor,
         },
         status: {
-            fontSize: 5,
+            fontSize: RFValue(5, 808),
             fontWeight: "600",
             color: Colors[theme].altTextColor,
         },
@@ -54,7 +53,6 @@ export function HomeCard(props: {
                 height={styles.image.height}
                 stroke={stroke}
                 fill={fill}
-       
             />
             <Text style={styles.title}>{props.text}</Text>
             <Text style={styles.value}>{props.value}</Text>

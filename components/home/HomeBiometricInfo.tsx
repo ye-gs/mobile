@@ -2,6 +2,7 @@ import { View } from "@/components/Themed";
 import { HomeCard } from "@/components/home/HomeCard";
 import { Glicemia, Heartbeat, Imc } from "@/assets/images/index";
 import { StyleSheet } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 
@@ -54,17 +55,14 @@ export function HomeBiometricInfo() {
 }
 
 const styles = StyleSheet.create({
+    biometricInfo: {
+        flexDirection: "row",
+        gap: RFValue(18, 808),
+        paddingTop: '8%'
+    },
     verticalSeparator: {
-        width: 1.5,
+        width: RFValue(1.5, 808),
         height: "80%",
         alignSelf: "center",
-    },
-    biometricInfo: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        gap: 10,
-        paddingTop: 30,
     },
 });

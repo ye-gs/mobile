@@ -1,9 +1,10 @@
-import { SvgProps } from "react-native-svg";
+import { NumberProp, SvgProps } from "react-native-svg";
 import { View } from "./Themed";
 import { DimensionValue } from "react-native";
 import { TextInput } from "react-native";
 import { StyleSheet } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export function GenericInput(props: {
     placeholderText?: string;
@@ -16,18 +17,23 @@ export function GenericInput(props: {
     width?: DimensionValue;
     height?: DimensionValue;
     onChange?: Function;
+    paddingVertical?: DimensionValue,
+    imageSize?: NumberProp,
+    endImageSize?: NumberProp
 }) {
     const styles = StyleSheet.create({
         container: {
             height: props.height ?? "22%",
             width: props.width ?? "100%",
             borderColor: "rgba(34, 31, 31, 0.1)",
-            borderWidth: 1,
-            borderRadius: 10,
+            borderWidth: RFValue(1, 808),
+            borderRadius: RFValue(10, 808),
             flexDirection: "row",
             alignItems: "center",
-            paddingLeft: 8,
-            gap: 8,
+            paddingLeft: RFValue(8, 808),
+            paddingRight: RFValue(8, 808),
+            paddingVertical: props.paddingVertical ?? 0,
+            gap: RFValue(8, 808),
             backgroundColor: "rgba(249, 250, 251, 1)",
         },
         startImageView: {
@@ -42,7 +48,7 @@ export function GenericInput(props: {
         },
         input: {
             flex: 3,
-            fontSize: RFPercentage(2),
+            fontSize: RFValue(14, 808),
             left: "3%",
             textAlignVertical: "center",
             color: "#000",
@@ -54,7 +60,7 @@ export function GenericInput(props: {
     return (
         <View style={styles.container}>
             <View style={styles.startImageView}>
-                {StartImageComponent ? <StartImageComponent /> : null}
+                {StartImageComponent ? <StartImageComponent width={props.imageSize} height={props.imageSize} /> : null}
             </View>
             <TextInput
                 onChangeText={(text) =>
@@ -71,6 +77,7 @@ export function GenericInput(props: {
             <View style={styles.endImageView}>
                 {EndImageComponent ? (
                     <EndImageComponent
+                        width={props.endImageSize} height={props.endImageSize}
                         onPress={() => (onPress ? onPress() : "")}
                     />
                 ) : (

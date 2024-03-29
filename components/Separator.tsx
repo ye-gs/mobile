@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { View } from "@/components/Themed";
+import { RFValue } from "react-native-responsive-fontsize";
+
 export function Separator({}) {
     return (
         <View
@@ -13,8 +15,8 @@ export function Separator({}) {
 
 const styles = StyleSheet.create({
     separator: {
-        marginVertical: 20,
-        height: 1.5,
+        marginVertical: RFValue(20, 808),
+        height: RFValue(1.5, 808),
         width: "80%",
     },
 });

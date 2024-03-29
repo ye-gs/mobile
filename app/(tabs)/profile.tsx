@@ -8,6 +8,7 @@ import { useTheme } from "@/contexts/theme";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { RFValue } from "react-native-responsive-fontsize";
 
 const Profile = () => {
     const { user } = useUser();
@@ -49,7 +50,7 @@ const Profile = () => {
                     ImageComponent={() => (
                         <AntDesign
                             name="hearto"
-                            size={30}
+                            size={RFValue(30, 808)}
                             color={Colors[theme].tint}
                             style={styles.circleBackground}
                         />
@@ -65,7 +66,7 @@ const Profile = () => {
                     ImageComponent={() => (
                         <AntDesign
                             name="setting"
-                            size={30}
+                            size={RFValue(30, 808)}
                             color={Colors[theme].tint}
                             style={styles.circleBackground}
                         />
@@ -80,7 +81,7 @@ const Profile = () => {
                     ImageComponent={() => (
                         <Ionicons
                             name="chatbubble-ellipses-outline"
-                            size={30}
+                            size={RFValue(30, 808)}
                             color={Colors[theme].tint}
                             style={styles.circleBackground}
                         />

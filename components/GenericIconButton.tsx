@@ -6,7 +6,7 @@ import {
     GestureResponderEvent,
 } from "react-native";
 import { Text, View } from "./Themed";
-
+import { RFValue } from "react-native-responsive-fontsize";
 export function GenericIconButton(props: {
     text: string;
     ImageComponent: React.ComponentType<SvgProps>;
@@ -25,20 +25,19 @@ export function GenericIconButton(props: {
     const styles = StyleSheet.create({
         container: {
             flexDirection: "row",
-            borderWidth: props.borderWidth ?? 1,
+            borderWidth: RFValue(props.borderWidth ?? 1, 808),
             width: props.width ?? "100%",
             height: props.height ?? 50,
             alignItems: "center",
             borderRadius: 6,
             borderColor: "#E5E7EB",
-            borderTopWidth: props.borderTopWidth ?? props.borderWidth ?? 1,
-            borderBottomWidth:
-                props.borderBottomWidth ?? props.borderWidth ?? 1,
+            borderTopWidth: RFValue(props.borderTopWidth ?? props.borderWidth ?? 1, 808),
+            borderBottomWidth:RFValue(props.borderBottomWidth ?? props.borderWidth ?? 1, 808),
         },
         text: {
-            flex: 3,
+            flex: 3,    
             fontWeight: "500",
-            fontSize: props.fontSize ?? 16,
+            fontSize: RFValue(props.fontSize ?? 16, 808),
         },
         imageView: {
             width: "18%",

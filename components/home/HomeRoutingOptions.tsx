@@ -3,6 +3,7 @@ import { HomeOption } from "@/components/home/HomeOption";
 import { StyleSheet } from "react-native";
 import { router } from "expo-router";
 import { Doctor, Pill } from "@/assets/images/index";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export function HomeRoutingOptions() {
     return (
@@ -23,8 +24,7 @@ export function HomeRoutingOptions() {
 
 const styles = StyleSheet.create({
     options: {
-        flex: 0,
         flexDirection: "row",
-        gap: 60,
+        gap: RFValue(60, 808),
     },
 });

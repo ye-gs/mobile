@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Text, View } from "@/components/Themed";
 import { SvgProps } from "react-native-svg";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export function HomeOption(props: {
     text: string;
@@ -27,10 +28,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     optionImage: {
-        width: 70,
-        height: 70,
+        width: RFValue(70, 808),
+        height: RFValue(70, 808),
     },
     title: {
-        fontSize: 14,
+        fontSize: RFValue(14, 808),
     },
 });
