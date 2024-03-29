@@ -8,6 +8,7 @@ import { useTheme } from "@/contexts/theme";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { RFValue } from "react-native-responsive-fontsize";
 
 const Profile = () => {
     const { user } = useUser();
@@ -23,24 +24,18 @@ const Profile = () => {
             top: "5%",
             height: "60%",
             justifyContent: "center",
-            
         },
-        imageComponent: {
-            borderRadius: 100,
-            backgroundColor: "#12312313",
-            
-        },
-        circleBackground: {
-            backgroundColor: '#E6EEFF',
+        circle: {
+            backgroundColor: Colors[theme].circleBackground,
             padding: 5,
-            borderRadius: 15, 
-            overflow: 'hidden', 
-        }
+            borderRadius: 15,
+            overflow: "hidden",
+        },
     });
     return (
         <View style={styles.container}>
             <ProfileCard user={user}></ProfileCard>
-            <View style={styles.options} >
+            <View style={styles.options}>
                 <OptionButton
                     onPress={() => {
                         router.navigate("userinfo");
@@ -49,13 +44,12 @@ const Profile = () => {
                     ImageComponent={() => (
                         <AntDesign
                             name="hearto"
-                            size={30}
+                            size={RFValue(30, 808)}
                             color={Colors[theme].tint}
-                            style={styles.circleBackground}
+                            style={styles.circle}
                         />
                     )}
                     borderBottomWidth={1}
-                    
                 ></OptionButton>
                 <OptionButton
                     text="Configurações"
@@ -65,9 +59,9 @@ const Profile = () => {
                     ImageComponent={() => (
                         <AntDesign
                             name="setting"
-                            size={30}
+                            size={RFValue(30, 808)}
                             color={Colors[theme].tint}
-                            style={styles.circleBackground}
+                            style={styles.circle}
                         />
                     )}
                     borderBottomWidth={1}
@@ -80,9 +74,9 @@ const Profile = () => {
                     ImageComponent={() => (
                         <Ionicons
                             name="chatbubble-ellipses-outline"
-                            size={30}
+                            size={RFValue(30, 808)}
                             color={Colors[theme].tint}
-                            style={styles.circleBackground}
+                            style={styles.circle}
                         />
                     )}
                 ></OptionButton>

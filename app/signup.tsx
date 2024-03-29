@@ -10,6 +10,9 @@ import { GenericInput } from "@/components/GenericInput";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { GenderSelect } from "@/components/GenderSelect";
+import { RFValue } from "react-native-responsive-fontsize";
+import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import { useHeaderHeight } from '@react-navigation/elements'
 
 export default function SignUpScreen() {
     const [email, setEmail] = useState("");
@@ -32,7 +35,6 @@ export default function SignUpScreen() {
         setIsLoading,
         passwordConfirm
     );
-
     const { theme } = useTheme();
     const styles = StyleSheet.create({
         container: {
@@ -42,74 +44,45 @@ export default function SignUpScreen() {
             backgroundColor: Colors[theme].background,
             color: Colors[theme].text,
         },
-        socialLoginButton: {
-            flexDirection: "row",
-            borderWidth: 1,
-            width: "100%",
-            height: 50,
-            alignItems: "center",
-            borderRadius: 6,
-            backgroundColor: Colors[theme].background,
-            color: Colors[theme].text,
-            borderColor: Colors[theme].borderColor,
-        },
         form: {
-            gap: 10,
+            justifyContent: 'space-between',
             width: "80%",
-            justifyContent: "flex-end",
-            height: "56%",
+            height: "35%",
         },
         terms: {
             flexDirection: "row",
             width: "100%",
-            gap: 10,
+        },
+        termsTextView:{
+            flex:1,
+            textAlignVertical: 'center',
+            
         },
         termsText: {
-            flex: 1,
+            color: Colors[theme].text,
+            fontSize: RFValue(13, 808)
         },
         termsLink: {
             color: Colors[theme].url,
         },
-        title: {
-            fontSize: 20,
-            fontWeight: "bold",
-        },
-        login: {
-            flexDirection: "row",
-            gap: 6,
-            fontSize: 14,
-        },
-        input: {
-            width: "80%",
-            height: 40,
-            color: "gray",
-            borderColor: "gray",
-            borderWidth: 1,
-            marginBottom: 10,
-            paddingHorizontal: 10,
-        },
-        socialLoginContainer: {
-            flexDirection: "row",
-            gap: 25,
-            justifyContent: "space-between",
-        },
-        login__link: {
-            color: Colors[theme].url,
-            fontWeight: "600",
-        },
         signInOptions: {
             width: "80%",
             alignItems: "center",
-            justifyContent: "center",
+            borderColor: 'black',
+            top: '3%'
         },
         createAccount: {
             flexDirection: "row",
-            gap: 6,
-            fontSize: 14,
+            gap: RFValue(6, 808)
+        },
+        createAccount__text:{
+            color: Colors[theme].text,
+            fontSize: RFValue(14, 808),
         },
         createAccount__link: {
             color: "#407CE2",
             fontWeight: "600",
+            fontSize: RFValue(14, 808),
         },
         optionsSeparator: {
             width: "100%",
@@ -120,34 +93,43 @@ export default function SignUpScreen() {
         },
         optionsSeparator__text: {
             color: "#A1A8B0",
-            fontSize: 16,
+            fontSize: RFValue(16, 808),
             width: "12%",
             textAlign: "center",
         },
         separator: {
-            marginVertical: 20,
-            height: 1.5,
+            marginVertical: RFValue(20, 808),
+            height: RFValue(1.5, 808),
             width: "44%",
-            backgroundColor: "rgba(34,34,31,0.1)",
+            backgroundColor: "#A1A8B0",
+            
         },
         extraOptions: {
             width: "100%",
-            gap: 15,
+            height: RFValue(60, 808),
+            top: RFValue(20, 808),
         },
+        buttonLabelStyle:{
+            fontSize: RFValue(16, 808),
+            color: '#fff',
+            textAlignVertical: 'center',
+            height: 'auto'
+        }
     });
 
     return (
         <KeyboardAvoidingView
             style={styles.container}
             behavior="height"
-            keyboardVerticalOffset={-150}
+            keyboardVerticalOffset={RFValue(-300, 808)  }
         >
             <View style={styles.form}>
                 <GenericInput
                     placeholderText="Email"
                     onChange={(e: string) => setEmail(e)}
                     StartImageComponent={Email}
-                    height="16%"
+                    height="25%"
+                    imageSize={'90%'}
                 ></GenericInput>
                 <GenericInput
                     placeholderText="Senha"
@@ -156,7 +138,9 @@ export default function SignUpScreen() {
                     EndImageComponent={showPassword ? EyeSlash : Eye}
                     shouldBeSecure={!showPassword}
                     onPress={toggleShowPassword}
-                    height="16%"
+                    height="25%"
+                    imageSize={'90%'}
+                    endImageSize={'60%'}
                 ></GenericInput>
                 <GenericInput
                     placeholderText="Confimar senha"
@@ -165,7 +149,9 @@ export default function SignUpScreen() {
                     EndImageComponent={showPasswordConfirm ? EyeSlash : Eye}
                     shouldBeSecure={!showPasswordConfirm}
                     onPress={toggleShowPasswordConfirm}
-                    height="16%"
+                    height="25%"
+                    imageSize={'90%'}
+                    endImageSize={'60%'}
                 ></GenericInput>
                 <View style={styles.terms}>
                     <Checkbox
@@ -173,8 +159,8 @@ export default function SignUpScreen() {
                         status={checked ? "checked" : "unchecked"}
                         color={Colors[theme].altTextColor}
                     ></Checkbox>
-                    <View style={styles.termsText}>
-                        <Text>
+                    <View style={styles.termsTextView}>
+                        <Text style={styles.termsText}>
                             Concordo com os
                             <Text style={styles.termsLink}>
                                 {" "}
@@ -198,11 +184,15 @@ export default function SignUpScreen() {
                         justifyContent: "center",
                         alignItems: "center",
                         borderRadius: 120,
-                        padding: 1,
+                        padding: RFValue(1, 808),
+        
                     }}
                     buttonColor={Colors[theme].altTextColor}
                     textColor={Colors[theme].text}
                     mode="contained"
+                    maxFontSizeMultiplier={RFValue(20, 808)}
+                    labelStyle={styles.buttonLabelStyle}
+                
                 >
                     Criar conta
                 </Button>
@@ -214,7 +204,7 @@ export default function SignUpScreen() {
                     />
                 ) : null}
                 <View style={styles.createAccount}>
-                    <Text>Já tem conta?</Text>
+                    <Text style={styles.createAccount__text}>Já tem conta?</Text>
                     <Text
                         onPress={() => router.navigate("/login")}
                         style={styles.createAccount__link}
@@ -232,6 +222,8 @@ export default function SignUpScreen() {
                         onPress={handleGoogleLogin}
                         text="Entrar com o Google"
                         ImageComponent={Google}
+                        imageSize={'70%'}
+                        height={'100%'}
                     ></GenericIconButton>
                 </View>
             </View>

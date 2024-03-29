@@ -10,6 +10,7 @@ import { ActivityIndicator } from "react-native-paper";
 import { handleLoginMethods } from "@/utils/auth";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
+import { RFValue } from "react-native-responsive-fontsize";
 
 export default function Home() {
     const [email, setEmail] = useState("");
@@ -29,29 +30,34 @@ export default function Home() {
             color: Colors[theme].text,
         },
         form: {
-            gap: 12,
+            gap: RFValue(12, 808),
             width: "80%",
             justifyContent: "center",
+            height: 'auto'
         },
         passwordReset: {
-            fontSize: 13,
+            fontSize: RFValue(13, 808),
             alignSelf: "flex-end",
             color: "rgba(64, 124, 226, 1)",
+            height: '10%',
             fontWeight: "500",
         },
         signInOptions: {
             width: "80%",
             alignItems: "center",
-            justifyContent: "flex-start",
+            height: '40%',
         },
         createAccount: {
             flexDirection: "row",
-            gap: 6,
-            fontSize: 14,
+            gap: RFValue(6, 808),
+        },
+        createAccount__text:{
+            fontSize: RFValue(14, 808)
         },
         createAccount__link: {
             color: Colors[theme].url,
             fontWeight: "600",
+            fontSize: RFValue(14, 808)
         },
         optionsSeparator: {
             width: "100%",
@@ -63,19 +69,20 @@ export default function Home() {
         },
         optionsSeparator__text: {
             color: "#A1A8B0",
-            fontSize: 16,
+            fontSize: RFValue(16, 808),
             width: "12%",
             textAlign: "center",
         },
         separator: {
-            marginVertical: 20,
-            height: 1.5,
+            marginVertical: RFValue(20, 808),
+            height: RFValue(1.5, 808),
             width: "44%",
             backgroundColor: "rgba(34,34,31,0.1)",
         },
         extraOptions: {
             width: "100%",
-            gap: 15,
+            height: RFValue(60, 808),
+            top: RFValue(20, 808)
         },
     });
 
@@ -91,7 +98,9 @@ export default function Home() {
                     placeholderText="Email"
                     onChange={setEmail}
                     StartImageComponent={Email}
-                    height="20%"
+                    height="auto"
+                    paddingVertical={'6%'}
+                    imageSize={RFValue(20, 808)}
                 ></GenericInput>
                 <GenericInput
                     placeholderText="Senha"
@@ -100,7 +109,10 @@ export default function Home() {
                     EndImageComponent={showPassword ? EyeSlash : Eye}
                     shouldBeSecure={!showPassword}
                     onPress={toggleShowPassword}
-                    height="20%"
+                    height="auto"
+                    paddingVertical={'6%'}
+                    imageSize={RFValue(20, 808)}
+                    endImageSize={RFValue(20, 808)}
                 ></GenericInput>
                 <Text style={styles.passwordReset}>Esqueceu a senha?</Text>
             </View>
@@ -113,7 +125,7 @@ export default function Home() {
                     width={"100%"}
                 ></GenericButton>
                 <View style={styles.createAccount}>
-                    <Text>Não tem conta?</Text>
+                    <Text style={styles.createAccount__text}>Não tem conta?</Text>
                     <Text
                         onPress={() => router.navigate("/signup")}
                         style={styles.createAccount__link}
@@ -124,7 +136,7 @@ export default function Home() {
                 {isLoading ? (
                     <ActivityIndicator
                         size="large"
-                        style={{ marginTop: 10 }}
+                        style={{ marginTop: RFValue(10, 808) }}
                         color={Colors[theme].altTextColor}
                     />
                 ) : null}
@@ -138,6 +150,8 @@ export default function Home() {
                         onPress={handleGoogleLogin}
                         text="Entrar com o Google"
                         ImageComponent={Google}
+                        imageSize={'70%'}
+                        height={'100%'}
                     ></GenericIconButton>
                 </View>
             </View>

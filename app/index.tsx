@@ -9,10 +9,16 @@ export default function Home() {
             <GenericButton
                 title="Login"
                 onPress={() => router.navigate("login")}
+                width={'80%'}
+                height={'5%'}
             />
             <GenericButton
                 title="Signup"
                 onPress={() => router.navigate("signup")}
+                width={'80%'}
+                height={'5%'}
+
+
             />
         </View>
     );
