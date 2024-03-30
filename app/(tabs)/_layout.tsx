@@ -1,5 +1,5 @@
 import React from "react";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
@@ -7,6 +7,7 @@ import { useUser } from "@/contexts/user";
 import { Button, Menu } from "react-native-paper";
 import { useTheme } from "@/contexts/theme";
 import { auth } from "@/firebase";
+import { StyleSheet } from "react-native";
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -27,6 +28,21 @@ export default function TabLayout() {
 
     const { theme, setTheme } = useTheme();
     const { setUser } = useUser();
+    const styles = StyleSheet.create({
+        menu: {
+            backgroundColor: Colors[theme].background,
+            borderColor: Colors[theme].borderColor,
+            borderRadius: 10,
+        },
+        menuContent: {
+            backgroundColor: Colors[theme].background,
+            borderWidth: 1,
+            borderColor: Colors[theme].borderColor,
+        },
+        menuItemTitle: {
+            color: Colors[theme].text,
+        },
+    });
     function MenuButton() {
         const [visible, setVisible] = React.useState(false);
 
@@ -49,11 +65,8 @@ export default function TabLayout() {
             <Menu
                 visible={visible}
                 onDismiss={closeMenu}
-                style={{
-                    backgroundColor: Colors[theme].background,
-                    borderColor: Colors[theme].borderColor,
-                    borderWidth: 1,
-                }}
+                style={styles.menu}
+                contentStyle={styles.menuContent}
                 anchor={
                     <Button
                         onPress={openMenu}
@@ -70,18 +83,31 @@ export default function TabLayout() {
                     </Button>
                 }
             >
-                <Menu.Item onPress={handleSignOut} title="Sair" />
+                <Menu.Item
+                    leadingIcon={() => (
+                        <Ionicons
+                            size={25}
+                            name={"exit-outline"}
+                            color={Colors[theme].text}
+                        ></Ionicons>
+                    )}
+                    onPress={handleSignOut}
+                    title="Sair"
+                    titleStyle={styles.menuItemTitle}
+                />
                 <Menu.Item
                     leadingIcon={() => (
                         <FontAwesome
                             size={25}
                             name={colorSchemeMap[theme]}
+                            color={Colors[theme].text}
                         ></FontAwesome>
                     )}
                     onPress={() => {
                         switchTheme();
                     }}
                     title="Mudar tema"
+                    titleStyle={styles.menuItemTitle}
                 />
             </Menu>
         );
