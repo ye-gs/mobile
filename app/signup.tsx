@@ -9,10 +9,7 @@ import { handleLoginMethods } from "@/utils/auth";
 import { GenericInput } from "@/components/GenericInput";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
-import { GenderSelect } from "@/components/GenderSelect";
 import { RFValue } from "react-native-responsive-fontsize";
-import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
-import { useHeaderHeight } from '@react-navigation/elements'
 
 export default function SignUpScreen() {
     const [email, setEmail] = useState("");
