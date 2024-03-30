@@ -4,6 +4,8 @@ const tintColorDark = "#5563E2";
 export default {
     light: {
         text: "#000",
+        subtext: "#7A7979",
+        subtextSoft: "#8E98A1",
         background: "#fff",
         tint: tintColorLight,
         tabIconDefault: "#ccc",
@@ -13,10 +15,12 @@ export default {
         circleBackground: "#E6EEFF",
         altTextColor: "#556B2F",
         primaryLighter: "#A3B18A",
-        primaryDarker: "#344E41"
+        primaryDarker: "#344E41",
     },
     dark: {
         text: "#e0f4f4",
+        subtext: "#7A7979",
+        subtextSoft: "#8E98A1",
         background: "#1A1A1A",
         tint: tintColorDark,
         tabIconDefault: "#ccc",
@@ -26,6 +30,6 @@ export default {
         circleBackground: "#92B0CC",
         altTextColor: "#556B2F",
         primaryLighter: "A3B18A",
-        primaryDarker: "#344E41"
+        primaryDarker: "#344E41",
     },
 };
