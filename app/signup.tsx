@@ -9,10 +9,10 @@ import { handleLoginMethods } from "@/utils/auth";
 import { GenericInput } from "@/components/GenericInput";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
-import { GenderSelect } from "@/components/GenderSelect";
+import { GenderSelect } from "@/components/profile/GenderSelect";
 import { RFValue } from "react-native-responsive-fontsize";
 import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
-import { useHeaderHeight } from '@react-navigation/elements'
+import { useHeaderHeight } from "@react-navigation/elements";
 
 export default function SignUpScreen() {
     const [email, setEmail] = useState("");
@@ -45,7 +45,7 @@ export default function SignUpScreen() {
             color: Colors[theme].text,
         },
         form: {
-            justifyContent: 'space-between',
+            justifyContent: "space-between",
             width: "80%",
             height: "35%",
         },
@@ -53,14 +53,13 @@ export default function SignUpScreen() {
             flexDirection: "row",
             width: "100%",
         },
-        termsTextView:{
-            flex:1,
-            textAlignVertical: 'center',
-            
+        termsTextView: {
+            flex: 1,
+            textAlignVertical: "center",
         },
         termsText: {
             color: Colors[theme].text,
-            fontSize: RFValue(13, 808)
+            fontSize: RFValue(13, 808),
         },
         termsLink: {
             color: Colors[theme].url,
@@ -68,14 +67,14 @@ export default function SignUpScreen() {
         signInOptions: {
             width: "80%",
             alignItems: "center",
-            borderColor: 'black',
-            top: '3%'
+            borderColor: "black",
+            top: "3%",
         },
         createAccount: {
             flexDirection: "row",
-            gap: RFValue(6, 808)
+            gap: RFValue(6, 808),
         },
-        createAccount__text:{
+        createAccount__text: {
             color: Colors[theme].text,
             fontSize: RFValue(14, 808),
         },
@@ -102,26 +101,25 @@ export default function SignUpScreen() {
             height: RFValue(1.5, 808),
             width: "44%",
             backgroundColor: "#A1A8B0",
-            
         },
         extraOptions: {
             width: "100%",
             height: RFValue(60, 808),
             top: RFValue(20, 808),
         },
-        buttonLabelStyle:{
+        buttonLabelStyle: {
             fontSize: RFValue(16, 808),
-            color: '#fff',
-            textAlignVertical: 'center',
-            height: 'auto'
-        }
+            color: "#fff",
+            textAlignVertical: "center",
+            height: "auto",
+        },
     });
 
     return (
         <KeyboardAvoidingView
             style={styles.container}
             behavior="height"
-            keyboardVerticalOffset={RFValue(-300, 808)  }
+            keyboardVerticalOffset={RFValue(-300, 808)}
         >
             <View style={styles.form}>
                 <GenericInput
@@ -129,7 +127,7 @@ export default function SignUpScreen() {
                     onChange={(e: string) => setEmail(e)}
                     StartImageComponent={Email}
                     height="25%"
-                    imageSize={'90%'}
+                    imageSize={"90%"}
                 ></GenericInput>
                 <GenericInput
                     placeholderText="Senha"
@@ -139,8 +137,8 @@ export default function SignUpScreen() {
                     shouldBeSecure={!showPassword}
                     onPress={toggleShowPassword}
                     height="25%"
-                    imageSize={'90%'}
-                    endImageSize={'60%'}
+                    imageSize={"90%"}
+                    endImageSize={"60%"}
                 ></GenericInput>
                 <GenericInput
                     placeholderText="Confimar senha"
@@ -150,8 +148,8 @@ export default function SignUpScreen() {
                     shouldBeSecure={!showPasswordConfirm}
                     onPress={toggleShowPasswordConfirm}
                     height="25%"
-                    imageSize={'90%'}
-                    endImageSize={'60%'}
+                    imageSize={"90%"}
+                    endImageSize={"60%"}
                 ></GenericInput>
                 <View style={styles.terms}>
                     <Checkbox
@@ -185,14 +183,12 @@ export default function SignUpScreen() {
                         alignItems: "center",
                         borderRadius: 120,
                         padding: RFValue(1, 808),
-        
                     }}
                     buttonColor={Colors[theme].altTextColor}
                     textColor={Colors[theme].text}
                     mode="contained"
                     maxFontSizeMultiplier={RFValue(20, 808)}
                     labelStyle={styles.buttonLabelStyle}
-                
                 >
                     Criar conta
                 </Button>
@@ -204,7 +200,9 @@ export default function SignUpScreen() {
                     />
                 ) : null}
                 <View style={styles.createAccount}>
-                    <Text style={styles.createAccount__text}>Já tem conta?</Text>
+                    <Text style={styles.createAccount__text}>
+                        Já tem conta?
+                    </Text>
                     <Text
                         onPress={() => router.navigate("/login")}
                         style={styles.createAccount__link}
@@ -222,8 +220,8 @@ export default function SignUpScreen() {
                         onPress={handleGoogleLogin}
                         text="Entrar com o Google"
                         ImageComponent={Google}
-                        imageSize={'70%'}
-                        height={'100%'}
+                        imageSize={"70%"}
+                        height={"100%"}
                     ></GenericIconButton>
                 </View>
             </View>
