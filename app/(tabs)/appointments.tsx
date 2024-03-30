@@ -1,11 +1,15 @@
 import React from "react";
 import { View, Text } from "@/components/Themed";
 import { StyleSheet } from "react-native";
+import { AppointmentCard } from "@/components/appointments/AppointmentCard";
 
 const Meds = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Hello, React Native!</Text>
+            <AppointmentCard></AppointmentCard>
+            <AppointmentCard></AppointmentCard>
+            <AppointmentCard></AppointmentCard>
+            <AppointmentCard></AppointmentCard>
         </View>
     );
 };
