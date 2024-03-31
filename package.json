@@ -21,6 +21,7 @@
         "@react-native/babel-preset": "*",
         "@react-native/metro-config": "^0.74.77",
         "@react-navigation/native": "^6.1.17",
+        "@react-navigation/stack": "^6.3.29",
         "expo": "~50.0.14",
         "expo-auth-session": "~5.4.0",
         "expo-constants": "*",

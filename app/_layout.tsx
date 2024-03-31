@@ -101,6 +101,22 @@ function RootLayoutNav() {
                             }}
                         />
                         <Stack.Screen name="(tabs)" />
+                        <Stack.Screen
+                            name="appointments/[slug]"
+                            options={{
+                                headerLeft: () => (
+                                    <Link href="/appointments">
+                                        <FontAwesome
+                                            size={38}
+                                            name="arrow-left"
+                                        />
+                                    </Link>
+                                ),
+                                headerShown: true,
+                                headerTitle: "Detalhes da Consulta",
+                                headerTitleAlign: "center",
+                            }}
+                        />
                     </Stack>
                 </UserProvider>
             </Provider>
