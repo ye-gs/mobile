@@ -1,23 +1,27 @@
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
-import {
-    GestureResponderEvent,
-    Pressable,
-    StyleSheet,
-    Text,
-} from "react-native";
-import { View } from "./Themed";
+import { GestureResponderEvent, Pressable, StyleSheet } from "react-native";
+import { View, Text } from "./Themed";
 import { AntDesign } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 
 export function GenericCard(props: {
-    time: string;
     text: string;
     subtext: string;
-    date: string;
+    datetime?: Date;
+    frequency?: string;
+    time?: string;
     onPress?: Function;
 }) {
     const { theme } = useTheme();
+    let date, time;
+    if (props.datetime !== undefined) {
+        date = props.datetime.toDateString();
+        time = props.datetime.toLocaleTimeString();
+    } else if (props.frequency !== undefined && props.time !== undefined) {
+        date = props.frequency;
+        time = props.time;
+    }
     const styles = StyleSheet.create({
         container: {
             height: RFValue(80, 808),
@@ -73,7 +77,7 @@ export function GenericCard(props: {
             onPress={props.onPress as (event: GestureResponderEvent) => void}
         >
             <View style={styles.timeView}>
-                <Text style={styles.timeViewText}>{props.time}</Text>
+                <Text style={styles.timeViewText}>{time}</Text>
             </View>
             <View style={styles.contentView}>
                 <Text style={styles.contentViewText}>{props.text}</Text>
@@ -82,7 +86,7 @@ export function GenericCard(props: {
                 </Text>
             </View>
             <View style={styles.endContentView}>
-                <Text style={styles.date}>{props.date}</Text>
+                <Text style={styles.date}>{date}</Text>
                 <AntDesign
                     name="right"
                     size={RFValue(20, 808)}
