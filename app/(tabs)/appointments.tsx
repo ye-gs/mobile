@@ -1,29 +1,91 @@
 import React from "react";
-import { View, Text } from "@/components/Themed";
-import { StyleSheet } from "react-native";
-import { AppointmentCard } from "@/components/appointments/AppointmentCard";
+import { ScrollView} from "@/components/Themed";
+import { GenericCard } from "@/components/GenericCard";
+import { RFValue } from "react-native-responsive-fontsize";
 
-const Meds = () => {
+const Appointments = () => {
     return (
-        <View style={styles.container}>
-            <AppointmentCard></AppointmentCard>
-            <AppointmentCard></AppointmentCard>
-            <AppointmentCard></AppointmentCard>
-            <AppointmentCard></AppointmentCard>
-        </View>
+        <ScrollView
+            contentContainerStyle={{
+                flexGrow: 1,
+                paddingBottom: RFValue(100, 808),
+                alignItems: "center"
+            }}
+        >
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame de prostata"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame de prostata"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame de prostata"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame de prostata"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame de prostata"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame de prostata"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame de prostata"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame de prostata"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame de prostata"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame de prostata"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+            <GenericCard
+                time="07:00"
+                text="Dr Flamingo"
+                subtext="Exame"
+                date="Mon, 14 Dec"
+            ></GenericCard>
+        </ScrollView>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    text: {
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-});
-
-export default Meds;
+export default Appointments;
