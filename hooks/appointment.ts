@@ -32,7 +32,7 @@ export function useAppointments() {
             // get all appointments on collection and return
             const appointmentRefs = await getDocs(appointmentsCollection);
             if (appointmentRefs.empty) {
-                console.log("Nenhuma consulta encpntrada");
+                console.log("Nenhuma consulta encontrada");
                 return [];
             } else {
                 const documents = [];
