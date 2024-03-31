@@ -16,67 +16,67 @@ const Meds = () => {
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
             <GenericCard
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
             <GenericCard
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
             <GenericCard
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
             <GenericCard
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
             <GenericCard
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
             <GenericCard
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
             <GenericCard
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
             <GenericCard
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
             <GenericCard
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
             <GenericCard
                 time="07:00"
                 text="Pantoprazol"
                 subtext="10ml"
-                date="M T W T F S S"
+                frequency="M T W T F S S"
             ></GenericCard>
         </ScrollView>
     );
