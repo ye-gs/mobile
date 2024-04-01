@@ -17,7 +17,10 @@ export function GenericCard(props: {
     let date, time;
     if (props.datetime !== undefined) {
         date = props.datetime.toDateString();
-        time = props.datetime.toLocaleTimeString();
+        time = props.datetime.toLocaleString("pt-BR", {
+            hour: "numeric",
+            minute: "numeric",
+        });
     } else if (props.frequency !== undefined && props.time !== undefined) {
         date = props.frequency;
         time = props.time;
