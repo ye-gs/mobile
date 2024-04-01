@@ -19,7 +19,7 @@
         "@react-native-community/datetimepicker": "7.6.3",
         "@react-native-google-signin/google-signin": "^11.0.0",
         "@react-native/babel-preset": "*",
-        "@react-native/metro-config": "^0.73.5",
+        "@react-native/metro-config": "^0.74.76",
         "@react-navigation/native": "^6.1.17",
         "expo": "~50.0.14",
         "expo-auth-session": "~5.4.0",
