@@ -34,9 +34,9 @@ const AppointmentForm = (appointment: Appointment) => {
     };
 
     return (
-        <View>
+         <View>
             <Text>
-                {appointmentSlug ? "Edit Appointment" : "Create Appointment"}
+                {appointmentSlug !=="new" ? "Edit Appointment" : "Create Appointment"}
             </Text>
             <TextInput
                 label="Nome do doutor"
