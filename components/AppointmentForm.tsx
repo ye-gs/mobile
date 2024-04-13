@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
+import { Button } from "react-native";
+import { View, Text} from "./Themed";
 import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
 import { TextInput } from "react-native-paper";
@@ -42,7 +43,7 @@ const AppointmentForm = (appointment: Appointment) => {
     const styles = StyleSheet.create({
         container: {
             width: "80%",
-            top: "20%"
+            top: "20%",
         },
         title: {
             fontWeight: "bold",
