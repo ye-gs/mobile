@@ -58,6 +58,10 @@ const AppointmentForm = (appointment: Appointment) => {
         forms: {
             top: RFValue(20, 808),
         },
+        options:{
+            height: RFValue(100, 808),
+            justifyContent: 'space-evenly'
+        }
     });
     return (
         <View style={styles.container}>
@@ -85,11 +89,17 @@ const AppointmentForm = (appointment: Appointment) => {
                     setDatetime(new Date(e.nativeEvent.timestamp!));
                 }}
             /> */}
-                <Button
-                    color={Colors[theme].altTextColor}
-                    title="Salvar"
-                    onPress={handleSave}
-                />
+                <View style={styles.options}>
+                    <Button
+                        color={Colors[theme].altTextColor}
+                        title="Salvar"
+                        onPress={handleSave}
+                    />
+                    {appointmentSlug !== 'new' ? <Button
+                        color={Colors[theme].danger}
+                        title="Remover"
+                    />: ""}
+                </View>
             </View>
         </View>
     );

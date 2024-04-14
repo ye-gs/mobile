@@ -16,6 +16,7 @@ export default {
         altTextColor: "#556B2F",
         primaryLighter: "#A3B18A",
         primaryDarker: "#344E41",
+        danger: "#bd3a31"
     },
     dark: {
         text: "#e0f4f4",
@@ -31,5 +32,7 @@ export default {
         altTextColor: "#556B2F",
         primaryLighter: "A3B18A",
         primaryDarker: "#344E41",
+        danger: "#a85751"
+        
     },
 };
