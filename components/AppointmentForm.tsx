@@ -54,10 +54,10 @@ const AppointmentForm = (appointment: AppointmentData) => {
         forms: {
             top: RFValue(20, 808),
         },
-        options:{
+        options: {
             height: RFValue(100, 808),
-            justifyContent: 'space-evenly'
-        }
+            justifyContent: "space-evenly",
+        },
     });
     return (
         <View style={styles.container}>
@@ -93,10 +93,11 @@ const AppointmentForm = (appointment: AppointmentData) => {
                         title="Salvar"
                         onPress={handleSave}
                     />
-                    {appointmentSlug !== 'new' ? <Button
-                        color={Colors[theme].danger}
-                        title="Remover"
-                    />: ""}
+                    {appointment.slug !== "new" ? (
+                        <Button color={Colors[theme].danger} title="Remover" />
+                    ) : (
+                        ""
+                    )}
                 </View>
             </View>
         </View>
