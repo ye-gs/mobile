@@ -8,13 +8,7 @@ import {
     addDoc,
 } from "firebase/firestore";
 import { db, auth } from "@/firebase";
-
-interface Appointment {
-    id?: string;
-    doctor: string;
-    description: string;
-    datetime: Date;
-}
+import { Appointment } from "@/types/appointment";
 
 export function useAppointments() {
     const [appointments, setAppointments] = useState<Appointment[]>([]);

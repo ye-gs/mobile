@@ -3,13 +3,13 @@ import { StyleSheet } from "react-native";
 import { View } from "@/components/Themed";
 import AppointmentForm from "@/components/AppointmentForm";
 import { useLocalSearchParams } from "expo-router";
+import { AppointmentData } from "@/types/appointment";
 
 const SlugPage = () => {
-    const { slug } = useLocalSearchParams();
-    const appointmentSlug = slug as string;
+    const params = useLocalSearchParams() as unknown as AppointmentData;
     return (
         <View style={styles.container}>
-            <AppointmentForm appointmentSlug={appointmentSlug} />
+            <AppointmentForm {...params} />
         </View>
     );
 };
