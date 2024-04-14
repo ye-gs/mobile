@@ -5,10 +5,20 @@ import { AntDesign } from "@expo/vector-icons";
 import { GenericCard } from "@/components/GenericCard";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useAppointments } from "@/hooks/appointment";
+import { AppointmentMiddleware } from "@/types/appointment";
 import { router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+
+const routeAndTransform = (appointment: AppointmentMiddleware) => {
+    router.push({
+        pathname: `appointments/${appointment.id}`,
+        params: {
+            ...appointment,
+        },
+    } as never);
+};
 
 const Appointments = () => {
     const { appointments, refreshAppointments } = useAppointments();
@@ -49,7 +59,11 @@ const Appointments = () => {
                     key={appointment.id}
                     text={appointment.doctor}
                     onPress={() =>
-                        router.navigate("appointments/" + appointment.id)
+                        routeAndTransform({
+                            ...appointment,
+                            datetime: appointment.datetime.toISOString(),
+                            id: appointment.id!,
+                        })
                     }
                     subtext={appointment.description}
                     datetime={appointment.datetime}
@@ -57,7 +71,7 @@ const Appointments = () => {
             ))}
             <TouchableOpacity
                 style={styles.addButton}
-                onPress={() => router.navigate("appointments/new")}
+                onPress={() => router.push("/appointments/new")}
             >
                 <AntDesign name="plus" size={24} color="white" />
             </TouchableOpacity>
