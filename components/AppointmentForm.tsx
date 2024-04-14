@@ -1,30 +1,26 @@
 import React, { useState } from "react";
 import { Button } from "react-native";
-import { View, Text} from "./Themed";
+import { View, Text } from "./Themed";
 import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
 import { TextInput } from "react-native-paper";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { RFValue } from "react-native-responsive-fontsize";
+import { AppointmentData } from "@/types/appointment";
 
-type Appointment = {
-    appointmentSlug: string;
-};
-
-const AppointmentForm = (appointment: Appointment) => {
-    const { appointmentSlug } = appointment;
-    const [doctor, setDoctor] = useState("");
-    const [description, setDescription] = useState("");
+const AppointmentForm = (appointment: AppointmentData) => {
+    const [doctor, setDoctor] = useState(appointment.doctor || "");
+    const [description, setDescription] = useState(
+        appointment.description || ""
+    );
     const [datetime, setDatetime] = useState(new Date());
     const { createAppointment, editAppointment } = useAppointments();
     const { theme } = useTheme();
-
     const handleSave = () => {
-        if (appointmentSlug !== "new") {
-            editAppointment(appointmentSlug, {
+        if (appointment.slug !== "new") {
+            editAppointment(appointment.slug, {
                 doctor,
                 description,
                 datetime,
@@ -66,7 +62,7 @@ const AppointmentForm = (appointment: Appointment) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
-                {appointmentSlug !== "new"
+                {appointment.slug !== "new"
                     ? "Editar consulta"
                     : "Criar consulta"}
             </Text>
@@ -74,12 +70,14 @@ const AppointmentForm = (appointment: Appointment) => {
                 <TextInput
                     label="Nome do doutor"
                     placeholder="Nome do doutor"
+                    defaultValue={appointment.doctor}
                     onChange={(e) => setDoctor(e.nativeEvent.text)}
                     style={styles.input}
                 ></TextInput>
                 <TextInput
                     label="Descrição da consulta"
                     placeholder="Descrição da consulta"
+                    defaultValue={appointment.description}
                     onChange={(e) => setDescription(e.nativeEvent.text)}
                     style={styles.input}
                 ></TextInput>
