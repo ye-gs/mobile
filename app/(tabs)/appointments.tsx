@@ -9,15 +9,12 @@ import { AppointmentMiddleware } from "@/types/appointment";
 import { router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
-import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 const routeAndTransform = (appointment: AppointmentMiddleware) => {
     router.push({
-        pathname: `appointments/${appointment.id}`,
-        params: {
-            ...appointment,
-        },
-    } as never);
+        pathname: `/appointments/${appointment.id}`,
+        params: { ...appointment },
+    });
 };
 
 const Appointments = () => {
@@ -43,7 +40,7 @@ const Appointments = () => {
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
             elevation: 5,
-            tintColor: 'black'
+            tintColor: "black",
         },
     });
     return (
@@ -78,7 +75,5 @@ const Appointments = () => {
         </ScrollView>
     );
 };
-
-
 
 export default Appointments;

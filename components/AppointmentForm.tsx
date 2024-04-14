@@ -16,7 +16,8 @@ const AppointmentForm = (appointment: AppointmentData) => {
         appointment.description || ""
     );
     const [datetime, setDatetime] = useState(new Date());
-    const { createAppointment, editAppointment } = useAppointments();
+    const { createAppointment, editAppointment, deleteAppointment } =
+        useAppointments();
     const { theme } = useTheme();
     const handleSave = () => {
         if (appointment.slug !== "new") {
@@ -33,6 +34,10 @@ const AppointmentForm = (appointment: AppointmentData) => {
             });
         }
         //reload useEffect on /appointments
+        router.push("/appointments");
+    };
+    const handleDelete = () => {
+        deleteAppointment(appointment.slug);
         router.push("/appointments");
     };
 
@@ -82,11 +87,11 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     style={styles.input}
                 ></TextInput>
                 {/* <DateTimePicker
-                value={new Date()}
-                onChange={(e) => {
-                    setDatetime(new Date(e.nativeEvent.timestamp!));
-                }}
-            /> */}
+                    value={new Date()}
+                    onChange={(e) => {
+                        setDatetime(new Date(e.nativeEvent.timestamp!));
+                    }}
+                /> */}
                 <View style={styles.options}>
                     <Button
                         color={Colors[theme].altTextColor}
@@ -94,10 +99,12 @@ const AppointmentForm = (appointment: AppointmentData) => {
                         onPress={handleSave}
                     />
                     {appointment.slug !== "new" ? (
-                        <Button color={Colors[theme].danger} title="Remover" />
-                    ) : (
-                        ""
-                    )}
+                        <Button
+                            color={Colors[theme].danger}
+                            onPress={handleDelete}
+                            title="Remover"
+                        />
+                    ) : null}
                 </View>
             </View>
         </View>
