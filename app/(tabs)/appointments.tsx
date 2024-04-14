@@ -6,12 +6,36 @@ import { GenericCard } from "@/components/GenericCard";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
+import Colors from "@/constants/Colors";
+import { useTheme } from "@/contexts/theme";
+import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 const Appointments = () => {
     const { appointments, refreshAppointments } = useAppointments();
     useEffect(() => {
         refreshAppointments();
     }, [appointments]);
+    const { theme } = useTheme();
+
+    const styles = StyleSheet.create({
+        addButton: {
+            position: "absolute",
+            right: 30,
+            bottom: 30,
+            backgroundColor: Colors[theme].altTextColor,
+            borderRadius: 50,
+            width: 60,
+            height: 60,
+            justifyContent: "center",
+            alignItems: "center",
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+            tintColor: 'black'
+        },
+    });
     return (
         <ScrollView
             contentContainerStyle={{
@@ -41,23 +65,6 @@ const Appointments = () => {
     );
 };
 
-const styles = StyleSheet.create({
-    addButton: {
-        position: "absolute",
-        right: 30,
-        bottom: 30,
-        backgroundColor: "#0a0",
-        borderRadius: 50,
-        width: 60,
-        height: 60,
-        justifyContent: "center",
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
-});
+
 
 export default Appointments;
