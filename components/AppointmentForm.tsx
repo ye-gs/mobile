@@ -9,6 +9,10 @@ import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { RFValue } from "react-native-responsive-fontsize";
 import { AppointmentData } from "@/types/appointment";
+import { GenericButton } from "./GenericButton";
+import { GenericInput } from "./GenericInput";
+import { GenericIconButton } from "./GenericIconButton";
+import { FontAwesome } from "@expo/vector-icons";
 
 const AppointmentForm = (appointment: AppointmentData) => {
     const [doctor, setDoctor] = useState(appointment.doctor || "");
@@ -51,18 +55,17 @@ const AppointmentForm = (appointment: AppointmentData) => {
             fontSize: RFValue(20, 808),
             alignSelf: "center",
         },
-        input: {
-            backgroundColor: Colors[theme].background,
-            borderColor: Colors[theme].borderColor,
-            borderWidth: RFValue(1, 808),
-        },
         forms: {
             top: RFValue(20, 808),
+            gap: 10
         },
         options: {
             height: RFValue(100, 808),
             justifyContent: "space-evenly",
         },
+        input:{
+            backgroundColor: Colors[theme].background,
+        }
     });
     return (
         <View style={styles.container}>
@@ -73,19 +76,29 @@ const AppointmentForm = (appointment: AppointmentData) => {
             </Text>
             <View style={styles.forms}>
                 <TextInput
-                    label="Nome do doutor"
+                    label={<Text style={{color: Colors[theme].text}}>Nome do doutor</Text>}
                     placeholder="Nome do doutor"
                     defaultValue={appointment.doctor}
                     onChange={(e) => setDoctor(e.nativeEvent.text)}
+                    mode="outlined"
                     style={styles.input}
+                    textColor={Colors[theme].text}
+                    outlineColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].altTextColor}
+
                 ></TextInput>
                 <TextInput
-                    label="Descrição da consulta"
+                    label={<Text style={{color: Colors[theme].text}}>Descrição da consulta</Text>}
                     placeholder="Descrição da consulta"
                     defaultValue={appointment.description}
                     onChange={(e) => setDescription(e.nativeEvent.text)}
+                    mode="outlined"
                     style={styles.input}
-                ></TextInput>
+                    textColor={Colors[theme].text}
+                    outlineColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].altTextColor}
+                    
+                    ></TextInput>
                 {/* <DateTimePicker
                     value={new Date()}
                     onChange={(e) => {
@@ -93,17 +106,20 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     }}
                 /> */}
                 <View style={styles.options}>
-                    <Button
+                    <GenericButton
                         color={Colors[theme].altTextColor}
                         title="Salvar"
                         onPress={handleSave}
+                        height={RFValue(40, 808)}
                     />
                     {appointment.slug !== "new" ? (
-                        <Button
-                            color={Colors[theme].danger}
-                            onPress={handleDelete}
-                            title="Remover"
-                        />
+                        <GenericButton onPress={handleDelete} title="Remover" color={Colors[theme].danger} height={RFValue(40, 808)} ImageComponent={() => (
+                            <FontAwesome
+                                name="trash-o"
+                                size={RFValue(30, 808)}
+                                color={"#ffffff"}
+                            />
+                        )}/> 
                     ) : null}
                 </View>
             </View>
