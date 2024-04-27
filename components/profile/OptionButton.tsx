@@ -26,7 +26,11 @@ export const OptionButton = (props: {
             borderBottomWidth={props.borderBottomWidth}
             borderTopWidth={props.borderTopWidth}
             EndImageComponent={() => (
-                <AntDesign name="right" size={RFValue(22, 808)} color={Colors[theme].text} />
+                <AntDesign
+                    name="right"
+                    size={RFValue(22, 808)}
+                    color={Colors[theme].text}
+                />
             )}
             width={"90%"}
             height={props.buttonHeight ?? "25%"}

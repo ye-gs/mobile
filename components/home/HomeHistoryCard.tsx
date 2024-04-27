@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         borderWidth: RFValue(1, 808),
         borderColor: "#ccc",
         borderRadius: 10,
-        height: 'auto',
+        height: "auto",
     },
     image: {
         width: RFValue(50, 808),
