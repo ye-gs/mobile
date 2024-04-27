@@ -33,31 +33,31 @@ export default function Home() {
             gap: RFValue(12, 808),
             width: "80%",
             justifyContent: "center",
-            height: 'auto'
+            height: "auto",
         },
         passwordReset: {
             fontSize: RFValue(13, 808),
             alignSelf: "flex-end",
             color: "rgba(64, 124, 226, 1)",
-            height: '10%',
+            height: "10%",
             fontWeight: "500",
         },
         signInOptions: {
             width: "80%",
             alignItems: "center",
-            height: '40%',
+            height: "40%",
         },
         createAccount: {
             flexDirection: "row",
             gap: RFValue(6, 808),
         },
-        createAccount__text:{
-            fontSize: RFValue(14, 808)
+        createAccount__text: {
+            fontSize: RFValue(14, 808),
         },
         createAccount__link: {
             color: Colors[theme].url,
             fontWeight: "600",
-            fontSize: RFValue(14, 808)
+            fontSize: RFValue(14, 808),
         },
         optionsSeparator: {
             width: "100%",
@@ -82,7 +82,7 @@ export default function Home() {
         extraOptions: {
             width: "100%",
             height: RFValue(60, 808),
-            top: RFValue(20, 808)
+            top: RFValue(20, 808),
         },
     });
 
@@ -99,7 +99,7 @@ export default function Home() {
                     onChange={setEmail}
                     StartImageComponent={Email}
                     height="auto"
-                    paddingVertical={'6%'}
+                    paddingVertical={"6%"}
                     imageSize={RFValue(20, 808)}
                 ></GenericInput>
                 <GenericInput
@@ -110,7 +110,7 @@ export default function Home() {
                     shouldBeSecure={!showPassword}
                     onPress={toggleShowPassword}
                     height="auto"
-                    paddingVertical={'6%'}
+                    paddingVertical={"6%"}
                     imageSize={RFValue(20, 808)}
                     endImageSize={RFValue(20, 808)}
                 ></GenericInput>
@@ -125,7 +125,9 @@ export default function Home() {
                     width={"100%"}
                 ></GenericButton>
                 <View style={styles.createAccount}>
-                    <Text style={styles.createAccount__text}>Não tem conta?</Text>
+                    <Text style={styles.createAccount__text}>
+                        Não tem conta?
+                    </Text>
                     <Text
                         onPress={() => router.navigate("/signup")}
                         style={styles.createAccount__link}
@@ -150,8 +152,8 @@ export default function Home() {
                         onPress={handleGoogleLogin}
                         text="Entrar com o Google"
                         ImageComponent={Google}
-                        imageSize={'70%'}
-                        height={'100%'}
+                        imageSize={"70%"}
+                        height={"100%"}
                     ></GenericIconButton>
                 </View>
             </View>
