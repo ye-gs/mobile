@@ -77,7 +77,7 @@ export default function Home() {
             marginVertical: RFValue(20, 808),
             height: RFValue(1.5, 808),
             width: "44%",
-            backgroundColor: "rgba(34,34,31,0.1)",
+            backgroundColor: "#A1A8B0",
         },
         extraOptions: {
             width: "100%",

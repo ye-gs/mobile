@@ -49,6 +49,7 @@ export function GenericCard(props: {
         timeViewText: {
             fontSize: RFValue(20, 808),
             fontWeight: "bold",
+            color: Colors[theme].black
         },
         contentView: {
             flex: 1,

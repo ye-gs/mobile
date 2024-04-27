@@ -18,8 +18,6 @@ export function GenericButton(props: {
     const { ImageComponent } = props;
     const styles = StyleSheet.create({
         container: {
-            borderColor: "rgba(229, 231, 235, 1)",
-            borderWidth: RFValue(1),
             borderRadius: 100,
             backgroundColor: props.color ?? Colors[theme].altTextColor,
             justifyContent: "center",

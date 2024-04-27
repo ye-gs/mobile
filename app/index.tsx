@@ -17,8 +17,6 @@ export default function Home() {
                 onPress={() => router.navigate("signup")}
                 width={'80%'}
                 height={'5%'}
-
-
             />
         </View>
     );
