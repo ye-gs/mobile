@@ -5,7 +5,11 @@ import React from "react";
 import { StyleSheet, Image, Text, View, DimensionValue } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
-export function ProfileCard(props: { user: User | null; imageSize?: number; paddingTop?: number}) {
+export function ProfileCard(props: {
+    user: User | null;
+    imageSize?: number;
+    paddingTop?: number;
+}) {
     const { theme } = useTheme();
 
     const styles = StyleSheet.create({
