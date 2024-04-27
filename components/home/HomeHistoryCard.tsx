@@ -7,6 +7,7 @@ import Colors from "@/constants/Colors";
 import { useState } from "react";
 
 export function HomeHistoryCard(props: {
+    description: string;
     text: string;
     date: string;
     imageUrl: string;
@@ -14,9 +15,6 @@ export function HomeHistoryCard(props: {
 }) {
     const { theme } = useTheme();
     const [isBookmarked, setBookmarked] = useState(props.isBookmarked);
-    const markBookmarked = () => {
-        setBookmarked(!isBookmarked);
-    };
     const BookmarkImage = isBookmarked ? MarkedBM : Bookmark;
 
     return (
@@ -24,12 +22,12 @@ export function HomeHistoryCard(props: {
             <Image style={styles.image} source={{ uri: props.imageUrl }} />
             <View style={styles.cardText}>
                 <Text style={styles.text}>{props.text}</Text>
+                <Text style={styles.text}>{props.description}</Text>
                 <Text style={styles.date}>{props.date}</Text>
             </View>
             <View style={styles.bookmarkView}>
                 <BookmarkImage
                     style={styles.bookmark}
-                    onPress={markBookmarked}
                     fill={Colors[theme].tabIconSelected}
                     width={styles.bookmark.width}
                     height={styles.bookmark.height}

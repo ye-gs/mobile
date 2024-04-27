@@ -3,6 +3,7 @@ interface Appointment {
     doctor: string;
     description: string;
     datetime: Date;
+    isBookmarked: boolean;
 }
 interface AppointmentData {
     id: string;
@@ -10,12 +11,14 @@ interface AppointmentData {
     description: string;
     datetime: string;
     slug: string;
+    isBookmarked: boolean | number;
 }
 interface AppointmentMiddleware {
     id: string;
     doctor: string;
     description: string;
     datetime: string;
+    isBookmarked: number;
 }
 
 export { Appointment, AppointmentData, AppointmentMiddleware };

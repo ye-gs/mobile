@@ -19,6 +19,7 @@ const routeAndTransform = (appointment: AppointmentMiddleware) => {
 
 const Appointments = () => {
     const { appointments, refreshAppointments } = useAppointments();
+
     useEffect(() => {
         refreshAppointments();
     }, [appointments]);
@@ -60,9 +61,11 @@ const Appointments = () => {
                             ...appointment,
                             datetime: appointment.datetime.toISOString(),
                             id: appointment.id!,
+                            isBookmarked: appointment.isBookmarked ? 1 : 0,
                         })
                     }
                     subtext={appointment.description}
+                    isBookmarked={appointment.isBookmarked}
                     datetime={appointment.datetime}
                 />
             ))}

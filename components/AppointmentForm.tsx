@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button } from "react-native";
 import { View, Text } from "./Themed";
 import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
@@ -9,9 +8,8 @@ import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { RFValue } from "react-native-responsive-fontsize";
 import { AppointmentData } from "@/types/appointment";
+import { MarkedBM, Bookmark } from "@/assets";
 import { GenericButton } from "./GenericButton";
-import { GenericInput } from "./GenericInput";
-import { GenericIconButton } from "./GenericIconButton";
 import { FontAwesome } from "@expo/vector-icons";
 
 const AppointmentForm = (appointment: AppointmentData) => {
@@ -20,6 +18,10 @@ const AppointmentForm = (appointment: AppointmentData) => {
         appointment.description || ""
     );
     const [datetime, setDatetime] = useState(new Date());
+    const [isBookmarked, setIsBookmarked] = useState(
+        appointment.isBookmarked == 1 ? true : false || false
+    );
+    const BookmarkImage = isBookmarked ? MarkedBM : Bookmark;
     const { createAppointment, editAppointment, deleteAppointment } =
         useAppointments();
     const { theme } = useTheme();
@@ -29,12 +31,14 @@ const AppointmentForm = (appointment: AppointmentData) => {
                 doctor,
                 description,
                 datetime,
+                isBookmarked,
             });
         } else {
             createAppointment({
                 doctor,
                 description,
                 datetime,
+                isBookmarked,
             });
         }
         //reload useEffect on /appointments
@@ -49,6 +53,17 @@ const AppointmentForm = (appointment: AppointmentData) => {
         container: {
             width: "80%",
             top: "20%",
+        },
+        bookmarkView: {
+            flex: 1,
+            alignItems: "flex-end",
+            borderRadius: 10,
+        },
+        bookmark: {
+            width: RFValue(22, 808),
+            height: RFValue(22, 808),
+            marginTop: RFValue(3, 808),
+            marginRight: RFValue(8, 808),
         },
         title: {
             fontWeight: "bold",
@@ -99,6 +114,27 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     activeOutlineColor={Colors[theme].altTextColor}
                     
                     ></TextInput>
+                <View
+                    style={{
+                        justifyContent: "space-around",
+                        flexDirection: "row",
+                    }}
+                >
+                    <Text style={styles.title}>
+                        {isBookmarked
+                            ? "Não marcar para lembrete"
+                            : "Marcar para lembrete"}
+                    </Text>
+                    <View style={styles.bookmarkView}>
+                        <BookmarkImage
+                            style={styles.bookmark}
+                            onPress={() => setIsBookmarked(!isBookmarked)}
+                            fill={Colors[theme].tabIconSelected}
+                            width={styles.bookmark.width}
+                            height={styles.bookmark.height}
+                        />
+                    </View>
+                </View>
                 {/* <DateTimePicker
                     value={new Date()}
                     onChange={(e) => {

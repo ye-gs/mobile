@@ -1,11 +1,22 @@
 import { View, Text } from "@/components/Themed";
 import { HomeHistoryCard } from "@/components/home/HomeHistoryCard";
+import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 export function HomeAppointmentHistory() {
+    const { appointments, refreshAppointments } = useAppointments();
+    appointments.sort((a, b) => {
+        return a.datetime.getTime() - b.datetime.getTime();
+    });
+    // get only appointments that are in the future
+    const futureAppointments = appointments.filter(
+        (appointment) => appointment.datetime.getTime() > Date.now()
+    );
+    // get the two most recent appointments
+    const mostRecentAppointments = futureAppointments.slice(0, 2);
     return (
         <View style={styles.history}>
             <View style={styles.history__heading}>
@@ -17,18 +28,16 @@ export function HomeAppointmentHistory() {
                     Ver todas
                 </Text>
             </View>
-            <HomeHistoryCard
-                text="Exame de sangue"
-                date="Hoje"
-                imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"
-                isBookmarked={true}
-            ></HomeHistoryCard>
-            <HomeHistoryCard
-                text="Exame de glicose"
-                date="Amanhã"
-                imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"
-                isBookmarked={false}
-            ></HomeHistoryCard>
+            {mostRecentAppointments.map((appointment) => (
+                <HomeHistoryCard
+                    key={appointment.id}
+                    text={appointment.doctor}
+                    description={appointment.description}
+                    date={appointment.datetime.toDateString()}
+                    imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"
+                    isBookmarked={appointment.isBookmarked}
+                ></HomeHistoryCard>
+            ))}
         </View>
     );
 }

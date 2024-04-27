@@ -4,7 +4,7 @@ import { GestureResponderEvent, Pressable, StyleSheet } from "react-native";
 import { View, Text } from "./Themed";
 import { AntDesign } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-
+import { MarkedBM, Bookmark } from "@/assets";
 export function GenericCard(props: {
     text: string;
     subtext: string;
@@ -12,8 +12,10 @@ export function GenericCard(props: {
     frequency?: string;
     time?: string;
     onPress?: Function;
+    isBookmarked?: boolean;
 }) {
     const { theme } = useTheme();
+    const BookMarkImage = props.isBookmarked ? MarkedBM : Bookmark;
     let date, time;
     if (props.datetime !== undefined) {
         date = props.datetime.toDateString();
@@ -87,6 +89,7 @@ export function GenericCard(props: {
                 <Text numberOfLines={1} style={styles.contentViewSubtext}>
                     {props.subtext}
                 </Text>
+                <BookMarkImage />
             </View>
             <View style={styles.endContentView}>
                 <Text style={styles.date}>{date}</Text>

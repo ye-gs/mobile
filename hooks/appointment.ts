@@ -49,6 +49,7 @@ export function useAppointments() {
                             doctor: data.doctor,
                             description: data.description,
                             datetime: data.datetime.toDate(),
+                            isBookmarked: data.isBookmarked,
                         },
                     ]);
                 });
