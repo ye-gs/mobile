@@ -11,18 +11,34 @@ import { AppointmentData } from "@/types/appointment";
 import { MarkedBM, Bookmark } from "@/assets";
 import { GenericButton } from "./GenericButton";
 import { FontAwesome } from "@expo/vector-icons";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const AppointmentForm = (appointment: AppointmentData) => {
     const [doctor, setDoctor] = useState(appointment.doctor || "");
     const [description, setDescription] = useState(
         appointment.description || ""
     );
-    const [datetime, setDatetime] = useState(new Date());
+    const [datetime, setDatetime] = useState(
+        new Date(appointment.datetime) || new Date()
+    );
+
+    const [datePickerVisible, setDatePickerVisible] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisible(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisible(false);
+    };
+    const handleConfirm = (date: Date) => {
+        setDatetime(date);
+        hideDatePicker();
+    };
     const [isBookmarked, setIsBookmarked] = useState(
         appointment.isBookmarked == 1 ? true : false || false
     );
     const BookmarkImage = isBookmarked ? MarkedBM : Bookmark;
-    const [dateInvalid, setDateInvalid] = useState(false);
     const { createAppointment, editAppointment, deleteAppointment } =
         useAppointments();
     const { theme } = useTheme();
@@ -83,17 +99,6 @@ const AppointmentForm = (appointment: AppointmentData) => {
             backgroundColor: Colors[theme].background,
         },
     });
-    function setAndValidateDatetime(e: string): void {
-        const parsedDate = new Date(e);
-        if (isNaN(parsedDate.getTime())) {
-            // if invalid date render a danger text saying invalid date {date}
-            setDateInvalid(true);
-        } else {
-            setDateInvalid(false);
-            setDatetime(parsedDate);
-        }
-    }
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
@@ -154,28 +159,23 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     </View>
                 </View>
 
-                <TextInput
-                    textContentType="birthdate"
-                    dataDetectorTypes={"calendarEvent"}
-                    onChangeText={(e) => setAndValidateDatetime(e)}
-                    label={
-                        <Text style={{ color: Colors[theme].text }}>
-                            Data da consulta
-                        </Text>
-                    }
-                    placeholder="Data da consulta"
-                    mode="outlined"
-                    style={styles.input}
-                    textColor={Colors[theme].text}
-                    outlineColor={Colors[theme].text}
-                    activeOutlineColor={Colors[theme].altTextColor}
-                    defaultValue={datetime.toLocaleDateString()}
-                ></TextInput>
-                {dateInvalid ? (
-                    <Text style={{ color: Colors[theme].danger }}>
-                        Data inválida
+                <Button onPress={showDatePicker}>
+                    <Text style={{ color: Colors[theme].text }}>
+                        Data da consulta{" "}
+                        {datetime
+                            ? datetime.toLocaleString("pt-Br")
+                            : "Nenhuma data selecionada"}
                     </Text>
-                ) : null}
+                </Button>
+                <DateTimePickerModal
+                    date={datetime ? new Date(datetime) : undefined}
+                    minimumDate={new Date()}
+                    isVisible={datePickerVisible}
+                    mode="datetime"
+                    onConfirm={handleConfirm}
+                    display="spinner"
+                    onCancel={hideDatePicker}
+                />
                 <View style={styles.options}>
                     <GenericButton
                         color={Colors[theme].altTextColor}
