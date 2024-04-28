@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text } from "./Themed";
 import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
-import { TextInput } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
@@ -22,6 +22,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
         appointment.isBookmarked == 1 ? true : false || false
     );
     const BookmarkImage = isBookmarked ? MarkedBM : Bookmark;
+    const [dateInvalid, setDateInvalid] = useState(false);
     const { createAppointment, editAppointment, deleteAppointment } =
         useAppointments();
     const { theme } = useTheme();
@@ -72,16 +73,27 @@ const AppointmentForm = (appointment: AppointmentData) => {
         },
         forms: {
             top: RFValue(20, 808),
-            gap: 10
+            gap: 10,
         },
         options: {
             height: RFValue(100, 808),
             justifyContent: "space-evenly",
         },
-        input:{
+        input: {
             backgroundColor: Colors[theme].background,
-        }
+        },
     });
+    function setAndValidateDatetime(e: string): void {
+        const parsedDate = new Date(e);
+        if (isNaN(parsedDate.getTime())) {
+            // if invalid date render a danger text saying invalid date {date}
+            setDateInvalid(true);
+        } else {
+            setDateInvalid(false);
+            setDatetime(parsedDate);
+        }
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
@@ -91,7 +103,11 @@ const AppointmentForm = (appointment: AppointmentData) => {
             </Text>
             <View style={styles.forms}>
                 <TextInput
-                    label={<Text style={{color: Colors[theme].text}}>Nome do doutor</Text>}
+                    label={
+                        <Text style={{ color: Colors[theme].text }}>
+                            Nome do doutor
+                        </Text>
+                    }
                     placeholder="Nome do doutor"
                     defaultValue={appointment.doctor}
                     onChange={(e) => setDoctor(e.nativeEvent.text)}
@@ -100,10 +116,13 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     textColor={Colors[theme].text}
                     outlineColor={Colors[theme].text}
                     activeOutlineColor={Colors[theme].altTextColor}
-
                 ></TextInput>
                 <TextInput
-                    label={<Text style={{color: Colors[theme].text}}>Descrição da consulta</Text>}
+                    label={
+                        <Text style={{ color: Colors[theme].text }}>
+                            Descrição da consulta
+                        </Text>
+                    }
                     placeholder="Descrição da consulta"
                     defaultValue={appointment.description}
                     onChange={(e) => setDescription(e.nativeEvent.text)}
@@ -112,8 +131,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     textColor={Colors[theme].text}
                     outlineColor={Colors[theme].text}
                     activeOutlineColor={Colors[theme].altTextColor}
-                    
-                    ></TextInput>
+                ></TextInput>
                 <View
                     style={{
                         justifyContent: "space-around",
@@ -135,12 +153,29 @@ const AppointmentForm = (appointment: AppointmentData) => {
                         />
                     </View>
                 </View>
-                {/* <DateTimePicker
-                    value={new Date()}
-                    onChange={(e) => {
-                        setDatetime(new Date(e.nativeEvent.timestamp!));
-                    }}
-                /> */}
+
+                <TextInput
+                    textContentType="birthdate"
+                    dataDetectorTypes={"calendarEvent"}
+                    onChangeText={(e) => setAndValidateDatetime(e)}
+                    label={
+                        <Text style={{ color: Colors[theme].text }}>
+                            Data da consulta
+                        </Text>
+                    }
+                    placeholder="Data da consulta"
+                    mode="outlined"
+                    style={styles.input}
+                    textColor={Colors[theme].text}
+                    outlineColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].altTextColor}
+                    defaultValue={datetime.toLocaleDateString()}
+                ></TextInput>
+                {dateInvalid ? (
+                    <Text style={{ color: Colors[theme].danger }}>
+                        Data inválida
+                    </Text>
+                ) : null}
                 <View style={styles.options}>
                     <GenericButton
                         color={Colors[theme].altTextColor}
@@ -149,13 +184,19 @@ const AppointmentForm = (appointment: AppointmentData) => {
                         height={RFValue(40, 808)}
                     />
                     {appointment.slug !== "new" ? (
-                        <GenericButton onPress={handleDelete} title="Remover" color={Colors[theme].danger} height={RFValue(40, 808)} ImageComponent={() => (
-                            <FontAwesome
-                                name="trash-o"
-                                size={RFValue(30, 808)}
-                                color={"#ffffff"}
-                            />
-                        )}/> 
+                        <GenericButton
+                            onPress={handleDelete}
+                            title="Remover"
+                            color={Colors[theme].danger}
+                            height={RFValue(40, 808)}
+                            ImageComponent={() => (
+                                <FontAwesome
+                                    name="trash-o"
+                                    size={RFValue(30, 808)}
+                                    color={"#ffffff"}
+                                />
+                            )}
+                        />
                     ) : null}
                 </View>
             </View>
