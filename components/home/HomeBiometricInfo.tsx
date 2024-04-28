@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     biometricInfo: {
         flexDirection: "row",
         gap: RFValue(18, 808),
-        paddingTop: '8%'
+        paddingTop: "8%",
     },
     verticalSeparator: {
         width: RFValue(1.5, 808),

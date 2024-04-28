@@ -9,12 +9,12 @@ import { Text, View } from "./Themed";
 import { RFValue } from "react-native-responsive-fontsize";
 export function GenericIconButton(props: {
     text: string;
-    ImageComponent: React.ComponentType<SvgProps>;
+    ImageComponent?: React.ComponentType<SvgProps>;
     EndImageComponent?: React.ComponentType<SvgProps>;
     width?: DimensionValue;
     height?: DimensionValue;
     fontSize?: number;
-    fontWeight?: string | undefined;
+    fontWeight?: WeightValue;
     onPress?: Function;
     borderWidth?: number;
     borderTopWidth?: number;
@@ -31,12 +31,18 @@ export function GenericIconButton(props: {
             alignItems: "center",
             borderRadius: 6,
             borderColor: "#E5E7EB",
-            borderTopWidth: RFValue(props.borderTopWidth ?? props.borderWidth ?? 1, 808),
-            borderBottomWidth:RFValue(props.borderBottomWidth ?? props.borderWidth ?? 1, 808),
+            borderTopWidth: RFValue(
+                props.borderTopWidth ?? props.borderWidth ?? 1,
+                808
+            ),
+            borderBottomWidth: RFValue(
+                props.borderBottomWidth ?? props.borderWidth ?? 1,
+                808
+            ),
         },
         text: {
-            flex: 3,    
-            fontWeight: "500",
+            flex: 3,
+            fontWeight: props.fontWeight ?? "500",
             fontSize: RFValue(props.fontSize ?? 16, 808),
         },
         imageView: {
@@ -57,10 +63,12 @@ export function GenericIconButton(props: {
             onPress={props.onPress as (event: GestureResponderEvent) => void}
         >
             <View style={styles.imageView}>
-                <ImageComponent
-                    width={props.imageSize ?? "60%"}
-                    height={props.imageSize ?? "60%"}
-                ></ImageComponent>
+                {ImageComponent ? (
+                    <ImageComponent
+                        width={props.imageSize ?? "60%"}
+                        height={props.imageSize ?? "60%"}
+                    ></ImageComponent>
+                ) : null}
             </View>
             <Text style={styles.text}>{props.text}</Text>
             <View style={styles.endImageView}>
