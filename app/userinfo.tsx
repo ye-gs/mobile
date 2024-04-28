@@ -1,13 +1,16 @@
-import { View } from "@/components/Themed";
+import { View, Text } from "@/components/Themed";
 import { useUser } from "@/contexts/user";
 import { StyleSheet } from "react-native";
 import { ProfileCard } from "@/components/ProfileCard";
-import { OptionButton } from "@/components/profile/OptionButton";
 import { RFValue } from "react-native-responsive-fontsize";
 import { GenderSelect } from "@/components/profile/GenderSelect";
-
+import { useTheme } from "@/contexts/theme";
+import Colors from "@/constants/Colors";
+import { TextInput } from "react-native-paper";
+import { GenericButton } from "@/components/GenericButton";
 export default function UserInfo() {
     const { user } = useUser();
+    const { theme } = useTheme();
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -17,7 +20,12 @@ export default function UserInfo() {
         },
         options: {
             height: "50%",
+            width: "80%",
+            gap: 10
         },
+        input:{
+            backgroundColor: Colors[theme].background,
+        }
     });
     return (
         <View style={styles.container}>
@@ -27,22 +35,39 @@ export default function UserInfo() {
                 paddingTop={0}
             ></ProfileCard>
             <View style={styles.options}>
-                <OptionButton
-                    text={"Nome: " + user?.displayName}
-                    borderBottomWidth={1}
-                    fontWeight="600"
-                ></OptionButton>
+                <TextInput
+                    label={<Text style={{color: Colors[theme].text}}>Nome</Text>}
+                    placeholder="Nome"
+                    defaultValue={user?.displayName || "Nome"}
+                    mode="outlined"
+                    style={styles.input}
+                    textColor={Colors[theme].text}
+                    outlineColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].altTextColor}
+                />
+                <TextInput
+                    label={<Text style={{color: Colors[theme].text}}>Email</Text>}
+                    placeholder="Email"
+                    defaultValue={user?.email || "Email"}
+                    mode="outlined"
+                    style={styles.input}
+                    textColor={Colors[theme].text}
+                    outlineColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].altTextColor}
+
+                />
+                <TextInput
+                    label={<Text style={{color: Colors[theme].text}}>Data de nascimento</Text>}
+                    placeholder="Data de nascimento"
+                    defaultValue={user?.metadata.creationTime}
+                    mode="outlined"
+                    style={styles.input}
+                    textColor={Colors[theme].text}
+                    outlineColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].altTextColor}
+                />
                 <GenderSelect />
-                <OptionButton
-                    text={"Email: " + user?.email}
-                    borderBottomWidth={1}
-                    fontWeight="600"
-                ></OptionButton>
-                <OptionButton
-                    text={"Data de nascimento: " + user?.metadata.creationTime}
-                    borderBottomWidth={1}
-                    fontWeight="600"
-                ></OptionButton>
+                <GenericButton height={RFValue(40, 808)} title="Salvar" onPress={() => console.log("OK")}/>
             </View>
         </View>
     );
