@@ -57,7 +57,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
         fetchAppointments,
     } = useAppointments();
     const { theme } = useTheme();
-    const handleSave = () => {
+    const handleSave = async () => {
         Alert.alert(
             "Salvar compromisso?",
             "Você tem certeza que deseja salvar esse compromisso?",
@@ -68,16 +68,16 @@ const AppointmentForm = (appointment: AppointmentData) => {
                 },
                 {
                     text: "OK",
-                    onPress: () => {
+                    onPress: async () => {
                         if (appointment.slug !== "new") {
-                            editAppointment(appointment.slug, {
+                            await editAppointment(appointment.slug, {
                                 doctor,
                                 description,
                                 datetime,
                                 isBookmarked,
                             });
                         } else {
-                            createAppointment({
+                            await createAppointment({
                                 doctor,
                                 description,
                                 datetime,
@@ -85,14 +85,14 @@ const AppointmentForm = (appointment: AppointmentData) => {
                             });
                         }
                         router.push("/appointments");
-                        fetchAppointments();
+                        await fetchAppointments();
                     },
                 },
             ]
         );
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         Alert.alert(
             "Deletar compromisso?",
             "Tem certeza que deseja deletar esse compromisso?",
@@ -103,8 +103,8 @@ const AppointmentForm = (appointment: AppointmentData) => {
                 },
                 {
                     text: "OK",
-                    onPress: () => {
-                        deleteAppointment(appointment.slug);
+                    onPress: async () => {
+                        await deleteAppointment(appointment.slug);
                         router.push("/appointments");
                         fetchAppointments();
                     },

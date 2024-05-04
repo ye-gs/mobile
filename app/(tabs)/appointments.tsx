@@ -9,6 +9,7 @@ import { router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { routeAndTransform } from "@/utils/routeAndTransform";
+
 const Appointments = () => {
     const { appointments, fetchAppointments } = useAppointments();
 
