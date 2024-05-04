@@ -1,28 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { ScrollView } from "@/components/Themed";
 import { AntDesign } from "@expo/vector-icons";
 import { GenericCard } from "@/components/GenericCard";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useAppointments } from "@/hooks/appointment";
-import { AppointmentMiddleware } from "@/types/appointment";
 import { router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
-
-const routeAndTransform = (appointment: AppointmentMiddleware) => {
-    router.push({
-        pathname: `/appointments/${appointment.id}`,
-        params: { ...appointment },
-    });
-};
-
+import { routeAndTransform } from "@/utils/routeAndTransform";
 const Appointments = () => {
-    const { appointments, refreshAppointments } = useAppointments();
+    const { appointments, fetchAppointments } = useAppointments();
 
     useEffect(() => {
-        refreshAppointments();
-    }, [appointments]);
+        fetchAppointments();
+    }, []);
     const { theme } = useTheme();
 
     const styles = StyleSheet.create({
