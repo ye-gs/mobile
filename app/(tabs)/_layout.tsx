@@ -1,5 +1,9 @@
 import React from "react";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import {
+    FontAwesome,
+    Ionicons,
+    MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
@@ -27,7 +31,7 @@ export default function TabLayout() {
     };
 
     const { theme, setTheme } = useTheme();
-    const { setUser } = useUser();
+    const { user, setUser } = useUser();
     const styles = StyleSheet.create({
         menu: {
             backgroundColor: Colors[theme].background,
@@ -60,6 +64,10 @@ export default function TabLayout() {
             setTheme(theme === "light" ? "dark" : "light");
             closeMenu();
         }
+        const isAdmin =
+            user!.email === process.env.ADMIN_EMAIL ||
+            "mnomeluisguilherme@yahoo.com";
+        console.log(isAdmin);
 
         return (
             <Menu
@@ -109,6 +117,22 @@ export default function TabLayout() {
                     title="Mudar tema"
                     titleStyle={styles.menuItemTitle}
                 />
+                {isAdmin ? (
+                    <Menu.Item
+                        leadingIcon={() => (
+                            <MaterialCommunityIcons
+                                size={25}
+                                name="test-tube"
+                                color={Colors[theme].text}
+                            ></MaterialCommunityIcons>
+                        )}
+                        onPress={() => {
+                            router.navigate("/test");
+                        }}
+                        title="Testes"
+                        titleStyle={styles.menuItemTitle}
+                    />
+                ) : null}
             </Menu>
         );
     }

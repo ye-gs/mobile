@@ -106,7 +106,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     onPress: async () => {
                         await deleteAppointment(appointment.slug);
                         router.push("/appointments");
-                        fetchAppointments();
+                        await fetchAppointments();
                     },
                 },
             ]

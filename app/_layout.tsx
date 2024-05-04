@@ -121,6 +121,27 @@ function RootLayoutNav() {
                     headerTitleStyle: { color: Colors[theme].text },
                 }}
             />
+            <Stack.Screen
+                name="test"
+                options={{
+                    headerLeft: () => (
+                        <Link href="/home">
+                            <FontAwesome
+                                size={38}
+                                name="arrow-left"
+                                color={Colors[theme].text}
+                            />
+                        </Link>
+                    ),
+                    headerShown: true,
+                    headerTitle: "Teste de Tela",
+                    headerTitleAlign: "center",
+                    headerStyle: {
+                        backgroundColor: Colors[theme].background,
+                    },
+                    headerTitleStyle: { color: Colors[theme].text },
+                }}
+            />
             <Stack.Screen name="(tabs)" />
             <Stack.Screen
                 name="appointments/[slug]"
