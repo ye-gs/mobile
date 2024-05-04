@@ -13,6 +13,7 @@ import { GenericButton } from "./GenericButton";
 import { FontAwesome } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Alert } from "react-native";
+import * as Notifications from "expo-notifications";
 
 const AppointmentForm = (appointment: AppointmentData) => {
     if (appointment.slug == "new") {
@@ -69,6 +70,20 @@ const AppointmentForm = (appointment: AppointmentData) => {
                 {
                     text: "OK",
                     onPress: async () => {
+                        if (isBookmarked) {
+                            let notificationDate = new Date(datetime);
+                            notificationDate.setDate(
+                                notificationDate.getDate() - 1
+                            );
+                            await Notifications.scheduleNotificationAsync({
+                                content: {
+                                    title: "Lembrete de consulta",
+                                    body: `Você tem uma consulta marcada com o doutor ${doctor} sobre ${description} em ${datetime.toLocaleString("pt-BR")}`,
+                                    sound: "whatsapp.wav",
+                                },
+                                trigger: { date: notificationDate },
+                            });
+                        }
                         if (appointment.slug !== "new") {
                             await editAppointment(appointment.slug, {
                                 doctor,

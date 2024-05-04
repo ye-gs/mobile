@@ -37,6 +37,12 @@
                     "cameraPermission": "Permitir que $(PRODUCT_NAME) acesse sua câmera",
                     "microphonePermission": "Permitir que $(PRODUCT_NAME) acesse sua câmera"
                 }
+            ],
+            [
+                "expo-notifications",
+                {
+                    "sounds": ["./assets/audios/whatsapp.wav"]
+                }
             ]
         ],
         "experiments": {

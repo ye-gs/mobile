@@ -67,7 +67,6 @@ export default function TabLayout() {
         const isAdmin =
             user!.email === process.env.ADMIN_EMAIL ||
             "mnomeluisguilherme@yahoo.com";
-        console.log(isAdmin);
 
         return (
             <Menu
