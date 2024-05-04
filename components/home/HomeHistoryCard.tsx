@@ -1,4 +1,4 @@
-import { View, Text } from "@/components/Themed";
+import { View, Text, TouchableOpacity } from "@/components/Themed";
 import { StyleSheet, Image } from "react-native";
 import { Bookmark, MarkedBM } from "@/assets/images/index";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -12,13 +12,14 @@ export function HomeHistoryCard(props: {
     date: string;
     imageUrl: string;
     isBookmarked: boolean;
+    onPress?: () => void;
 }) {
     const { theme } = useTheme();
     const [isBookmarked, setBookmarked] = useState(props.isBookmarked);
     const BookmarkImage = isBookmarked ? MarkedBM : Bookmark;
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={props.onPress}>
             <Image style={styles.image} source={{ uri: props.imageUrl }} />
             <View style={styles.cardText}>
                 <Text style={styles.text}>{props.text}</Text>
@@ -33,7 +34,7 @@ export function HomeHistoryCard(props: {
                     height={styles.bookmark.height}
                 />
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 

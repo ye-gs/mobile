@@ -15,6 +15,16 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Alert } from "react-native";
 
 const AppointmentForm = (appointment: AppointmentData) => {
+    if (appointment.slug == "new") {
+        appointment = {
+            id: "new",
+            doctor: "",
+            description: "",
+            datetime: new Date().toISOString(),
+            slug: "new",
+            isBookmarked: false,
+        };
+    }
     const [doctor, setDoctor] = useState(appointment.doctor || "");
     const [description, setDescription] = useState(
         appointment.description || ""
@@ -40,13 +50,17 @@ const AppointmentForm = (appointment: AppointmentData) => {
         appointment.isBookmarked == 1 ? true : false || false
     );
     const BookmarkImage = isBookmarked ? MarkedBM : Bookmark;
-    const { createAppointment, editAppointment, deleteAppointment } =
-        useAppointments();
+    const {
+        createAppointment,
+        editAppointment,
+        deleteAppointment,
+        fetchAppointments,
+    } = useAppointments();
     const { theme } = useTheme();
     const handleSave = () => {
         Alert.alert(
             "Salvar compromisso?",
-            "Você tem certeza que deseja salvar as mudanças feitas nesse compromisso?",
+            "Você tem certeza que deseja salvar esse compromisso?",
             [
                 {
                     text: "Cancelar",
@@ -71,6 +85,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                             });
                         }
                         router.push("/appointments");
+                        fetchAppointments();
                     },
                 },
             ]
@@ -91,6 +106,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     onPress: () => {
                         deleteAppointment(appointment.slug);
                         router.push("/appointments");
+                        fetchAppointments();
                     },
                 },
             ]
