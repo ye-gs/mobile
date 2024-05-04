@@ -6,9 +6,11 @@ import { HomeAppointmentHistory } from "@/components/home/HomeAppointmentHistory
 import { useUser } from "@/contexts/user";
 import { HomeRoutingOptions } from "@/components/home/HomeRoutingOptions";
 import { HomeBiometricInfo } from "@/components/home/HomeBiometricInfo";
+import { router } from "expo-router";
 
 export default function Home() {
     const { user } = useUser();
+    if (user === null) router.navigate("/index");
     return (
         <View style={styles.container}>
             <ProfileCard user={user} />
