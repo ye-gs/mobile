@@ -1,5 +1,9 @@
 import React from "react";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import {
+    FontAwesome,
+    Ionicons,
+    MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
@@ -107,6 +111,20 @@ export default function TabLayout() {
                         switchTheme();
                     }}
                     title="Mudar tema"
+                    titleStyle={styles.menuItemTitle}
+                />
+                <Menu.Item
+                    leadingIcon={() => (
+                        <MaterialCommunityIcons
+                            size={25}
+                            name="test-tube"
+                            color={Colors[theme].text}
+                        ></MaterialCommunityIcons>
+                    )}
+                    onPress={() => {
+                        router.navigate("../test");
+                    }}
+                    title="Testes"
                     titleStyle={styles.menuItemTitle}
                 />
             </Menu>
