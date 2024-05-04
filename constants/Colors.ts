@@ -32,7 +32,7 @@ export default {
         borderColor: "#E5E7EB",
         circleBackground: "#92B0CC",
         altTextColor: "#778d3e",
-        primaryLighter:"A3B18A",
+        primaryLighter:"#A3B18A",
         primaryDarker: "#344E41",
         danger: "#a85751",
         black: "#000",
