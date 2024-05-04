@@ -12,6 +12,7 @@ import { MarkedBM, Bookmark } from "@/assets";
 import { GenericButton } from "./GenericButton";
 import { FontAwesome } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Alert } from "react-native";
 
 const AppointmentForm = (appointment: AppointmentData) => {
     const [doctor, setDoctor] = useState(appointment.doctor || "");
@@ -43,27 +44,57 @@ const AppointmentForm = (appointment: AppointmentData) => {
         useAppointments();
     const { theme } = useTheme();
     const handleSave = () => {
-        if (appointment.slug !== "new") {
-            editAppointment(appointment.slug, {
-                doctor,
-                description,
-                datetime,
-                isBookmarked,
-            });
-        } else {
-            createAppointment({
-                doctor,
-                description,
-                datetime,
-                isBookmarked,
-            });
-        }
-        //reload useEffect on /appointments
-        router.push("/appointments");
+        Alert.alert(
+            "Salvar compromisso?",
+            "Você tem certeza que deseja salvar as mudanças feitas nesse compromisso?",
+            [
+                {
+                    text: "Cancelar",
+                    style: "cancel",
+                },
+                {
+                    text: "OK",
+                    onPress: () => {
+                        if (appointment.slug !== "new") {
+                            editAppointment(appointment.slug, {
+                                doctor,
+                                description,
+                                datetime,
+                                isBookmarked,
+                            });
+                        } else {
+                            createAppointment({
+                                doctor,
+                                description,
+                                datetime,
+                                isBookmarked,
+                            });
+                        }
+                        router.push("/appointments");
+                    },
+                },
+            ]
+        );
     };
+
     const handleDelete = () => {
-        deleteAppointment(appointment.slug);
-        router.push("/appointments");
+        Alert.alert(
+            "Deletar compromisso?",
+            "Tem certeza que deseja deletar esse compromisso?",
+            [
+                {
+                    text: "Cancelar",
+                    style: "cancel",
+                },
+                {
+                    text: "OK",
+                    onPress: () => {
+                        deleteAppointment(appointment.slug);
+                        router.push("/appointments");
+                    },
+                },
+            ]
+        );
     };
 
     const styles = StyleSheet.create({
