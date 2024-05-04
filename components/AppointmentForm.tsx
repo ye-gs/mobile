@@ -220,7 +220,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     isVisible={datePickerVisible}
                     mode="datetime"
                     onConfirm={handleConfirm}
-                    display="spinner"
+                    display="default"
                     onCancel={hideDatePicker}
                 />
                 <View style={styles.options}>
