@@ -1,7 +1,7 @@
 import { View, Text } from "@/components/Themed";
 import { HomeHistoryCard } from "@/components/home/HomeHistoryCard";
 import { useAppointments } from "@/hooks/appointment";
-import { routeAndTransform } from "@/utils/routeAndTransform";
+import { routeAndTransformAppointments } from "@/utils/routeAndTransform";
 import { router } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
@@ -38,7 +38,7 @@ export function HomeAppointmentHistory() {
                     imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"
                     isBookmarked={appointment.isBookmarked}
                     onPress={() =>
-                        routeAndTransform({
+                        routeAndTransformAppointments({
                             ...appointment,
                             datetime: appointment.datetime.toISOString(),
                             id: appointment.id!,

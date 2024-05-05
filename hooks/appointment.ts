@@ -7,7 +7,7 @@ import {
     deleteDoc,
     addDoc,
 } from "firebase/firestore";
-import { db, auth, app } from "@/firebase";
+import { db, auth } from "@/firebase";
 import { Appointment } from "@/types/appointment";
 
 export function useAppointments() {
