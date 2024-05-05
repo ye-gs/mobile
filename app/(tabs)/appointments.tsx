@@ -8,7 +8,7 @@ import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
-import { routeAndTransform } from "@/utils/routeAndTransform";
+import { routeAndTransformAppointments } from "@/utils/routeAndTransform";
 
 const Appointments = () => {
     const { appointments, fetchAppointments } = useAppointments();
@@ -50,7 +50,7 @@ const Appointments = () => {
                     key={appointment.id}
                     text={appointment.doctor}
                     onPress={() =>
-                        routeAndTransform({
+                        routeAndTransformAppointments({
                             ...appointment,
                             datetime: appointment.datetime.toISOString(),
                             id: appointment.id!,

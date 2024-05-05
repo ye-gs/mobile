@@ -6,9 +6,9 @@
             "channel": "development"
         },
         "test": {
-            "developmentClient": true,
+            "developmentClient": false,
             "distribution": "internal",
-            "channel": "test"
+            "channel": "development"
         },
         "preview": {
             "distribution": "internal",
