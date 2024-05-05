@@ -78,13 +78,22 @@ export default function TestApp() {
 }
 
 async function schedulePushNotification() {
+    await Notifications.setNotificationChannelAsync("general", {
+        name: "General Notifications",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        sound: "whatsapp.wav",
+    });
     await Notifications.scheduleNotificationAsync({
+        identifier: "general",
         content: {
-            title: "You've got mail! 📬",
+            title: "You've got mail! 📬 teste",
             body: "Here is the notification body",
             data: { data: "goes here" },
+            sound: "whatsapp.wav",
+            vibrate: [],
         },
-        trigger: { seconds: 2 },
+        trigger: { seconds: 2, channelId: "general" },
     });
 }
 
@@ -96,6 +105,7 @@ async function registerForPushNotificationsAsync() {
             name: "default",
             importance: Notifications.AndroidImportance.MAX,
             vibrationPattern: [0, 250, 250, 250],
+            sound: "whatsapp.wav",
             lightColor: "#FF231F7C",
         });
     }

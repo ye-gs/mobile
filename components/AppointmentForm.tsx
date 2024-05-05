@@ -75,13 +75,32 @@ const AppointmentForm = (appointment: AppointmentData) => {
                             notificationDate.setDate(
                                 notificationDate.getDate() - 1
                             );
+                            await Notifications.setNotificationChannelAsync(
+                                "whatsapp",
+                                {
+                                    name: "Whatsapp Notifications",
+                                    importance:
+                                        Notifications.AndroidImportance.MAX,
+                                    vibrationPattern: [0, 250, 250, 250],
+                                    sound: "whatsapp.wav",
+                                }
+                            );
+
                             await Notifications.scheduleNotificationAsync({
+                                identifier: "whatsapp",
                                 content: {
                                     title: "Lembrete de consulta",
                                     body: `Você tem uma consulta marcada com o doutor ${doctor} sobre ${description} em ${datetime.toLocaleString("pt-BR")}`,
                                     sound: "whatsapp.wav",
+                                    vibrate: [],
+                                    priority:
+                                        Notifications
+                                            .AndroidNotificationPriority.HIGH,
                                 },
-                                trigger: { date: notificationDate },
+                                trigger: {
+                                    date: notificationDate,
+                                    channelId: "whatsapp",
+                                },
                             });
                         }
                         if (appointment.slug !== "new") {
