@@ -64,6 +64,7 @@ export default function TabLayout() {
             setTheme(theme === "light" ? "dark" : "light");
             closeMenu();
         }
+        if (!user) return null;
         const isAdmin =
             user!.email === process.env.ADMIN_EMAIL ||
             "mnomeluisguilherme@yahoo.com";
