@@ -1,12 +1,19 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { Link, Stack } from "expo-router";
+import {
+    ErrorBoundary,
+    ErrorBoundaryProps,
+    Link,
+    router,
+    Stack,
+} from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { ThemeProvider, useTheme } from "@/contexts/theme";
 import { UserProvider } from "../contexts/user";
 import { Provider } from "react-native-paper";
 import Colors from "@/constants/Colors";
+import { Try } from "expo-router/build/views/Try";
 export {
     // Catch any errors thrown by the Layout component.
     ErrorBoundary,
@@ -41,15 +48,54 @@ export default function RootLayout() {
     }
 
     return (
-        <ThemeProvider>
-            <Provider>
-                <UserProvider>
-                    <RootLayoutNav />
-                </UserProvider>
-            </Provider>
-        </ThemeProvider>
+        <Try catch={createCardOnError}>
+            <ThemeProvider>
+                <Provider>
+                    <UserProvider>
+                        <RootLayoutNav />
+                    </UserProvider>
+                </Provider>
+            </ThemeProvider>
+        </Try>
     );
 }
+
+const createCardOnError: React.FC<ErrorBoundaryProps> = ({ error }) => {
+    const message: string = error.message || error.toString();
+    const stack: string = error.stack || "Sem stack disponível";
+    const name: string = error.name ? error.name : "Ocorreu um erro";
+    const cause: string = error.cause
+        ? error.cause.toString()
+        : "Sem causa disponível";
+    const description: string = `Nome do erro: ${name} - Mensagem: ${message}\n\nCausa: ${cause.toString()}`;
+    const url: string =
+        process.env.ERROR_WEBHOOK_URL ||
+        "https://automation.atlassian.com/pro/hooks/030fb14a334b733a7d7a64a3ef6a7a4362790cde";
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            data: {
+                description: description,
+                summary: `${name} - ${message}`,
+            },
+        }),
+    });
+    return (
+        <ErrorBoundary
+            error={error}
+            retry={async () => {
+                await new Promise<void>((resolve) => {
+                    (router.canGoBack() && router.back()) ||
+                        router.navigate("/(tabs)/home");
+                    resolve();
+                });
+            }}
+        />
+    );
+};
 
 function RootLayoutNav() {
     const { theme } = useTheme();
