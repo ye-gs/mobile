@@ -1,5 +1,7 @@
 import { View, Text } from "@/components/Themed";
 import { HomeHistoryCard } from "@/components/home/HomeHistoryCard";
+import Colors from "@/constants/Colors";
+import { useTheme } from "@/contexts/theme";
 import { useAppointments } from "@/hooks/appointment";
 import { routeAndTransformAppointments } from "@/utils/routeAndTransform";
 import { router } from "expo-router";
@@ -8,6 +10,8 @@ import { StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 export function HomeAppointmentHistory() {
+    const { theme } = useTheme();
+
     const { appointments } = useAppointments();
     appointments.sort((a, b) => {
         return a.datetime.getTime() - b.datetime.getTime();
@@ -23,7 +27,7 @@ export function HomeAppointmentHistory() {
             <View style={styles.history__heading}>
                 <Text style={styles.history__title}>Próximas consultas</Text>
                 <Text
-                    style={styles.history__link}
+                    style={(styles.history__link, { color: Colors[theme].url })}
                     onPress={() => router.replace("/appointments")}
                 >
                     Ver todas
@@ -68,6 +72,5 @@ const styles = StyleSheet.create({
     history__link: {
         fontSize: RFValue(12, 808),
         alignSelf: "flex-end",
-        color: "rgba(64, 124, 226, 1)",
     },
 });
