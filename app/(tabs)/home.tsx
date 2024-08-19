@@ -10,7 +10,11 @@ import { router } from "expo-router";
 
 export default function Home() {
     const { user } = useUser();
-    if (user === null) router.navigate("/index");
+    if (user === null) {
+        router.navigate("/index");
+        return null;
+    }
+
     return (
         <View style={styles.container}>
             <ProfileCard user={user} />
