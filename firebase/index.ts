@@ -4,19 +4,20 @@ import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeFirestore } from "firebase/firestore";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
+import Constants from "expo-constants";
+
 GoogleSignin.configure({
-    webClientId:
-        "147160860966-am6ip3ii0mro78t0rld4rrp3gmufrcqa.apps.googleusercontent.com",
+    webClientId: Constants?.expoConfig?.extra?.webClientId || "",
 });
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDH8dYtjB9AZoj3hynOot0HSngGOn1wDuw",
-    authDomain: "ye-gestao-saude.firebaseapp.com",
-    projectId: "ye-gestao-saude",
-    storageBucket: "ye-gestao-saude.appspot.com",
-    messagingSenderId: "147160860966",
-    appId: "1:147160860966:web:bf5cb02eb10da7b07999e7",
-    measurementId: "G-ZPQDYNBGRM",
+    apiKey: Constants.expoConfig?.extra?.firebaseApiKey || "",
+    authDomain: Constants.expoConfig?.extra?.authDomain || "",
+    projectId: Constants.expoConfig?.extra?.projectId || "",
+    storageBucket: Constants.expoConfig?.extra?.storageBucket || "",
+    messagingSenderId: Constants.expoConfig?.extra?.messagingSenderId || "",
+    appId: Constants.expoConfig?.extra?.appId || "",
+    measurementId: Constants.expoConfig?.extra?.measurementId || "",
 };
 
 // Initialize Firebase
