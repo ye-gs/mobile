@@ -13,6 +13,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     const appId = process.env.EXPO_PUBLIC_FIREBASE_APP_ID;
     const measurementId = process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID;
     const webClientId = process.env.EXPO_PUBLIC_FIREBASE_WEB_CLIENT_ID;
+    if (!firebaseApiKey || !authDomain || !projectId || !storageBucket || !messagingSenderId || !appId || !measurementId || !webClientId) {
+        throw new Error("Missing firebase env variables");
+    }
 
     return {
         ...config,
