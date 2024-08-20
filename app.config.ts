@@ -1,4 +1,6 @@
 import { ExpoConfig, ConfigContext } from "expo/config";
+import { config } from "dotenv";
+config();
 
 export default ({ config }: ConfigContext): ExpoConfig => {
     const googleServicesFile = process.env.GOOGLE_SERVICES_FILE;
