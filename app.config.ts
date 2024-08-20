@@ -11,33 +11,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     const appId = process.env.EXPO_PUBLIC_FIREBASE_APP_ID;
     const measurementId = process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID;
     const webClientId = process.env.EXPO_PUBLIC_FIREBASE_WEB_CLIENT_ID;
-    if (!googleServicesFile) {
-        throw new Error("GOOGLE_SERVICES_FILE must be defined");
-    }
-    if (!firebaseApiKey) {
-        throw new Error("FIREBASE_API_KEY must be defined");
-    }
-    if (!authDomain) {
-        throw new Error("FIREBASE_AUTH_DOMAIN must be defined");
-    }
-    if (!projectId) {
-        throw new Error("FIREBASE_PROJECT_ID must be defined");
-    }
-    if (!storageBucket) {
-        throw new Error("FIREBASE_STORAGE_BUCKET must be defined");
-    }
-    if (!messagingSenderId) {
-        throw new Error("FIREBASE_MESSAGING_SENDER_ID must be defined");
-    }
-    if (!appId) {
-        throw new Error("FIREBASE_APP_ID must be defined");
-    }
-    if (!measurementId) {
-        throw new Error("FIREBASE_MEASUREMENT_ID must be defined");
-    }
-    if (!webClientId) {
-        throw new Error("FIREBASE_WEB_CLIENT_ID must be defined");
-    }
 
     return {
         ...config,
