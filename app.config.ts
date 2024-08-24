@@ -14,6 +14,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     const measurementId = process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID;
     const webClientId = process.env.EXPO_PUBLIC_FIREBASE_WEB_CLIENT_ID;
     const examFunctionUrl = process.env.EXPO_PUBLIC_EXAM_FUNCTION_URL;
+    const webhookUrl = process.env.EXPO_PUBLIC_WEBHOOK_URL;
     const nodeEnv = process.env.NODE_ENV || "development";
     if (
         !firebaseApiKey ||
@@ -50,6 +51,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
             webClientId,
             examFunctionUrl,
             nodeEnv,
+            webhookUrl,
         },
         ios: {
             ...config.ios,

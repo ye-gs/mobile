@@ -69,11 +69,9 @@ const createCardOnError: React.FC<ErrorBoundaryProps> = ({ error }) => {
         ? error.cause.toString()
         : "Sem causa disponível";
     const description: string = `Nome do erro: ${name} - Mensagem: ${message}\n\nCausa: ${cause.toString()}`;
-    const url: string =
-        process.env.ERROR_WEBHOOK_URL ||
-        "https://automation.atlassian.com/pro/hooks/030fb14a334b733a7d7a64a3ef6a7a4362790cde";
 
     if (Constants.expoConfig?.extra?.nodeEnv === "production") {
+        const url: string = Constants.expoConfig?.extra?.webhookUrl || "";
         fetch(url, {
             method: "POST",
             headers: {
