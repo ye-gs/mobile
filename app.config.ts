@@ -31,6 +31,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     if (!examFunctionUrl) {
         throw new Error("Missing exam function url");
     }
+    if (nodeEnv === "production" && !webhookUrl) {
+        throw new Error("Missing webhook url");
+    }
     return {
         ...config,
         slug: "ye-gestao-saude",
