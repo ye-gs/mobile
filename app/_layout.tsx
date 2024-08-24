@@ -14,6 +14,7 @@ import { UserProvider } from "../contexts/user";
 import { Provider } from "react-native-paper";
 import Colors from "@/constants/Colors";
 import { Try } from "expo-router/build/views/Try";
+import Constants from "expo-constants";
 export {
     // Catch any errors thrown by the Layout component.
     ErrorBoundary,
@@ -71,18 +72,21 @@ const createCardOnError: React.FC<ErrorBoundaryProps> = ({ error }) => {
     const url: string =
         process.env.ERROR_WEBHOOK_URL ||
         "https://automation.atlassian.com/pro/hooks/030fb14a334b733a7d7a64a3ef6a7a4362790cde";
-    fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            data: {
-                description: description,
-                summary: `${name} - ${message}`,
+
+    if (Constants.expoConfig?.extra?.nodeEnv === "production") {
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
             },
-        }),
-    });
+            body: JSON.stringify({
+                data: {
+                    description: description,
+                    summary: `${name} - ${message}`,
+                },
+            }),
+        });
+    }
     return (
         <ErrorBoundary
             error={error}
@@ -203,6 +207,48 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Detalhes da Consulta",
+                    headerTitleAlign: "center",
+                    headerStyle: {
+                        backgroundColor: Colors[theme].background,
+                    },
+                    headerTitleStyle: { color: Colors[theme].text },
+                }}
+            />
+            <Stack.Screen
+                name="meds/[slug]"
+                options={{
+                    headerLeft: () => (
+                        <Link href="/meds">
+                            <FontAwesome
+                                size={38}
+                                name="arrow-left"
+                                color={Colors[theme].text}
+                            />
+                        </Link>
+                    ),
+                    headerShown: true,
+                    headerTitle: "Detalhes da Medicação",
+                    headerTitleAlign: "center",
+                    headerStyle: {
+                        backgroundColor: Colors[theme].background,
+                    },
+                    headerTitleStyle: { color: Colors[theme].text },
+                }}
+            />
+            <Stack.Screen
+                name="exams/[slug]"
+                options={{
+                    headerLeft: () => (
+                        <Link href="/exams">
+                            <FontAwesome
+                                size={38}
+                                name="arrow-left"
+                                color={Colors[theme].text}
+                            />
+                        </Link>
+                    ),
+                    headerShown: true,
+                    headerTitle: "Detalhes do Laudo Evolutivo",
                     headerTitleAlign: "center",
                     headerStyle: {
                         backgroundColor: Colors[theme].background,

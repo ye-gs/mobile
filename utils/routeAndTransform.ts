@@ -1,4 +1,5 @@
 import { MedMiddleware } from "@/types/med";
+import { Exam } from "@/types/exam";
 import { AppointmentMiddleware } from "@/types/appointment";
 import { router } from "expo-router";
 
@@ -8,6 +9,12 @@ export const routeAndTransformAppointments = (
     router.push({
         pathname: `/appointments/${appointment.id}`,
         params: { ...appointment },
+    });
+};
+
+export const routeAndTransformExams = (exam: Exam) => {
+    router.push({
+        pathname: `/exams/${exam.id}`,
     });
 };
 
