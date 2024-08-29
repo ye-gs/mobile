@@ -45,13 +45,18 @@ export default function UserInfo() {
         input: {
             backgroundColor: Colors[theme].background,
         },
-        datepickerButton:{
+        datepickerButton: {
             borderWidth: 1,
             borderColor: "gray",
-        }
+        },
     });
     return (
-        <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={RFValue(120, 808)} behavior="position" enabled={true}>
+        <KeyboardAvoidingView
+            style={styles.container}
+            keyboardVerticalOffset={RFValue(120, 808)}
+            behavior="position"
+            enabled={true}
+        >
             <ProfileCard
                 user={user}
                 imageSize={150}
@@ -68,7 +73,7 @@ export default function UserInfo() {
                     underlineColor={Colors[theme].text}
                     activeUnderlineColor={Colors[theme].altTextColor}
                 ></TextInput>
-               
+
                 <TextInput
                     label="Email"
                     defaultValue={user?.email!}
@@ -80,9 +85,12 @@ export default function UserInfo() {
                     activeUnderlineColor={Colors[theme].altTextColor}
                     disabled={true}
                 ></TextInput>
-                 <Button onPress={showDatePicker} style={styles.datepickerButton}>
+                <Button
+                    onPress={showDatePicker}
+                    style={styles.datepickerButton}
+                >
                     <Text style={{ color: Colors[theme].text }}>
-                        Data de nascimento {" "}
+                        Data de nascimento{" "}
                         {datetime
                             ? datetime.toLocaleString("pt-Br")
                             : "Nenhuma data selecionada"}
@@ -96,7 +104,7 @@ export default function UserInfo() {
                     display="default"
                     onCancel={hideDatePicker}
                 />
-                <GenderSelect/>
+                <GenderSelect />
             </View>
         </KeyboardAvoidingView>
     );

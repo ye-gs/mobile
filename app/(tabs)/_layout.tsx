@@ -13,6 +13,8 @@ import { useTheme } from "@/contexts/theme";
 import { auth } from "@/firebase";
 import { StyleSheet } from "react-native";
 
+import { ThemeNames } from "@/constants/Colors";
+
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];
     color: string;
@@ -22,12 +24,22 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
     type ColorSchemeMap = {
-        light: "moon-o";
-        dark: "sun-o";
+        light: "sun-o";
+        dark: "moon-o";
+        blueLight: "snowflake-o";
+        gray: "cloud";
+        lightPink: "heart";
+        limeGreen: "leaf";
+        darkPurple: "star";
     };
     const colorSchemeMap: ColorSchemeMap = {
-        light: "moon-o",
-        dark: "sun-o",
+        light: "sun-o",
+        dark: "moon-o",
+        blueLight: "snowflake-o",
+        gray: "cloud",
+        lightPink: "heart",
+        limeGreen: "leaf",
+        darkPurple: "star",
     };
 
     const { theme, setTheme } = useTheme();
@@ -47,6 +59,7 @@ export default function TabLayout() {
             color: Colors[theme].text,
         },
     });
+
     function MenuButton() {
         const [visible, setVisible] = React.useState(false);
 
@@ -61,9 +74,17 @@ export default function TabLayout() {
         };
 
         function switchTheme() {
-            setTheme(theme === "light" ? "dark" : "light");
+            // Get available themes and filter out the current one
+            const themes = ThemeNames.filter(
+                (themeName) => themeName !== theme
+            );
+            // Pick a random theme from the remaining options
+            const randomTheme =
+                themes[Math.floor(Math.random() * themes.length)];
+            setTheme(randomTheme as any); // Ensure type safety
             closeMenu();
         }
+
         if (!user) return null;
         const isAdmin =
             user!.email === process.env.ADMIN_EMAIL ||
@@ -112,9 +133,9 @@ export default function TabLayout() {
                         ></FontAwesome>
                     )}
                     onPress={() => {
-                        switchTheme();
+                        switchTheme(); // Pick a random theme
                     }}
-                    title="Mudar tema"
+                    title="Tema Aleatorio"
                     titleStyle={styles.menuItemTitle}
                 />
                 {isAdmin ? (
@@ -136,6 +157,7 @@ export default function TabLayout() {
             </Menu>
         );
     }
+
     return (
         <Tabs
             screenOptions={{
@@ -149,8 +171,6 @@ export default function TabLayout() {
                 headerTitleStyle: {
                     color: Colors[theme].text,
                 },
-                // Disable the static render of the header on web
-                // to prevent a hydration error in React Navigation v6.
                 headerRight: () => <MenuButton />,
                 headerShown: useClientOnlyValue(false, true),
             }}

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from "react";
 
-type Theme = "light" | "dark";
+type Theme = "light" | "dark" | "blueLight";
 type ThemeContextType = {
     theme: Theme;
     setTheme: React.Dispatch<React.SetStateAction<Theme>>;

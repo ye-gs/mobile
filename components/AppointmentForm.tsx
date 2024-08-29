@@ -179,10 +179,10 @@ const AppointmentForm = (appointment: AppointmentData) => {
         input: {
             backgroundColor: Colors[theme].background,
         },
-        datepickerButton:{
+        datepickerButton: {
             borderWidth: 1,
             borderColor: "gray",
-        }
+        },
     });
     return (
         <View style={styles.container}>
@@ -244,7 +244,10 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     </View>
                 </View>
 
-                <Button onPress={showDatePicker} style={styles.datepickerButton}>
+                <Button
+                    onPress={showDatePicker}
+                    style={styles.datepickerButton}
+                >
                     <Text style={{ color: Colors[theme].text }}>
                         Data da consulta{" "}
                         {datetime
