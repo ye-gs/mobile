@@ -1,7 +1,7 @@
-const tintColorLight = "#407CE2";
-const tintColorDark = "#5563E2";
+//const tintColorLight = "#407CE2";
+//const tintColorDark = "#5563E2";
 
-export default {
+const Colors: { [key: string]: { [key: string]: string } } = {
     light: {
         text: "#000",
         subtext: "#7A7979",
@@ -11,7 +11,7 @@ export default {
         tabIconDefault: "#ccc",
         tabIconSelected: "#344E41",
         url: "#407CE2",
-        borderColor: "#E5E7EB",
+        borderColor: "#344E41",
         circleBackground: "#A3B18A",
         altTextColor: "#556B2F",
         primaryLighter: "#A3B18A",
@@ -26,15 +26,15 @@ export default {
         subtext: "#7A7979",
         subtextSoft: "#8E98A1",
         background: "#282828",
-        tint: tintColorDark, // Kept as is
+        tint: "#5563E2", // Kept as is
         tabIconDefault: "#ccc",
-        tabIconSelected: tintColorDark, // Kept as is
+        tabIconSelected: "#5563E2", // Kept as is
         url: "#407CE2",
         borderColor: "#E5E7EB",
         circleBackground: "#92B0CC",
-        altTextColor: tintColorDark, // Changed from green to tintColorDark
-        primaryLighter: tintColorDark, // Kept as is
-        primaryDarker: tintColorDark, // Changed from green to tintColorDark
+        altTextColor: "#5563E2", // Changed from green to "#5563E2"
+        primaryLighter: "#5563E2", // Kept as is
+        primaryDarker: "#5563E2", // Changed from green to "#5563E2"
         danger: "#a85751", // Kept as is
         black: "#000",
         white: "#fff",
@@ -46,17 +46,17 @@ export default {
         subtext: "#7A7979", // Keep as is, or update if needed
         subtextSoft: "#8E98A1", // Keep as is, or update if needed
         background: "#fff", // Keep background color as is
-        tint: tintColorDark, // Assuming tintColorDark is a blue shade
+        tint: "#5563E2", // Assuming "#5563E2" is a blue shade
         tabIconDefault: "#ccc", // Keep tab icon default color as is
-        tabIconSelected: tintColorDark, // Assuming tintColorDark is a blue shade
+        tabIconSelected: "#5563E2", // Assuming "#5563E2" is a blue shade
         url: "#407CE2", // Keep URL color as is
         borderColor: "#E5E7EB", // Keep border color as is
         circleBackground: "#E6EEFF", // Keep circle background color as is
         altTextColor: "#0033FF", // Changed from green to a blue shade
-        primaryLighter: tintColorDark, // Assuming tintColorDark is a blue shade
+        primaryLighter: "#5563E2", // Assuming "#5563E2" is a blue shade
         primaryDarker: "#002080", // Changed from dark green to a dark blue shade
         danger: "#bd3a31", // Keep danger color as is, or update if needed
-        themeColor: tintColorDark, // Assuming tintColorDark is a blue shade
+        themeColor: "#5563E2", // Assuming "#5563E2" is a blue shade
     },
 
     gray: {
@@ -64,14 +64,14 @@ export default {
         subtext: "#7A7979",
         subtextSoft: "#8E98A1",
         background: "#404040",
-        tint: tintColorDark, // Use tintColorDark
+        tint: "#5563E2", // Use "#5563E2"
         tabIconDefault: "#ccc",
-        tabIconSelected: tintColorDark, // Use tintColorDark
+        tabIconSelected: "#5563E2", // Use "#5563E2"
         url: "#407CE2",
         borderColor: "#E5E7EB",
         circleBackground: "#92B0CC",
-        altTextColor: tintColorDark, // Replaced green with tintColorDark
-        primaryLighter: tintColorDark, // Use tintColorDark
+        altTextColor: "#5563E2", // Replaced green with "#5563E2"
+        primaryLighter: "#5563E2", // Use "#5563E2"
         primaryDarker: "#344E41", // Keep as is, or update if needed
         danger: "#a85751", // Keep danger color as is, or update if needed
         black: "#000",
@@ -121,7 +121,7 @@ export default {
         subtext: "#9B9B9B", // Medium gray subtext
         subtextSoft: "#BEBEBE", // Light gray subtext
         background: "#2E003E", // Dark purple background
-        tint: "#6A0D91", // Dark violet
+        tint: "#fff", // Dark violet
         tabIconDefault: "#ccc", // Default tab icon color
         tabIconSelected: "#6A0D91", // Dark violet for selected tab icon
         url: "#8A2BE2", // Blue violet for URLs
@@ -136,6 +136,5 @@ export default {
         themeColor: "#2E003E", // Dark purple for theme color
     },
 };
-import Colors from "./Colors";
 
-export const ThemeNames = Object.keys(Colors);
+export default Colors;

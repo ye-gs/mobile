@@ -13,7 +13,7 @@ import { useTheme } from "@/contexts/theme";
 import { auth } from "@/firebase";
 import { StyleSheet } from "react-native";
 
-import { ThemeNames } from "@/constants/Colors";
+import { ThemeNames } from "@/constants/ThemeNames";
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];

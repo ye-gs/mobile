@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text } from "@/components/Themed";
 import { useTheme } from "@/contexts/theme";
-import { TheamCard } from "@/components/TheamCard";
+import { ThemeCard } from "@/components/TheamCard";
 import { GestureResponderEvent } from "react-native";
-import { ThemeNames } from "@/constants/Colors";
+import { ThemeNames } from "@/constants/ThemeNames";
 
 export default function UserInfo() {
     const { theme, setTheme } = useTheme(); // Destructure setTheme from useTheme
@@ -29,7 +29,7 @@ export default function UserInfo() {
             <Text style={{ marginBottom: 20 }}>
                 Seu tema atual é: '{theme}'
             </Text>
-            <TheamCard
+            <ThemeCard
                 themes={ThemeNames} // Use dynamic theme names
                 onPress={handleThemeChange} // Use the handler to change the theme
             />

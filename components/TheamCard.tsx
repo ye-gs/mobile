@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { GestureResponderEvent, Pressable } from "react-native";
@@ -9,14 +9,23 @@ import { RFValue } from "react-native-responsive-fontsize";
 interface ThemeCardProps {
     themes: string[]; // Array of theme names
     onPress: (event: GestureResponderEvent, themeName: string) => void; // Pass theme name on press
+    //onFavoritePress: (themeName: string) => void; // TODO: Mudar o tema favorito do usuario
 }
 
-export function TheamCard(props: ThemeCardProps) {
+export function ThemeCard(props: ThemeCardProps) {
     const { theme, setTheme } = useTheme(); // Access theme and setTheme from context
+    const [favoriteTheme, setFavoriteTheme] = useState<string | null>(null); // State to track the favorite theme
 
     const handlePress = (event: GestureResponderEvent, themeName: string) => {
         setTheme(themeName as any);
         props.onPress(event, themeName); // Call onPress with event and selected theme name
+        //onFavoritePress: (themeName: string) => void; // Callback for when the favorite icon is pressed
+    };
+
+    const handleFavoritePress = (themeName: string) => {
+        const newFavorite = favoriteTheme === themeName ? null : themeName;
+        setFavoriteTheme(newFavorite);
+        
     };
 
     return (
@@ -60,6 +69,23 @@ export function TheamCard(props: ThemeCardProps) {
                             {themeName}
                         </Text>
                     </View>
+
+                    <Pressable
+                        onPress={() => handleFavoritePress(themeName)}
+                        style={{ padding: RFValue(10, 808) }}
+                    >
+                        <AntDesign
+                            name={
+                                favoriteTheme === themeName ? "star" : "staro"
+                            }
+                            size={RFValue(24, 808)}
+                            color={
+                                favoriteTheme === themeName
+                                    ? "gold"
+                                    : Colors[theme]?.subtext || "gray"
+                            }
+                        />
+                    </Pressable>
                 </Pressable>
             ))}
         </>
