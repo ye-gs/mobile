@@ -160,6 +160,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
         bookmark: {
             width: RFValue(22, 808),
             height: RFValue(22, 808),
+            marginLeft: RFValue(8, 808),
             marginTop: RFValue(3, 808),
             marginRight: RFValue(8, 808),
         },
@@ -175,14 +176,51 @@ const AppointmentForm = (appointment: AppointmentData) => {
         options: {
             height: RFValue(100, 808),
             justifyContent: "space-evenly",
+            marginTop: RFValue(10, 808),
         },
         input: {
-            backgroundColor: Colors[theme].background,
+            backgroundColor: Colors[theme].circleBackground,
+            borderRadius: 20,
+            borderColor: Colors[theme].tint,
+            borderWidth: 2,
+        },
+        text: {
+            fontSize: RFValue(16, 808),
+            color: Colors[theme].text,
+        },
+        radioButtonLabel: {
+            fontSize: RFValue(14, 808),
+            color: Colors[theme].text,
+        },
+        daysContainer: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: RFValue(10, 808),
+        },
+        checkboxContainer: {
+            flexDirection: "row",
+            alignItems: "center",
+        },
+        label: {
+            color: Colors[theme].text,
+            fontSize: RFValue(16, 808),
+        },
+        cancelButton: {
+            color: Colors[theme].danger,
+        },
+        confirmButton: {
+            color: "green",
         },
         datepickerButton: {
-            borderWidth: 1,
-            borderColor: "gray",
+            borderWidth: 2,
+            borderColor: Colors[theme].tint,
+            marginTop: RFValue(10, 808),
+            padding: RFValue(7, 808),
+            backgroundColor: Colors[theme].circleBackground,
         },
+        underLine: { width: "90%" ,
+            marginLeft: "5%",
+            },
     });
     return (
         <View style={styles.container}>
@@ -193,45 +231,51 @@ const AppointmentForm = (appointment: AppointmentData) => {
             </Text>
             <View style={styles.forms}>
                 <TextInput
-                    label={
-                        <Text style={{ color: Colors[theme].text }}>
-                            Nome do doutor
-                        </Text>
-                    }
-                    placeholder="Nome do doutor"
-                    defaultValue={appointment.doctor}
-                    onChange={(e) => setDoctor(e.nativeEvent.text)}
-                    mode="outlined"
-                    style={styles.input}
+                    label={<Text style={styles.text}>Nome do Doutor</Text>}
+                    placeholder="Nome do Doutor"
+                    onChangeText={(text) => setDoctor(text)}
+                    contentStyle={[
+                        styles.input,
+                        { backgroundColor: Colors[theme].circleBackground },
+                    ]}
+                    style={{ backgroundColor: "transparent" }} // Ensures no background color
                     textColor={Colors[theme].text}
-                    outlineColor={Colors[theme].text}
-                    activeOutlineColor={Colors[theme].altTextColor}
-                ></TextInput>
+                    underlineColor="transparent" // Removes the underline color for unfocused state
+                    activeUnderlineColor={Colors[theme].tint} // Removes the underline color for focused state
+                    selectionColor={Colors[theme].text} // Ensures the text selection color is visible
+                    activeOutlineColor={Colors[theme].tint} // Apply tint color to the border when focused
+                    accessibilityLabel="Nome do Doutor"
+                    accessibilityHint="Digite o nome do Doutor"
+                    underlineStyle={styles.underLine}
+                />
                 <TextInput
-                    label={
-                        <Text style={{ color: Colors[theme].text }}>
-                            Descrição da consulta
-                        </Text>
-                    }
-                    placeholder="Descrição da consulta"
-                    defaultValue={appointment.description}
-                    onChange={(e) => setDescription(e.nativeEvent.text)}
-                    mode="outlined"
-                    style={styles.input}
+                    label={<Text style={styles.text}>Descrição da Consulta</Text>}
+                    placeholder="Descrição da Consulta"
+                    onChangeText={(text) => setDescription(text)}
+                    contentStyle={[
+                        styles.input,
+                        { backgroundColor: Colors[theme].circleBackground },
+                    ]}
+                    style={{ backgroundColor: "transparent" }} // Ensures no background color
                     textColor={Colors[theme].text}
-                    outlineColor={Colors[theme].text}
-                    activeOutlineColor={Colors[theme].altTextColor}
-                ></TextInput>
+                    underlineColor="transparent" // Removes the underline color for unfocused state
+                    activeUnderlineColor={Colors[theme].tint} // Removes the underline color for focused state
+                    selectionColor={Colors[theme].text} // Ensures the text selection color is visible
+                    activeOutlineColor={Colors[theme].tint} // Apply tint color to the border when focused
+                    accessibilityLabel="Descrição da Consulta"
+                    accessibilityHint="Digite a descrição da Consulta"
+                    underlineStyle={styles.underLine}
+                />
                 <View
                     style={{
-                        justifyContent: "space-around",
+                        justifyContent: "space-between",
                         flexDirection: "row",
                     }}
                 >
                     <Text style={styles.title}>
                         {isBookmarked
-                            ? "Não marcar para lembrete"
-                            : "Marcar para lembrete"}
+                            ? "Não ativar notificação"
+                            : "Ativar notificação"}
                     </Text>
                     <View style={styles.bookmarkView}>
                         <BookmarkImage
@@ -274,14 +318,14 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     {appointment.slug !== "new" ? (
                         <GenericButton
                             onPress={handleDelete}
-                            title="Remover"
+                            title="Deletar"
                             color={Colors[theme].danger}
                             height={RFValue(40, 808)}
                             ImageComponent={() => (
                                 <FontAwesome
                                     name="trash-o"
                                     size={RFValue(30, 808)}
-                                    color={"#ffffff"}
+                                    color="#fff"
                                 />
                             )}
                         />

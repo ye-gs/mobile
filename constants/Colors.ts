@@ -98,7 +98,7 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         themeColor: "#FFE4E1", // Light pink for theme color
     },
     limeGreen: {
-        text: "#000000", // Black text for contrast
+        text: "#fff", // Black text for contrast
         subtext: "#7A7979", // Gray subtext
         subtextSoft: "#8E98A1", // Light gray subtext
         background: "#F0F8F0", // Light green background
@@ -117,7 +117,7 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         themeColor: "#F0F8F0", // Light green for theme color
     },
     darkPurple: {
-        text: "#EAEAEA", // Light gray text for contrast
+        text: "#000000", // Light gray text for contrast
         subtext: "#9B9B9B", // Medium gray subtext
         subtextSoft: "#BEBEBE", // Light gray subtext
         background: "#2E003E", // Dark purple background

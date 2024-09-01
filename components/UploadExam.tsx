@@ -33,6 +33,7 @@ const ExamUpload = (exam: Exam) => {
         if (exams.length > 0) {
             const foundExam = getExamById(exam.slug);
             console.log("Specific Exam:", foundExam?.id);
+            
             if (foundExam) {
                 setSpecificExam(foundExam);
             } else {

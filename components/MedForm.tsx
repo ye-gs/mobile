@@ -10,6 +10,7 @@ import {
     Button,
 } from "react-native-paper";
 import { StyleSheet, TouchableOpacity } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -34,7 +35,7 @@ const MedForm = (med: MedData) => {
         };
     }
 
-    const [name, setDoctor] = useState(med.name || "");
+    const [name, setMedicine] = useState(med.name || "");
     const [description, setDescription] = useState(med.description || "");
     const [frequency, setFrequency] = useState(med.frequency || "");
     const [time, setTime] = useState(med.time || "");
@@ -146,10 +147,14 @@ const MedForm = (med: MedData) => {
     };
 
     const handleConfirm = (date: Date) => {
-        setTime(
-            date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-        );
+        const formattedTime = date.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+        });
+        setTime(formattedTime);
         hideDatePicker();
+        setFrequency(formattedTime);
     };
 
     const styles = StyleSheet.create({
@@ -160,6 +165,7 @@ const MedForm = (med: MedData) => {
         bookmarkView: {
             alignItems: "center",
             flexDirection: "row",
+            justifyContent: "space-between",
             marginTop: RFValue(10, 808),
         },
         bookmark: {
@@ -184,6 +190,8 @@ const MedForm = (med: MedData) => {
         input: {
             backgroundColor: Colors[theme].circleBackground,
             borderRadius: 20,
+            borderColor: Colors[theme].tint,
+            borderWidth: 2,
         },
         text: {
             fontSize: RFValue(16, 808),
@@ -207,11 +215,12 @@ const MedForm = (med: MedData) => {
             fontSize: RFValue(16, 808),
         },
         cancelButton: {
-            color: "red",
+            color: Colors[theme].danger,
         },
         confirmButton: {
             color: "green",
         },
+        underLine: { width: "90%", marginLeft: "5%" },
     });
 
     return (
@@ -221,40 +230,64 @@ const MedForm = (med: MedData) => {
             </Text>
             <View style={styles.forms}>
                 <TextInput
-                    label={<Text style={styles.text}>Nome do remédio</Text>}
-                    placeholder="Nome do remédio"
-                    defaultValue={med.name}
-                    onChange={(e) => setDoctor(e.nativeEvent.text)}
-                    mode="outlined"
-                    outlineStyle={styles.input}
+                    label={<Text style={styles.text}>Nome do Remédio</Text>}
+                    placeholder="Nome do Remédio"
+                    onChangeText={(text) => setMedicine(text)}
+                    contentStyle={[
+                        styles.input,
+                        { backgroundColor: Colors[theme].circleBackground },
+                    ]}
+                    style={{ backgroundColor: "transparent" }} // Ensures no background color
                     textColor={Colors[theme].text}
-                    outlineColor={Colors[theme].text}
-                    activeOutlineColor={Colors[theme].altTextColor}
+                    underlineColor="transparent" // Removes the underline color for unfocused state
+                    activeUnderlineColor={Colors[theme].tint} // Removes the underline color for focused state
+                    selectionColor={Colors[theme].text} // Ensures the text selection color is visible
+                    activeOutlineColor={Colors[theme].tint} // Apply tint color to the border when focused
+                    accessibilityLabel="Nome do Remédio"
+                    accessibilityHint="Digite o nome do remédio"
+                    underlineStyle={styles.underLine}
                 />
+
                 <TextInput
                     label={
-                        <Text style={styles.text}>Descrição do remédio</Text>
+                        <Text style={styles.text}>Descrição do Remédio</Text>
                     }
-                    placeholder="Descrição do remédio"
-                    defaultValue={med.description}
-                    onChange={(e) => setDescription(e.nativeEvent.text)}
-                    mode="outlined"
-                    outlineStyle={styles.input}
+                    placeholder="Descrição do Remédio"
+                    onChangeText={(text) => setDescription(text)}
+                    contentStyle={[
+                        styles.input,
+                        { backgroundColor: Colors[theme].circleBackground },
+                    ]}
+                    style={{ backgroundColor: "transparent" }} // Ensures no background color
                     textColor={Colors[theme].text}
-                    outlineColor={Colors[theme].text}
-                    activeOutlineColor={Colors[theme].altTextColor}
+                    underlineColor="transparent" // Removes the underline color for unfocused state
+                    activeUnderlineColor={Colors[theme].tint} // Removes the underline color for focused state
+                    selectionColor={Colors[theme].text} // Ensures the text selection color is visible
+                    activeOutlineColor={Colors[theme].tint} // Apply tint color to the border when focused
+                    accessibilityLabel="Descrição do Remédio"
+                    accessibilityHint="Digite a descrição do Remédio"
+                    underlineStyle={styles.underLine}
                 />
+
                 <TouchableOpacity onPress={showDatePicker}>
                     <TextInput
                         label={<Text style={styles.text}>Hora do remédio</Text>}
                         placeholder="Hora do remédio"
                         value={time}
                         editable={false} // Prevent keyboard from appearing
-                        mode="outlined"
-                        outlineStyle={styles.input}
+                        contentStyle={[
+                            styles.input,
+                            { backgroundColor: Colors[theme].circleBackground },
+                        ]}
+                        style={{ backgroundColor: "transparent" }} // Ensures no background color
                         textColor={Colors[theme].text}
-                        outlineColor={Colors[theme].text}
-                        activeOutlineColor={Colors[theme].altTextColor}
+                        underlineColor="transparent" // Removes the underline color for unfocused state
+                        activeUnderlineColor="transparent" // Removes the underline color for focused state
+                        selectionColor={Colors[theme].text} // Ensures the text selection color is visible
+                        activeOutlineColor={Colors[theme].tint} // Apply tint color to the border when focused
+                        outlineColor="transparent" // Keeps the border transparent when not focused
+                        accessibilityLabel="Nome do remédio"
+                        accessibilityHint="Digite o nome do remédio"
                     />
                 </TouchableOpacity>
 
@@ -286,8 +319,8 @@ const MedForm = (med: MedData) => {
                 <View style={styles.bookmarkView}>
                     <Text style={styles.title}>
                         {isBookmarked
-                            ? "Não marcar para lembrete"
-                            : "Marcar para lembrete"}
+                            ? "Não ativar notificação"
+                            : "Ativar notificação"}
                     </Text>
                     <BookmarkImage
                         style={styles.bookmark}
@@ -308,14 +341,21 @@ const MedForm = (med: MedData) => {
                     {med.slug !== "new" ? (
                         <GenericButton
                             onPress={handleDelete}
-                            color="red"
                             title="Deletar"
+                            color={Colors[theme].danger}
                             height={RFValue(40, 808)}
+                            ImageComponent={() => (
+                                <FontAwesome
+                                    name="trash-o"
+                                    size={RFValue(30, 808)}
+                                    color="#fff"
+                                />
+                            )}
                         />
                     ) : null}
                 </View>
             </View>
-            <Portal>
+            <Portal theme={{}}>
                 <Dialog visible={dialogVisible} onDismiss={hideDialog}>
                     <Dialog.Icon icon="alert" />
                     <Dialog.Title style={styles.title}>
@@ -324,7 +364,7 @@ const MedForm = (med: MedData) => {
                             : "Deletar compromisso?"}
                     </Dialog.Title>
                     <Dialog.Content>
-                        <Text>
+                        <Text style={styles.text}>
                             {dialogAction === "save"
                                 ? "Você tem certeza que deseja salvar esse compromisso? Esta ação irá adicionar um novo compromisso ao seu calendário. Certifique-se de revisar todos os detalhes antes de confirmar."
                                 : "Tem certeza que deseja deletar esse compromisso? Esta ação removerá permanentemente o compromisso do seu calendário. Você não poderá desfazer essa ação após a confirmação."}
