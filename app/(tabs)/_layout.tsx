@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     FontAwesome,
     Ionicons,
@@ -10,10 +10,11 @@ import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { useUser } from "@/contexts/user";
 import { Button, Menu } from "react-native-paper";
 import { useTheme } from "@/contexts/theme";
-import { auth } from "@/firebase";
+import { auth, db } from "@/firebase";
 import { StyleSheet } from "react-native";
 
 import { ThemeNames } from "@/constants/ThemeNames";
+import { doc, getDoc } from "firebase/firestore";
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -60,6 +61,20 @@ export default function TabLayout() {
         },
     });
 
+    useEffect(() => {
+        const fetchUserTheme = async () => {
+            if (user) {
+                const userDocRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists()) {
+                    console.log(userDoc.data()?.favoriteTheme);
+                    setTheme(userDoc.data()?.favoriteTheme || theme);
+                }
+            }
+        };
+
+        fetchUserTheme();
+    }, []);
     function MenuButton() {
         const [visible, setVisible] = React.useState(false);
 

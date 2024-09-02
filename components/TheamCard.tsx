@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { GestureResponderEvent, Pressable } from "react-native";
 import { View, Text } from "./Themed";
 import { AntDesign } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
+import { useUser } from "@/contexts/user";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 
 interface ThemeCardProps {
     themes: string[]; // Array of theme names
@@ -14,7 +17,20 @@ interface ThemeCardProps {
 
 export function ThemeCard(props: ThemeCardProps) {
     const { theme, setTheme } = useTheme(); // Access theme and setTheme from context
+    const { user } = useUser();
     const [favoriteTheme, setFavoriteTheme] = useState<string | null>(null); // State to track the favorite theme
+    useEffect(() => {
+        if (user) {
+            const fetchUserTheme = async () => {
+                const userDocRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists()) {
+                    setFavoriteTheme(userDoc.data().favoriteTheme);
+                }
+            };
+            fetchUserTheme();
+        }
+    }, [user]);
 
     const handlePress = (event: GestureResponderEvent, themeName: string) => {
         setTheme(themeName as any);
@@ -22,10 +38,19 @@ export function ThemeCard(props: ThemeCardProps) {
         //onFavoritePress: (themeName: string) => void; // Callback for when the favorite icon is pressed
     };
 
-    const handleFavoritePress = (themeName: string) => {
+    const handleFavoritePress = async (
+        event: GestureResponderEvent,
+        themeName: string
+    ) => {
         const newFavorite = favoriteTheme === themeName ? null : themeName;
+        if (newFavorite && user) {
+            setTheme(themeName as any);
+            props.onPress(event, themeName);
+            await updateDoc(doc(db, "/users", user.uid), {
+                favoriteTheme: themeName,
+            });
+        }
         setFavoriteTheme(newFavorite);
-        
     };
 
     return (
@@ -71,7 +96,9 @@ export function ThemeCard(props: ThemeCardProps) {
                     </View>
 
                     <Pressable
-                        onPress={() => handleFavoritePress(themeName)}
+                        onPress={(event) =>
+                            handleFavoritePress(event, themeName)
+                        }
                         style={{ padding: RFValue(10, 808) }}
                     >
                         <AntDesign
