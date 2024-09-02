@@ -1,3 +1,4 @@
+//TODO: fazer o inputText selection menor a linha de baixo
 import React, { useState } from "react";
 import { View, Text } from "./Themed";
 import { useMeds } from "@/hooks/meds";
@@ -18,9 +19,7 @@ import { MedData } from "@/types/med";
 import { MarkedBM, Bookmark } from "@/assets";
 import { GenericButton } from "./GenericButton";
 import * as Notifications from "expo-notifications";
-import DateTimePicker, {
-    CancelButton,
-} from "react-native-modal-datetime-picker";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 const MedForm = (med: MedData) => {
     if (med.slug === "new") {
@@ -237,12 +236,12 @@ const MedForm = (med: MedData) => {
                         styles.input,
                         { backgroundColor: Colors[theme].circleBackground },
                     ]}
-                    style={{ backgroundColor: "transparent" }} // Ensures no background color
+                    style={{ backgroundColor: "transparent" }}
                     textColor={Colors[theme].text}
-                    underlineColor="transparent" // Removes the underline color for unfocused state
-                    activeUnderlineColor={Colors[theme].tint} // Removes the underline color for focused state
-                    selectionColor={Colors[theme].text} // Ensures the text selection color is visible
-                    activeOutlineColor={Colors[theme].tint} // Apply tint color to the border when focused
+                    underlineColor="transparent"
+                    activeUnderlineColor={Colors[theme].tint}
+                    selectionColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].tint}
                     accessibilityLabel="Nome do Remédio"
                     accessibilityHint="Digite o nome do remédio"
                     underlineStyle={styles.underLine}
@@ -258,12 +257,12 @@ const MedForm = (med: MedData) => {
                         styles.input,
                         { backgroundColor: Colors[theme].circleBackground },
                     ]}
-                    style={{ backgroundColor: "transparent" }} // Ensures no background color
+                    style={{ backgroundColor: "transparent" }}
                     textColor={Colors[theme].text}
-                    underlineColor="transparent" // Removes the underline color for unfocused state
-                    activeUnderlineColor={Colors[theme].tint} // Removes the underline color for focused state
-                    selectionColor={Colors[theme].text} // Ensures the text selection color is visible
-                    activeOutlineColor={Colors[theme].tint} // Apply tint color to the border when focused
+                    underlineColor="transparent"
+                    activeUnderlineColor={Colors[theme].tint}
+                    selectionColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].tint}
                     accessibilityLabel="Descrição do Remédio"
                     accessibilityHint="Digite a descrição do Remédio"
                     underlineStyle={styles.underLine}
@@ -274,20 +273,20 @@ const MedForm = (med: MedData) => {
                         label={<Text style={styles.text}>Hora do remédio</Text>}
                         placeholder="Hora do remédio"
                         value={time}
-                        editable={false} // Prevent keyboard from appearing
+                        editable={false}
                         contentStyle={[
                             styles.input,
                             { backgroundColor: Colors[theme].circleBackground },
                         ]}
-                        style={{ backgroundColor: "transparent" }} // Ensures no background color
+                        style={{ backgroundColor: "transparent" }}
                         textColor={Colors[theme].text}
-                        underlineColor="transparent" // Removes the underline color for unfocused state
-                        activeUnderlineColor="transparent" // Removes the underline color for focused state
-                        selectionColor={Colors[theme].text} // Ensures the text selection color is visible
-                        activeOutlineColor={Colors[theme].tint} // Apply tint color to the border when focused
-                        outlineColor="transparent" // Keeps the border transparent when not focused
-                        accessibilityLabel="Nome do remédio"
-                        accessibilityHint="Digite o nome do remédio"
+                        underlineColor="transparent"
+                        activeUnderlineColor="transparent"
+                        selectionColor={Colors[theme].text}
+                        activeOutlineColor={Colors[theme].tint}
+                        outlineColor="transparent"
+                        accessibilityLabel="Hora do remédio"
+                        accessibilityHint="Digite a hora do remédio"
                     />
                 </TouchableOpacity>
 

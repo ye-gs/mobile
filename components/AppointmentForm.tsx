@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text } from "./Themed";
 import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
-import { Button, TextInput } from "react-native-paper";
+import { Button, TextInput, Portal, Dialog } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
@@ -12,11 +12,10 @@ import { MarkedBM, Bookmark } from "@/assets";
 import { GenericButton } from "./GenericButton";
 import { FontAwesome } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { Alert } from "react-native";
 import * as Notifications from "expo-notifications";
 
 const AppointmentForm = (appointment: AppointmentData) => {
-    if (appointment.slug == "new") {
+    if (appointment.slug === "new") {
         appointment = {
             id: "new",
             doctor: "",
@@ -26,6 +25,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
             isBookmarked: false,
         };
     }
+
     const [doctor, setDoctor] = useState(appointment.doctor || "");
     const [description, setDescription] = useState(
         appointment.description || ""
@@ -33,24 +33,14 @@ const AppointmentForm = (appointment: AppointmentData) => {
     const [datetime, setDatetime] = useState(
         new Date(appointment.datetime) || new Date()
     );
-
     const [datePickerVisible, setDatePickerVisible] = useState(false);
-
-    const showDatePicker = () => {
-        setDatePickerVisible(true);
-    };
-
-    const hideDatePicker = () => {
-        setDatePickerVisible(false);
-    };
-    const handleConfirm = (date: Date) => {
-        setDatetime(date);
-        hideDatePicker();
-    };
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const [dialogAction, setDialogAction] = useState<"save" | "delete">("save");
     const [isBookmarked, setIsBookmarked] = useState(
-        appointment.isBookmarked == 1 ? true : false || false
+        Boolean(appointment.isBookmarked) || false
     );
     const BookmarkImage = isBookmarked ? MarkedBM : Bookmark;
+
     const {
         createAppointment,
         editAppointment,
@@ -58,94 +48,81 @@ const AppointmentForm = (appointment: AppointmentData) => {
         fetchAppointments,
     } = useAppointments();
     const { theme } = useTheme();
-    const handleSave = async () => {
-        Alert.alert(
-            "Salvar compromisso?",
-            "Você tem certeza que deseja salvar esse compromisso?",
-            [
-                {
-                    text: "Cancelar",
-                    style: "cancel",
-                },
-                {
-                    text: "OK",
-                    onPress: async () => {
-                        if (isBookmarked) {
-                            let notificationDate = new Date(datetime);
-                            notificationDate.setDate(
-                                notificationDate.getDate() - 1
-                            );
-                            await Notifications.setNotificationChannelAsync(
-                                "whatsapp",
-                                {
-                                    name: "Whatsapp Notifications",
-                                    importance:
-                                        Notifications.AndroidImportance.MAX,
-                                    vibrationPattern: [0, 250, 250, 250],
-                                    sound: "whatsapp.wav",
-                                }
-                            );
 
-                            await Notifications.scheduleNotificationAsync({
-                                identifier: "whatsapp",
-                                content: {
-                                    title: "Lembrete de consulta",
-                                    body: `Você tem uma consulta marcada com o doutor ${doctor} sobre ${description} em ${datetime.toLocaleString("pt-BR")}`,
-                                    sound: "whatsapp.wav",
-                                    vibrate: [],
-                                    priority:
-                                        Notifications
-                                            .AndroidNotificationPriority.HIGH,
-                                },
-                                trigger: {
-                                    date: notificationDate,
-                                    channelId: "whatsapp",
-                                },
-                            });
-                        }
-                        if (appointment.slug !== "new") {
-                            await editAppointment(appointment.slug, {
-                                doctor,
-                                description,
-                                datetime,
-                                isBookmarked,
-                            });
-                        } else {
-                            await createAppointment({
-                                doctor,
-                                description,
-                                datetime,
-                                isBookmarked,
-                            });
-                        }
-                        router.push("/appointments");
-                        await fetchAppointments();
-                    },
-                },
-            ]
-        );
+    const showDatePicker = () => setDatePickerVisible(true);
+    const hideDatePicker = () => setDatePickerVisible(false);
+    const handleConfirm = (date: Date) => {
+        setDatetime(date);
+        hideDatePicker();
     };
 
-    const handleDelete = async () => {
-        Alert.alert(
-            "Deletar compromisso?",
-            "Tem certeza que deseja deletar esse compromisso?",
-            [
-                {
-                    text: "Cancelar",
-                    style: "cancel",
-                },
-                {
-                    text: "OK",
-                    onPress: async () => {
-                        await deleteAppointment(appointment.slug);
-                        router.push("/appointments");
-                        await fetchAppointments();
-                    },
-                },
-            ]
-        );
+    const handleSave = () => {
+        setDialogAction("save");
+        setDialogVisible(true);
     };
+
+    const handleDelete = () => {
+        setDialogAction("delete");
+        setDialogVisible(true);
+    };
+
+    const handleDialogConfirm = async () => {
+        setDialogVisible(false);
+
+        if (dialogAction === "save") {
+            if (isBookmarked) {
+                let notificationDate = new Date(datetime);
+                notificationDate.setDate(notificationDate.getDate() - 1);
+                await Notifications.setNotificationChannelAsync("whatsapp", {
+                    name: "Whatsapp Notifications",
+                    importance: Notifications.AndroidImportance.MAX,
+                    vibrationPattern: [0, 250, 250, 250],
+                    sound: "whatsapp.wav",
+                });
+
+                await Notifications.scheduleNotificationAsync({
+                    identifier: "whatsapp",
+                    content: {
+                        title: "Lembrete de consulta",
+                        body: `Você tem uma consulta marcada com o doutor ${doctor} sobre ${description} em ${datetime.toLocaleString("pt-BR")}`,
+                        sound: "whatsapp.wav",
+                        vibrate: [],
+                        priority:
+                            Notifications.AndroidNotificationPriority.HIGH,
+                    },
+                    trigger: {
+                        date: notificationDate,
+                        channelId: "whatsapp",
+                    },
+                });
+            }
+
+            if (appointment.slug !== "new") {
+                await editAppointment(appointment.slug, {
+                    doctor,
+                    description,
+                    datetime,
+                    isBookmarked,
+                });
+            } else {
+                await createAppointment({
+                    doctor,
+                    description,
+                    datetime,
+                    isBookmarked,
+                });
+            }
+
+            router.push("/appointments");
+            await fetchAppointments();
+        } else if (dialogAction === "delete") {
+            await deleteAppointment(appointment.slug);
+            router.push("/appointments");
+            await fetchAppointments();
+        }
+    };
+
+    const handleDialogDismiss = () => setDialogVisible(false);
 
     const styles = StyleSheet.create({
         container: {
@@ -222,6 +199,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
             marginLeft: "5%",
             },
     });
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
@@ -233,38 +211,34 @@ const AppointmentForm = (appointment: AppointmentData) => {
                 <TextInput
                     label={<Text style={styles.text}>Nome do Doutor</Text>}
                     placeholder="Nome do Doutor"
-                    onChangeText={(text) => setDoctor(text)}
+                    onChangeText={setDoctor}
                     contentStyle={[
                         styles.input,
                         { backgroundColor: Colors[theme].circleBackground },
                     ]}
-                    style={{ backgroundColor: "transparent" }} // Ensures no background color
+                    style={{ backgroundColor: "transparent" }}
                     textColor={Colors[theme].text}
-                    underlineColor="transparent" // Removes the underline color for unfocused state
-                    activeUnderlineColor={Colors[theme].tint} // Removes the underline color for focused state
-                    selectionColor={Colors[theme].text} // Ensures the text selection color is visible
-                    activeOutlineColor={Colors[theme].tint} // Apply tint color to the border when focused
-                    accessibilityLabel="Nome do Doutor"
-                    accessibilityHint="Digite o nome do Doutor"
-                    underlineStyle={styles.underLine}
+                    underlineColor="transparent"
+                    activeUnderlineColor={Colors[theme].tint}
+                    selectionColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].tint}
                 />
                 <TextInput
-                    label={<Text style={styles.text}>Descrição da Consulta</Text>}
+                    label={
+                        <Text style={styles.text}>Descrição da Consulta</Text>
+                    }
                     placeholder="Descrição da Consulta"
-                    onChangeText={(text) => setDescription(text)}
+                    onChangeText={setDescription}
                     contentStyle={[
                         styles.input,
                         { backgroundColor: Colors[theme].circleBackground },
                     ]}
-                    style={{ backgroundColor: "transparent" }} // Ensures no background color
+                    style={{ backgroundColor: "transparent" }}
                     textColor={Colors[theme].text}
-                    underlineColor="transparent" // Removes the underline color for unfocused state
-                    activeUnderlineColor={Colors[theme].tint} // Removes the underline color for focused state
-                    selectionColor={Colors[theme].text} // Ensures the text selection color is visible
-                    activeOutlineColor={Colors[theme].tint} // Apply tint color to the border when focused
-                    accessibilityLabel="Descrição da Consulta"
-                    accessibilityHint="Digite a descrição da Consulta"
-                    underlineStyle={styles.underLine}
+                    underlineColor="transparent"
+                    activeUnderlineColor={Colors[theme].tint}
+                    selectionColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].tint}
                 />
                 <View
                     style={{
@@ -287,7 +261,6 @@ const AppointmentForm = (appointment: AppointmentData) => {
                         />
                     </View>
                 </View>
-
                 <Button
                     onPress={showDatePicker}
                     style={styles.datepickerButton}
@@ -332,6 +305,31 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     ) : null}
                 </View>
             </View>
+            <Portal>
+                <Dialog visible={dialogVisible} onDismiss={handleDialogDismiss}>
+                    <Dialog.Icon icon="alert" />
+                    <Dialog.Title style={styles.title}>
+                        {dialogAction === "save"
+                            ? "Salvar compromisso?"
+                            : "Deletar compromisso?"}
+                    </Dialog.Title>
+                    <Dialog.Content>
+                        <Text style={styles.text}>
+                            {dialogAction === "save"
+                                ? "Você tem certeza que deseja salvar esse compromisso? Esta ação irá adicionar um novo compromisso ao seu calendário. Certifique-se de revisar todos os detalhes antes de confirmar."
+                                : "Tem certeza que deseja deletar esse compromisso? Esta ação removerá permanentemente o compromisso do seu calendário. Você não poderá desfazer essa ação após a confirmação."}
+                        </Text>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={handleDialogDismiss}>
+                            <Text style={styles.cancelButton}>Cancelar</Text>
+                        </Button>
+                        <Button onPress={handleDialogConfirm}>
+                            <Text style={styles.confirmButton}>OK</Text>
+                        </Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
         </View>
     );
 };

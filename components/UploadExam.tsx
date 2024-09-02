@@ -8,10 +8,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 import { Exam } from "@/types/exam";
 import { useExams } from "@/hooks/exams";
+import ExamTable from "@/components/ExamTable";
 
 const ExamUpload = (exam: Exam) => {
-    const { exams, getExamById } = useExams();
 
+    const { exams, getExamById } = useExams();
     const [specificExam, setSpecificExam] = React.useState<Exam | null>(null);
     const [selectedFileUri, setSelectedFileUri] = React.useState<string | null>(
         null
@@ -33,7 +34,7 @@ const ExamUpload = (exam: Exam) => {
         if (exams.length > 0) {
             const foundExam = getExamById(exam.slug);
             console.log("Specific Exam:", foundExam?.id);
-            
+
             if (foundExam) {
                 setSpecificExam(foundExam);
             } else {
@@ -107,10 +108,8 @@ const ExamUpload = (exam: Exam) => {
             ) : (
                 <>
                     {specificExam && (
-                        <Text>
-                            Exame criado em{" "}
-                            {new Date(specificExam!.id).toLocaleString()}
-                        </Text>
+                        <ExamTable specificExam={specificExam!} />
+                        
                     )}
                 </>
             )}
