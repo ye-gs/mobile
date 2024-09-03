@@ -1,9 +1,16 @@
-import { View, Text, Pressable, StyleSheet, Animated, FlatList } from "react-native";
+import React, { useState, useRef } from "react";
+import {
+    View,
+    Text,
+    Pressable,
+    StyleSheet,
+    Animated,
+    FlatList,
+} from "react-native";
 import { Bookmark, MarkedBM } from "@/assets/images/index";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useTheme } from "@/contexts/theme";
 import Colors from "@/constants/Colors";
-import { useState, useRef } from "react";
 
 export function HomeHistoryCard(props: {
     description: string;
@@ -37,6 +44,24 @@ export function HomeHistoryCard(props: {
         setBookmarked(!isBookmarked);
     };
 
+    // Merge base styles with theme-specific styles
+    const styles = StyleSheet.create({
+        ...baseStyles,
+        container: {
+            ...baseStyles.container,
+            borderBottomColor: Colors[theme].tabIconSelected,
+            backgroundColor: Colors[theme].cardBackground,
+        },
+        text: {
+            ...baseStyles.text,
+            color: Colors[theme].text,
+        },
+        date: {
+            ...baseStyles.date,
+            color: Colors[theme].secondaryText,
+        },
+    });
+
     return (
         <Pressable
             onPressIn={handlePressIn}
@@ -46,16 +71,13 @@ export function HomeHistoryCard(props: {
             <Animated.View
                 style={[
                     styles.container,
-                    {
-                        transform: [{ scale: scaleAnim }],
-                        backgroundColor: Colors[theme].cardBackground,
-                    },
+                    { transform: [{ scale: scaleAnim }] },
                 ]}
             >
                 <View style={styles.cardText}>
-                    <Text style={[styles.text, { color: Colors[theme].text }]}>{props.text}</Text>
-                    <Text style={[styles.text, { color: Colors[theme].text }]}>{props.description}</Text>
-                    <Text style={[styles.date, { color: Colors[theme].secondaryText }]}>{props.date}</Text>
+                    <Text style={styles.text}>{props.text}</Text>
+                    <Text style={styles.text}>{props.description}</Text>
+                    <Text style={styles.date}>{props.date}</Text>
                 </View>
 
                 <Pressable onPress={toggleBookmark} style={styles.bookmarkView}>
@@ -88,12 +110,13 @@ export function ConsultationsList(props: { consultations: any[] }) {
             data={props.consultations}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
-            contentContainerStyle={styles.listContainer}
+            contentContainerStyle={baseStyles.listContainer}
         />
     );
 }
 
-const styles = StyleSheet.create({
+// Define base styles that don't depend on theme
+const baseStyles = StyleSheet.create({
     container: {
         flexDirection: "row",
         borderRadius: 15,
@@ -101,7 +124,6 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         padding: RFValue(12, 808),
         borderBottomWidth: 1,
-        borderBottomColor: "#ccc",
         marginVertical: RFValue(10, 808),
     },
     cardText: {

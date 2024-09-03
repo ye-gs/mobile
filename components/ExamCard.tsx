@@ -1,6 +1,7 @@
+import React, { useRef } from "react";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
-import { GestureResponderEvent, Pressable, StyleSheet } from "react-native";
+import { GestureResponderEvent, Pressable, StyleSheet, Animated } from "react-native";
 import { View, Text } from "./Themed";
 import { AntDesign } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -8,6 +9,26 @@ import { RFValue } from "react-native-responsive-fontsize";
 export function ExamCard(props: { id: string; onPress: Function }) {
     const { theme } = useTheme();
     const examCreationDate = new Date(props.id);
+
+    // Animation value for scale
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    // Handle press in event
+    const handlePressIn = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 0.95, // Scale down a bit
+            useNativeDriver: true,
+        }).start();
+    };
+
+    // Handle press out event
+    const handlePressOut = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 1, // Scale back to normal
+            useNativeDriver: true,
+        }).start();
+    };
+
     const styles = StyleSheet.create({
         container: {
             height: RFValue(80, 808),
@@ -58,27 +79,37 @@ export function ExamCard(props: { id: string; onPress: Function }) {
             width: "auto",
         },
     });
+
     return (
         <Pressable
-            style={styles.container}
-            key={props.id}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
             onPress={props.onPress as (event: GestureResponderEvent) => void}
         >
-            <View style={styles.timeView}>
-                <Text style={styles.timeViewText}>
-                    {examCreationDate.toLocaleTimeString()}
-                </Text>
-            </View>
-            <View style={styles.endContentView}>
-                <Text style={styles.date}>
-                    {examCreationDate.toLocaleDateString()}
-                </Text>
-                <AntDesign
-                    name="right"
-                    size={RFValue(20, 808)}
-                    color={Colors[theme].subtextSoft}
-                />
-            </View>
+            <Animated.View
+                style={[
+                    styles.container,
+                    {
+                        transform: [{ scale: scaleAnim }],
+                    },
+                ]}
+            >
+                <View style={styles.timeView}>
+                    <Text style={styles.timeViewText}>
+                        {examCreationDate.toLocaleTimeString()}
+                    </Text>
+                </View>
+                <View style={styles.endContentView}>
+                    <Text style={styles.date}>
+                        {examCreationDate.toLocaleDateString()}
+                    </Text>
+                    <AntDesign
+                        name="right"
+                        size={RFValue(20, 808)}
+                        color={Colors[theme].subtextSoft}
+                    />
+                </View>
+            </Animated.View>
         </Pressable>
     );
 }

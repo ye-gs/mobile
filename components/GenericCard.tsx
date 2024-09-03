@@ -1,10 +1,17 @@
-import Colors from "@/constants/Colors";
-import { useTheme } from "@/contexts/theme";
-import { GestureResponderEvent, Pressable, StyleSheet } from "react-native";
+import React, { useRef } from "react";
+import {
+    GestureResponderEvent,
+    Pressable,
+    StyleSheet,
+    Animated,
+} from "react-native";
 import { View, Text } from "./Themed";
 import { AntDesign } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import { MarkedBM, Bookmark } from "@/assets";
+import Colors from "@/constants/Colors";
+import { useTheme } from "@/contexts/theme";
+
 export function GenericCard(props: {
     text: string;
     subtext: string;
@@ -16,6 +23,7 @@ export function GenericCard(props: {
 }) {
     const { theme } = useTheme();
     const BookMarkImage = props.isBookmarked ? MarkedBM : Bookmark;
+
     let date, time;
     if (props.datetime !== undefined) {
         date = props.datetime.toDateString();
@@ -27,6 +35,26 @@ export function GenericCard(props: {
         date = props.frequency;
         time = props.time;
     }
+
+    // Animation value for scale
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    // Handle press in event
+    const handlePressIn = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 0.95, // Scale down a bit
+            useNativeDriver: true,
+        }).start();
+    };
+
+    // Handle press out event
+    const handlePressOut = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 1, // Scale back to normal
+            useNativeDriver: true,
+        }).start();
+    };
+
     const styles = StyleSheet.create({
         container: {
             height: RFValue(80, 808),
@@ -77,29 +105,42 @@ export function GenericCard(props: {
             width: "auto",
         },
     });
+
     return (
         <Pressable
-            style={styles.container}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
             onPress={props.onPress as (event: GestureResponderEvent) => void}
         >
-            <View style={styles.timeView}>
-                <Text style={styles.timeViewText}>{time}</Text>
-            </View>
-            <View style={styles.contentView}>
-                <Text style={styles.contentViewText}>{props.text}</Text>
-                <Text numberOfLines={1} style={styles.contentViewSubtext}>
-                    {props.subtext}
-                </Text>
-                <BookMarkImage />
-            </View>
-            <View style={styles.endContentView}>
-                <Text style={styles.date}>{date}</Text>
-                <AntDesign
-                    name="right"
-                    size={RFValue(20, 808)}
-                    color={Colors[theme].subtextSoft}
-                />
-            </View>
+            <Animated.View
+                style={[
+                    styles.container,
+                    {
+                        transform: [{ scale: scaleAnim }],
+                    },
+                ]}
+            >
+                <View style={styles.timeView}>
+                    <Text style={styles.timeViewText}>{time}</Text>
+                </View>
+                <View style={styles.contentView}>
+                    <Text style={styles.contentViewText}>{props.text}</Text>
+                    <Text numberOfLines={1} style={styles.contentViewSubtext}>
+                        {props.subtext}
+                    </Text>
+                    <BookMarkImage />
+                </View>
+                <View style={styles.endContentView}>
+                    <Text style={styles.date}>{date}</Text>
+                    <AntDesign
+                        name="right"
+                        size={RFValue(20, 808)}
+                        color={Colors[theme].subtextSoft}
+                    />
+                </View>
+            </Animated.View>
         </Pressable>
     );
 }
+
+export default GenericCard;

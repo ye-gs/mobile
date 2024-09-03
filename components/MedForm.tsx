@@ -1,4 +1,3 @@
-//TODO: fazer o inputText selection menor a linha de baixo
 import React, { useState } from "react";
 import { View, Text } from "./Themed";
 import { useMeds } from "@/hooks/meds";
@@ -28,15 +27,12 @@ const MedForm = (med: MedData) => {
         };
     }
 
-    const [name, setMedicine] = useState(med.name || "");
-    const [description, setDescription] = useState(med.description || "");
-    const [frequency, setFrequency] = useState(med.frequency || "");
-    const [time, setTime] = useState(med.time || "");
-    const [isBookmarked, setIsBookmarked] = useState(
-        Boolean(med.isBookmarked) || false
-    );
+    const [name, setMedicine] = useState(med.name);
+    const [description, setDescription] = useState(med.description);
+    const [time, setTime] = useState(med.time);
+    const [isBookmarked, setIsBookmarked] = useState(Boolean(med.isBookmarked));
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [selectedDays, setSelectedDays] = useState<string[]>([]);
+    const [selectedDays, setSelectedDays] = useState<string[]>(med.frequency.split(",") || []);
     const [dialogVisible, setDialogVisible] = useState(false);
     const [dialogAction, setDialogAction] = useState<"save" | "delete" | null>(
         null
@@ -77,18 +73,29 @@ const MedForm = (med: MedData) => {
 
     const handleDialogConfirm = async () => {
         hideDialog();
-
+    
+        // Ordem desejada dos dias da semana
+        const dayOrder = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+    
+        // Limpa a lista de dias selecionados para remover valores vazios e ordena conforme a ordem definida
+        const frequency = selectedDays
+            .filter((day) => day) // Remove qualquer string vazia
+            .sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b)) // Ordena conforme a ordem desejada
+            .join(","); // Une os dias em uma string separada por vírgulas
+    
         if (dialogAction === "save") {
             if (isBookmarked) {
-                let notificationDate = new Date(frequency);
-                notificationDate.setDate(notificationDate.getDate() - 1);
+                let notificationDate = new Date();
+                notificationDate.setHours(Number(time.split(":")[0]));
+                notificationDate.setMinutes(Number(time.split(":")[1]));
+    
                 await Notifications.setNotificationChannelAsync("whatsapp", {
                     name: "Whatsapp Notifications",
                     importance: Notifications.AndroidImportance.MAX,
                     vibrationPattern: [0, 250, 250, 250],
                     sound: "whatsapp.wav",
                 });
-
+    
                 await Notifications.scheduleNotificationAsync({
                     identifier: "whatsapp",
                     content: {
@@ -105,22 +112,19 @@ const MedForm = (med: MedData) => {
                     },
                 });
             }
+    
+            const medData = {
+                name,
+                time,
+                description,
+                frequency,
+                isBookmarked,
+            };
+    
             if (med.slug !== "new") {
-                await editMed(med.slug, {
-                    name,
-                    time,
-                    description,
-                    frequency,
-                    isBookmarked,
-                });
+                await editMed(med.slug, medData);
             } else {
-                await createMed({
-                    name,
-                    time,
-                    description,
-                    frequency,
-                    isBookmarked,
-                });
+                await createMed(medData);
             }
             router.push("/meds");
             await fetchMeds();
@@ -130,6 +134,7 @@ const MedForm = (med: MedData) => {
             await fetchMeds();
         }
     };
+    
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -147,7 +152,6 @@ const MedForm = (med: MedData) => {
         });
         setTime(formattedTime);
         hideDatePicker();
-        setFrequency(formattedTime);
     };
 
     const styles = StyleSheet.create({
@@ -213,7 +217,7 @@ const MedForm = (med: MedData) => {
         confirmButton: {
             color: "green",
         },
-        underLine: { width: "90%", marginLeft: "5%" },
+        underLine: { height: 0 },
     });
 
     return (
@@ -230,35 +234,41 @@ const MedForm = (med: MedData) => {
                         styles.input,
                         { backgroundColor: Colors[theme].circleBackground },
                     ]}
+                    defaultValue={med.name}
+                    accessibilityLabel="Nome do Remédio"
+                    accessibilityHint="Digite o nome do remédio"
                     style={{ backgroundColor: "transparent" }}
                     textColor={Colors[theme].text}
                     underlineColor="transparent"
                     activeUnderlineColor={Colors[theme].tint}
                     selectionColor={Colors[theme].text}
                     activeOutlineColor={Colors[theme].tint}
-                    accessibilityLabel="Nome do Remédio"
-                    accessibilityHint="Digite o nome do remédio"
                     underlineStyle={styles.underLine}
                 />
 
                 <TextInput
+                    multiline={true}
+                    numberOfLines={4}
+                    scrollEnabled={true}
+                    maxLength={200}
                     label={
                         <Text style={styles.text}>Descrição do Remédio</Text>
                     }
+                    defaultValue={med.description}
                     placeholder="Descrição do Remédio"
                     onChangeText={(text) => setDescription(text)}
                     contentStyle={[
                         styles.input,
                         { backgroundColor: Colors[theme].circleBackground },
                     ]}
+                    accessibilityLabel="Descrição do Remédio"
+                    accessibilityHint="Digite a descrição do Remédio"
                     style={{ backgroundColor: "transparent" }}
                     textColor={Colors[theme].text}
                     underlineColor="transparent"
                     activeUnderlineColor={Colors[theme].tint}
                     selectionColor={Colors[theme].text}
                     activeOutlineColor={Colors[theme].tint}
-                    accessibilityLabel="Descrição do Remédio"
-                    accessibilityHint="Digite a descrição do Remédio"
                     underlineStyle={styles.underLine}
                 />
 
@@ -272,15 +282,15 @@ const MedForm = (med: MedData) => {
                             styles.input,
                             { backgroundColor: Colors[theme].circleBackground },
                         ]}
+                        accessibilityLabel="Hora do remédio"
+                        accessibilityHint="Digite a hora do remédio"
                         style={{ backgroundColor: "transparent" }}
                         textColor={Colors[theme].text}
                         underlineColor="transparent"
-                        activeUnderlineColor="transparent"
+                        activeUnderlineColor={Colors[theme].tint}
                         selectionColor={Colors[theme].text}
                         activeOutlineColor={Colors[theme].tint}
-                        outlineColor="transparent"
-                        accessibilityLabel="Hora do remédio"
-                        accessibilityHint="Digite a hora do remédio"
+                        underlineStyle={styles.underLine}
                     />
                 </TouchableOpacity>
 
@@ -312,8 +322,8 @@ const MedForm = (med: MedData) => {
                 <View style={styles.bookmarkView}>
                     <Text style={styles.title}>
                         {isBookmarked
-                            ? "Não ativar notificação"
-                            : "Ativar notificação"}
+                            ? "Recebendo notificação"
+                            : "Desativado"}
                     </Text>
                     <BookmarkImage
                         style={styles.bookmark}
