@@ -115,14 +115,14 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         themeColor: "#F0F8F0", // Cor do Botão de temas
     },
     darkPurple: {
-        text: "#000000", // Light gray text for contrast
+        text: "#FFFFFF", // Light gray text for contrast
         subtext: "#9B9B9B", // Medium gray subtext
         subtextSoft: "#BEBEBE", // Light gray subtext
         background: "#2E003E", // Dark purple background
         tint: "#fff", // Dark violet
         tabIconDefault: "#ccc", // Default tab icon color
-        tabIconSelected: "#6A0D91", // Dark violet for selected tab icon
-        url: "#8A2BE2", // Blue violet for URLs
+        tabIconSelected: "#D02BE2", // Dark violet for selected tab icon
+        url: "#D02BE2", // Blue violet for URLs
         borderColor: "#3D0C5D", // Dark purple border color
         circleBackground: "#6A0D91", // Dark violet circle background
         altTextColor: "#6A0D91", // Dark violet for alternative text
@@ -132,6 +132,25 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         black: "#000000", // Black
         white: "#FFFFFF", // White
         themeColor: "#2E003E", // Dark purple for theme color
+    },
+    redPill: {
+        text: "#000000", // Light gray text for contrast
+        subtext: "#9B9B9B", // Medium gray subtext
+        subtextSoft: "#BEBEBE", // Light gray subtext
+        background: "#820101", // Dark purple background
+        tint: "#000000", // Dark violet
+        tabIconDefault: "#ccc", // Default tab icon color
+        tabIconSelected: "#e22b65", // Dark violet for selected tab icon
+        url: "#e22b65", // Blue violet for URLs
+        borderColor: "#5d0c27", // Dark purple border color
+        circleBackground: "#910d16", // Dark violet circle background
+        altTextColor: "#910d16", // Dark violet for alternative text
+        primaryLighter: "#e22b2b", // Blue violet for primary lighter
+        primaryDarker: "#5d0c15", // Dark purple for primary darker
+        danger: "#B22222", // Firebrick red for danger
+        black: "#000000", // Black
+        white: "#FFFFFF", // White
+        themeColor: "#820101", // Dark purple for theme color
     }
 };
 
