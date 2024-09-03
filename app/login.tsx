@@ -31,7 +31,7 @@ export default function Home() {
         },
         form: {
             gap: RFValue(12, 808),
-            width: "80%",
+            width: "90%",
             justifyContent: "center",
             height: "auto",
         },
@@ -43,7 +43,7 @@ export default function Home() {
             fontWeight: "500",
         },
         signInOptions: {
-            width: "80%",
+            width: "90%",
             alignItems: "center",
             height: "40%",
         },

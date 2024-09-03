@@ -17,6 +17,6 @@ const styles = StyleSheet.create({
     separator: {
         marginVertical: RFValue(20, 808),
         height: RFValue(1.5, 808),
-        width: "80%",
+        width: "90%",
     },
 });

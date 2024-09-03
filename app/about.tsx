@@ -13,7 +13,7 @@ export default function UserInfo() {
             alignItems: "center",
         },
         main: {
-            width: "80%",
+            width: "90%",
             top: "10%",
             alignItems: "center",
             justifyContent: "center",

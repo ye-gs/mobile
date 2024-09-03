@@ -21,7 +21,6 @@ export default function Home() {
     }, [user]);
     return (
         <View style={styles.container}>
-            <ProfileCard user={user} />
             <HomeBiometricInfo />
             <Separator />
             <HomeRoutingOptions />

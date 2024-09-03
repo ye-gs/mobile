@@ -43,7 +43,7 @@ export default function SignUpScreen() {
         },
         form: {
             justifyContent: "space-between",
-            width: "80%",
+            width: "90%",
             height: "35%",
         },
         terms: {
@@ -62,7 +62,7 @@ export default function SignUpScreen() {
             color: Colors[theme].url,
         },
         signInOptions: {
-            width: "80%",
+            width: "90%",
             alignItems: "center",
             borderColor: "black",
             top: "3%",

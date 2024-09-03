@@ -126,7 +126,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
 
     const styles = StyleSheet.create({
         container: {
-            width: "80%",
+            width: "90%",
             top: "20%",
         },
         bookmarkView: {
@@ -195,9 +195,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
             padding: RFValue(7, 808),
             backgroundColor: Colors[theme].circleBackground,
         },
-        underLine: { width: "90%" ,
-            marginLeft: "5%",
-            },
+        underLine: { width: "90%", marginLeft: "5%" },
     });
 
     return (

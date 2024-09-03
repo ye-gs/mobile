@@ -152,7 +152,7 @@ const MedForm = (med: MedData) => {
 
     const styles = StyleSheet.create({
         container: {
-            width: "80%",
+            width: "90%",
             top: "20%",
         },
         bookmarkView: {

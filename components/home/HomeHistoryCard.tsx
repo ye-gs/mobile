@@ -1,10 +1,9 @@
-import { View, Text, TouchableOpacity } from "@/components/Themed";
-import { StyleSheet, Image } from "react-native";
+import { View, Text, Pressable, StyleSheet, Animated, FlatList } from "react-native";
 import { Bookmark, MarkedBM } from "@/assets/images/index";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useTheme } from "@/contexts/theme";
 import Colors from "@/constants/Colors";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export function HomeHistoryCard(props: {
     description: string;
@@ -18,60 +17,115 @@ export function HomeHistoryCard(props: {
     const [isBookmarked, setBookmarked] = useState(props.isBookmarked);
     const BookmarkImage = isBookmarked ? MarkedBM : Bookmark;
 
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    const handlePressIn = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 0.95,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handlePressOut = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 1,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const toggleBookmark = () => {
+        setBookmarked(!isBookmarked);
+    };
+
     return (
-        <TouchableOpacity style={styles.container} onPress={props.onPress}>
-            <Image style={styles.image} source={{ uri: props.imageUrl }} />
-            <View style={styles.cardText}>
-                <Text style={styles.text}>{props.text}</Text>
-                <Text style={styles.text}>{props.description}</Text>
-                <Text style={styles.date}>{props.date}</Text>
-            </View>
-            <View style={styles.bookmarkView}>
-                <BookmarkImage
-                    style={styles.bookmark}
-                    fill={Colors[theme].tabIconSelected}
-                    width={styles.bookmark.width}
-                    height={styles.bookmark.height}
-                />
-            </View>
-        </TouchableOpacity>
+        <Pressable
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+            onPress={props.onPress}
+        >
+            <Animated.View
+                style={[
+                    styles.container,
+                    {
+                        transform: [{ scale: scaleAnim }],
+                        backgroundColor: Colors[theme].cardBackground,
+                    },
+                ]}
+            >
+                <View style={styles.cardText}>
+                    <Text style={[styles.text, { color: Colors[theme].text }]}>{props.text}</Text>
+                    <Text style={[styles.text, { color: Colors[theme].text }]}>{props.description}</Text>
+                    <Text style={[styles.date, { color: Colors[theme].secondaryText }]}>{props.date}</Text>
+                </View>
+
+                <Pressable onPress={toggleBookmark} style={styles.bookmarkView}>
+                    <BookmarkImage
+                        style={styles.bookmark}
+                        fill={Colors[theme].tabIconSelected}
+                        width={styles.bookmark.width}
+                        height={styles.bookmark.height}
+                    />
+                </Pressable>
+            </Animated.View>
+        </Pressable>
+    );
+}
+
+export function ConsultationsList(props: { consultations: any[] }) {
+    const renderItem = ({ item }: { item: any }) => (
+        <HomeHistoryCard
+            description={item.description}
+            text={item.text}
+            date={item.date}
+            imageUrl={item.imageUrl}
+            isBookmarked={item.isBookmarked}
+            onPress={item.onPress}
+        />
+    );
+
+    return (
+        <FlatList
+            data={props.consultations}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.listContainer}
+        />
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        borderWidth: RFValue(1, 808),
-        borderColor: "#ccc",
-        borderRadius: 10,
-        height: "auto",
-    },
-    image: {
-        width: RFValue(50, 808),
-        height: RFValue(50, 808),
-        borderRadius: 8,
-        margin: RFValue(4, 808),
+        borderRadius: 15,
+        width: "90%",
+        alignSelf: "center",
+        padding: RFValue(12, 808),
+        borderBottomWidth: 1,
+        borderBottomColor: "#ccc",
+        marginVertical: RFValue(10, 808),
     },
     cardText: {
-        alignItems: "flex-start",
+        flex: 3,
         justifyContent: "space-around",
     },
     text: {
-        fontSize: RFValue(10, 808),
+        fontSize: RFValue(20, 808),
         fontWeight: "400",
     },
     date: {
-        fontSize: RFValue(8, 808),
+        fontSize: RFValue(15, 808),
     },
     bookmarkView: {
         flex: 1,
         alignItems: "flex-end",
-        borderRadius: 10,
     },
     bookmark: {
         width: RFValue(22, 808),
         height: RFValue(22, 808),
         marginTop: RFValue(3, 808),
         marginRight: RFValue(8, 808),
+    },
+    listContainer: {
+        paddingBottom: RFValue(10, 808),
     },
 });

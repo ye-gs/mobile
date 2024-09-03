@@ -6,24 +6,57 @@ import { useAppointments } from "@/hooks/appointment";
 import { routeAndTransformAppointments } from "@/utils/routeAndTransform";
 import { router } from "expo-router";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 export function HomeAppointmentHistory() {
     const { theme } = useTheme();
-
     const { appointments } = useAppointments();
+
     appointments.sort((a, b) => {
         return a.datetime.getTime() - b.datetime.getTime();
     });
-    // get only appointments that are in the future
+
     const futureAppointments = appointments.filter(
         (appointment) => appointment.datetime.getTime() > Date.now()
     );
-    // get the two most recent appointments
-    const upcomingAppointments = futureAppointments.slice(0, 2);
+
+    const upcomingAppointments = futureAppointments;
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,  
+            marginTop: RFValue(20, 808),
+            backgroundColor: Colors[theme].circleBackground,
+            borderRadius: RFValue(25, 808),
+            width: "100%",
+            marginBottom: RFValue(2, 808),
+        },
+        history__heading: {
+            marginTop: RFValue(10, 808),
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "85%",
+            alignSelf: "center",
+            backgroundColor: "transparent",
+            paddingVertical: RFValue(10, 808),
+        },
+        history__title: {
+            fontSize: RFValue(16, 808),
+            fontWeight: "bold",
+        },
+        history__link: {
+            fontSize: RFValue(12, 808),
+            alignSelf: "flex-end",
+        },
+        flatListContainer: {
+            flexGrow: 1,
+            paddingBottom: RFValue(40, 808),  // Espaço extra na parte inferior
+        },
+    });
+
     return (
-        <View style={styles.history}>
+        <View style={styles.container}>
             <View style={styles.history__heading}>
                 <Text style={styles.history__title}>Próximas consultas</Text>
                 <Text
@@ -33,44 +66,29 @@ export function HomeAppointmentHistory() {
                     Ver todas
                 </Text>
             </View>
-            {upcomingAppointments.map((appointment) => (
-                <HomeHistoryCard
-                    key={appointment.id}
-                    text={appointment.doctor}
-                    description={appointment.description}
-                    date={appointment.datetime.toDateString()}
-                    imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"
-                    isBookmarked={appointment.isBookmarked}
-                    onPress={() =>
-                        routeAndTransformAppointments({
-                            ...appointment,
-                            datetime: appointment.datetime.toISOString(),
-                            id: appointment.id!,
-                            isBookmarked: appointment.isBookmarked ? 1 : 0,
-                        })
-                    }
-                ></HomeHistoryCard>
-            ))}
+
+            <FlatList showsVerticalScrollIndicator={false}
+                data={upcomingAppointments}
+                keyExtractor={(item) => (item.id ? item.id.toString() : "")}
+                renderItem={({ item: appointment }) => (
+                    <HomeHistoryCard
+                        text={appointment.doctor}
+                        description={appointment.description}
+                        date={appointment.datetime.toDateString()}
+                        imageUrl="https://clinicaunix.com.br/wp-content/uploads/2019/09/COMO-E-REALIZADO-O-EXAME-DE-PROSTATA.jpg"
+                        isBookmarked={appointment.isBookmarked}
+                        onPress={() =>
+                            routeAndTransformAppointments({
+                                ...appointment,
+                                datetime: appointment.datetime.toISOString(),
+                                id: appointment.id!,
+                                isBookmarked: appointment.isBookmarked ? 1 : 0,
+                            })
+                        }
+                    />
+                )}
+                contentContainerStyle={styles.flatListContainer}
+            />
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    history: {
-        paddingTop: RFValue(30, 808),
-        width: "80%",
-        gap: RFValue(10, 808),
-    },
-    history__heading: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    history__title: {
-        fontSize: RFValue(16, 808),
-        fontWeight: "bold",
-    },
-    history__link: {
-        fontSize: RFValue(12, 808),
-        alignSelf: "flex-end",
-    },
-});

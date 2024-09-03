@@ -34,9 +34,8 @@ const styles = StyleSheet.create({
         gap: 20,
     },
     logo: {
-        width: "80%",
+        width: "90%",
         maxHeight: "50%", // Added a maxHeight to ensure the logo doesn't get too large
         resizeMode: "contain",
     },
-    
 });
