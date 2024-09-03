@@ -40,8 +40,7 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         white: "#fff",
         themeColor: "#282828",
     },
-
-    blueLight: {
+    bluePill: {
         text: "#000", // Keep text color as is
         subtext: "#7A7979", // Keep as is, or update if needed
         subtextSoft: "#8E98A1", // Keep as is, or update if needed
@@ -58,8 +57,7 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         danger: "#bd3a31", // Keep danger color as is, or update if needed
         themeColor: "#5563E2", // Assuming "#5563E2" is a blue shade
     },
-
-    gray: {
+    drGray: {
         text: "#e7e7e7",
         subtext: "#7A7979",
         subtextSoft: "#8E98A1",
@@ -78,7 +76,7 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         white: "#fff",
         themeColor: "#404040", // Keep themeColor as is
     },
-    lightPink: {
+    rosaDesfibrilador: {
         text: "#000000", // Black text for contrast
         subtext: "#7A7979", // Gray subtext
         subtextSoft: "#8E98A1", // Light gray subtext
@@ -97,24 +95,24 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         white: "#FFFFFF", // White
         themeColor: "#FFE4E1", // Light pink for theme color
     },
-    limeGreen: {
-        text: "#fff", // Black text for contrast
+    pediGree: {
+        text: "#32CD32", // Cinza teste
         subtext: "#7A7979", // Gray subtext
         subtextSoft: "#8E98A1", // Light gray subtext
         background: "#F0F8F0", // Light green background
         tint: "#32CD32", // Lime green
         tabIconDefault: "#ccc", // Default tab icon color
-        tabIconSelected: "#32CD32", // Lime green for selected tab icon
-        url: "#228B22", // Forest green for URLs
+        tabIconSelected: "#6AA84F", // Lime green for selected tab icon
+        url: "#8E7CC3", // Forest green for URLs
         borderColor: "#90EE90", // Light green border color
         circleBackground: "#98FB98", // Pale green circle background
         altTextColor: "#32CD32", // Lime green for alternative text
-        primaryLighter: "#98FB98", // Pale green for primary lighter
-        primaryDarker: "#228B22", // Dark green for primary darker
-        danger: "#FF4500", // Orange red for danger
+        primaryLighter: "#EEFEEE", // Pale green for primary lighter
+        primaryDarker: "#3AA450", // Dark green for primary darker
+        danger: "#FF7C4C", // Orange red for danger
         black: "#000000", // Black
-        white: "#FFFFFF", // White
-        themeColor: "#F0F8F0", // Light green for theme color
+        white: "#32CD32", // White
+        themeColor: "#F0F8F0", // Cor do Botão de temas
     },
     darkPurple: {
         text: "#000000", // Light gray text for contrast
@@ -134,7 +132,7 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         black: "#000000", // Black
         white: "#FFFFFF", // White
         themeColor: "#2E003E", // Dark purple for theme color
-    },
+    }
 };
 
 export default Colors;

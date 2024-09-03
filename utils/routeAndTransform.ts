@@ -11,13 +11,11 @@ export const routeAndTransformAppointments = (
         params: { ...appointment },
     });
 };
-
 export const routeAndTransformExams = (exam: Exam) => {
     router.push({
         pathname: `/exams/${exam.id}`,
     });
 };
-
 export const routeAndTransformMeds = (med: MedMiddleware) => {
     router.push({
         pathname: `/meds/${med.id}`,

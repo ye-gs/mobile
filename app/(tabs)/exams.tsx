@@ -12,9 +12,7 @@ import { useExams } from "@/hooks/exams";
 
 const Exams = () => {
     const { exams } = useExams();
-
     const { theme } = useTheme();
-
     const styles = StyleSheet.create({
         addButton: {
             position: "absolute",

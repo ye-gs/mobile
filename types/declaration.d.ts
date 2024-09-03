@@ -5,7 +5,6 @@ declare module "*.svg" {
     export default content;
 }
 
-
 type WeightValue = 'normal'
 | 'bold'
 | '100'

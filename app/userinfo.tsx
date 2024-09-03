@@ -11,6 +11,7 @@ import { GenderSelect } from "@/components/profile/GenderSelect";
 import { TextInput } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useState } from "react";
+
 export default function UserInfo() {
     const { user } = useUser();
     const { theme } = useTheme();

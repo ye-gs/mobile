@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-    doc,
-    getDocs,
-    setDoc,
-    collection,
-    deleteDoc,
-    addDoc,
-} from "firebase/firestore";
+import { doc, getDocs, setDoc, collection, deleteDoc, addDoc } from "firebase/firestore";
 import { db, auth } from "@/firebase";
 import { Med } from "@/types/med";
 
@@ -51,7 +44,6 @@ export function useMeds() {
             alert("Falha ao buscar consultas: " + error);
         }
     };
-
     const createMed = async (med: Med) => {
         try {
             const path = `users/${currentUser.uid}/meds`;

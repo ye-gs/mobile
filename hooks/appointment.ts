@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-    doc,
-    getDocs,
-    setDoc,
-    collection,
-    deleteDoc,
-    addDoc,
-} from "firebase/firestore";
+import { doc, getDocs, setDoc, collection, deleteDoc, addDoc } from "firebase/firestore";
 import { db, auth } from "@/firebase";
 import { Appointment } from "@/types/appointment";
 

@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
-import {
-    FontAwesome,
-    Ionicons,
-    MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
@@ -12,7 +8,6 @@ import { Button, Menu } from "react-native-paper";
 import { useTheme } from "@/contexts/theme";
 import { auth, db } from "@/firebase";
 import { StyleSheet } from "react-native";
-
 import { ThemeNames } from "@/constants/ThemeNames";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -42,7 +37,6 @@ export default function TabLayout() {
         limeGreen: "leaf",
         darkPurple: "star",
     };
-
     const { theme, setTheme } = useTheme();
     const { user, setUser } = useUser();
     const styles = StyleSheet.create({
@@ -75,6 +69,7 @@ export default function TabLayout() {
 
         fetchUserTheme();
     }, []);
+
     function MenuButton() {
         const [visible, setVisible] = React.useState(false);
 

@@ -3,7 +3,6 @@ import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeFirestore } from "firebase/firestore";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-
 import Constants from "expo-constants";
 
 GoogleSignin.configure({

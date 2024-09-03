@@ -13,7 +13,6 @@ interface UserContextProps {
 export const UserContext = createContext<UserContextProps | undefined>(
     undefined
 );
-
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
@@ -75,7 +74,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
         </UserContext.Provider>
     );
 };
-
 export const useUser = (): UserContextProps => {
     const context = useContext(UserContext);
     if (context === undefined) {

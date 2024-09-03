@@ -85,7 +85,6 @@ export default function Home() {
             top: RFValue(20, 808),
         },
     });
-
     const { handleLogin, handleGoogleLogin } = handleLoginMethods(
         email,
         password,

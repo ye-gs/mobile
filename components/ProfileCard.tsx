@@ -11,7 +11,6 @@ export function ProfileCard(props: {
     paddingTop?: number;
 }) {
     const { theme } = useTheme();
-
     const styles = StyleSheet.create({
         userName: {
             fontSize: RFValue(18, 808),

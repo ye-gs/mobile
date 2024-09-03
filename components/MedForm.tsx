@@ -3,13 +3,7 @@ import React, { useState } from "react";
 import { View, Text } from "./Themed";
 import { useMeds } from "@/hooks/meds";
 import { router } from "expo-router";
-import {
-    TextInput,
-    Checkbox,
-    Dialog,
-    Portal,
-    Button,
-} from "react-native-paper";
+import { TextInput, Checkbox, Dialog, Portal, Button } from "react-native-paper";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
