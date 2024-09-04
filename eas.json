@@ -1,20 +1,26 @@
 {
     "build": {
         "development": {
+            "env": {
+                "NODE_ENV": "development"
+            },
             "developmentClient": true,
             "distribution": "internal",
             "channel": "development"
         },
         "test": {
-            "developmentClient": true,
+            "developmentClient": false,
             "distribution": "internal",
-            "channel": "test"
+            "channel": "development"
         },
         "preview": {
             "distribution": "internal",
             "channel": "preview"
         },
         "production": {
+            "env": {
+                "NODE_ENV": "production"
+            },
             "android": {
                 "image": "latest"
             },

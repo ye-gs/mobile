@@ -1,6 +1,8 @@
-import React, { createContext, useState, useContext } from "react";
+import { auth, db } from "@/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
-type Theme = "light" | "dark";
+type Theme = "light" | "dark" | "blueLight";
 type ThemeContextType = {
     theme: Theme;
     setTheme: React.Dispatch<React.SetStateAction<Theme>>;
@@ -14,7 +16,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const [theme, setTheme] = useState<Theme>("light");
+    const user = auth.currentUser
+    useEffect(() => {
+        const fetchUserTheme = async () => {
+            if (user) {
+                const userDocRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists()) {
+                    console.log(userDoc.data()?.favoriteTheme);
+                    setTheme(userDoc.data()?.favoriteTheme || theme);
+                }
+            }
+        };
 
+        fetchUserTheme().catch(console.error)
+    }, []);
     return (
         <ThemeContext.Provider value={{ theme, setTheme }}>
             {children}

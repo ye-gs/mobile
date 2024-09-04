@@ -25,8 +25,7 @@ export function GenericButton(props: {
             height: props.height ?? "auto",
             width: props.width ?? "auto",
             flexDirection: "row",
-            gap: 8
-
+            gap: 8,
         },
         text: {
             color: props.fontColor ?? "#fff",
@@ -38,11 +37,8 @@ export function GenericButton(props: {
     return (
         <Pressable style={styles.container} onPress={() => props.onPress()}>
             {ImageComponent ? (
-                    <ImageComponent
-                        width={"60%"}
-                        height={"60%"}
-                    ></ImageComponent>
-                ) : null}
+                <ImageComponent width={"60%"} height={"60%"}></ImageComponent>
+            ) : null}
             <Text style={styles.text}>{props.title}</Text>
         </Pressable>
     );

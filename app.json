@@ -28,7 +28,23 @@
             "output": "static",
             "favicon": "./assets/images/favicon.png"
         },
-        "plugins": ["expo-router", "@react-native-google-signin/google-signin"],
+        "plugins": [
+            "expo-router",
+            "@react-native-google-signin/google-signin",
+            [
+                "expo-camera",
+                {
+                    "cameraPermission": "Permitir que $(PRODUCT_NAME) acesse sua câmera",
+                    "microphonePermission": "Permitir que $(PRODUCT_NAME) acesse sua câmera"
+                }
+            ],
+            [
+                "expo-notifications",
+                {
+                    "sounds": ["./assets/audios/whatsapp.wav"]
+                }
+            ]
+        ],
         "experiments": {
             "typedRoutes": true
         },

@@ -1,17 +1,7 @@
 import { auth } from "@/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-    GoogleSignin,
-    statusCodes,
-} from "@react-native-google-signin/google-signin";
-import {
-    GoogleAuthProvider,
-    createUserWithEmailAndPassword,
-    signInWithCredential,
-    UserCredential,
-    signInWithEmailAndPassword,
-    updateProfile,
-} from "firebase/auth";
+import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithCredential, UserCredential, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 function handleLoginMethods(
     email: string,
@@ -46,7 +36,6 @@ function handleLoginMethods(
                 return;
             });
     };
-
     const handleGoogleLogin = async () => {
         try {
             setIsLoading(true);
@@ -91,7 +80,6 @@ function handleLoginMethods(
             }
         }
     };
-
     const handleSignUp = () => {
         setIsLoading(true);
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

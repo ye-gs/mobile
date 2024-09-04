@@ -1,12 +1,8 @@
 import { NumberProp, SvgProps } from "react-native-svg";
-import {
-    StyleSheet,
-    Pressable,
-    DimensionValue,
-    GestureResponderEvent,
-} from "react-native";
+import { StyleSheet, Pressable, DimensionValue, GestureResponderEvent } from "react-native";
 import { Text, View } from "./Themed";
 import { RFValue } from "react-native-responsive-fontsize";
+
 export function GenericIconButton(props: {
     text: string;
     ImageComponent?: React.ComponentType<SvgProps>;

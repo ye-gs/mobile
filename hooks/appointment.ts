@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-    doc,
-    getDocs,
-    setDoc,
-    collection,
-    deleteDoc,
-    addDoc,
-} from "firebase/firestore";
+import { doc, getDocs, setDoc, collection, deleteDoc, addDoc } from "firebase/firestore";
 import { db, auth } from "@/firebase";
 import { Appointment } from "@/types/appointment";
 
@@ -21,6 +14,7 @@ export function useAppointments() {
         return appointments;
     };
     const fetchAppointments = async () => {
+        const newAppointments: Appointment[] = [];
         try {
             const appointmentsCollection = collection(
                 db,
@@ -31,28 +25,19 @@ export function useAppointments() {
             // get all appointments on collection and return
             const appointmentRefs = await getDocs(appointmentsCollection);
             if (appointmentRefs.empty) {
-                return [];
+                setAppointments([]);
             } else {
                 appointmentRefs.docs.map((doc) => {
                     const data = doc.data();
-                    // check if id is not already on list
-                    if (
-                        appointments.some(
-                            (appointment) => appointment.id === doc.id
-                        )
-                    )
-                        return;
-                    setAppointments((prevAppointments) => [
-                        ...prevAppointments,
-                        {
-                            id: doc.id,
-                            doctor: data.doctor,
-                            description: data.description,
-                            datetime: data.datetime.toDate(),
-                            isBookmarked: data.isBookmarked,
-                        },
-                    ]);
+                    newAppointments.push({
+                        id: doc.id,
+                        datetime: data.datetime.toDate(),
+                        doctor: data.doctor,
+                        description: data.description,
+                        isBookmarked: data.isBookmarked,
+                    });
                 });
+                setAppointments(newAppointments);
             }
         } catch (error) {
             alert("Falha ao buscar consultas: " + error);
