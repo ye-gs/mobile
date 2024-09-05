@@ -1,5 +1,13 @@
-import React from "react";
-import { View, ScrollView, Text, StyleSheet,Dimensions } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import {
+    View,
+    ScrollView,
+    Text,
+    StyleSheet,
+    Dimensions,
+    TextInput,
+    Button,
+} from "react-native";
 import { Exam } from "@/types/exam";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
@@ -9,16 +17,165 @@ interface ExamTableProps {
 }
 
 const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
-    const { analitos, resultados, unidade, valoresReferencia } = specificExam;
+    const { analitos, resultados, unidade, valoresReferencia, data } =
+        specificExam;
     const { theme } = useTheme(); // Use the theme inside the component
+    const [currentPage, setCurrentPage] = useState(0); // Track the current page
+    const [searchQuery, setSearchQuery] = useState(""); // State for the search query
+    const scrollViewRef = useRef<ScrollView>(null); // Ref for the ScrollView
+    const [highlightIndex, setHighlightIndex] = useState<number | null>(null); // State to track highlighted index
+    const { width } = Dimensions.get("window");
 
+    const styles = StyleSheet.create({
+        table: {
+            width: "90%",
+            marginTop: 30,
+            alignSelf: "center",
+        },
+        row: {
+            flexDirection: "row",
+            alignSelf: "center",
+        },
+        headerCell: {
+            fontWeight: "bold",
+            borderWidth: 1,
+            padding: 8,
+            textAlign: "center",
+        },
+        cell: {
+            borderWidth: 1,
+            padding: 8,
+            textAlign: "center",
+        },
+        fixedCellWidth: {
+            width: width * 0.225,
+        },
+        pageTitle: {
+            textAlign: "center",
+            fontSize: 18,
+            fontWeight: "bold",
+            marginVertical: 10,
+        },
+        paginationControls: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingHorizontal: 20,
+            marginVertical: 10,
+        },
+        searchInput: {
+            marginTop: 20,
+            borderWidth: 1,
+            borderColor: Colors[theme].border,
+            borderRadius: 25,
+            padding: 10,
+            color: Colors[theme].text, // Use the theme color
+            width: '100%',
+        },
+        highlightedRow: {
+            backgroundColor: Colors[theme].circleBackground, // Color for the highlighted row
+        },
+    });
     // Verificação condicional
-    if (!analitos || !resultados || !unidade || !valoresReferencia) {
+    if (!analitos || !resultados || !unidade || !valoresReferencia || !data) {
         return <Text>Dados insuficientes para renderizar a tabela</Text>;
     }
 
+    // Function to group exams by unique dates
+    const groupExamsByDate = (specificExam: Exam) => {
+        const groupedExams: { [key: string]: any[] } = {};
+
+        for (let i = 0; i < specificExam.data.length; i++) {
+            const timestamp = specificExam.data[i].seconds;
+            const time = new Date(timestamp * 1000);
+
+            // Usa o formato ISO da data para facilitar a ordenação
+            const formattedDate = time.toISOString().split("T")[0]; // yyyy-mm-dd
+
+            // Adiciona o exame ao grupo da data correspondente
+            if (!groupedExams[formattedDate]) {
+                groupedExams[formattedDate] = [];
+            }
+
+            groupedExams[formattedDate].push({
+                analito: analitos[i],
+                resultado: resultados[i] || "-",
+                unidade: unidade[i] || "-",
+                valorReferencia: valoresReferencia[i] || "-",
+            });
+        }
+
+        // Ordena as datas em ordem decrescente
+        const sortedGroupedExams = Object.keys(groupedExams)
+            .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
+            .reduce(
+                (obj, key) => {
+                    obj[key] = groupedExams[key];
+                    return obj;
+                },
+                {} as { [key: string]: any[] }
+            );
+
+        return sortedGroupedExams;
+    };
+
+    // Group the exams by date
+    const groupedExams = groupExamsByDate(specificExam);
+    const dateKeys = Object.keys(groupedExams); // Get unique dates (pages)
+
+    // Function to navigate between pages
+    const goToNextPage = () => {
+        if (currentPage < dateKeys.length - 1) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const goToPreviousPage = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    // Get exams for the current page (date)
+    const currentExams = groupedExams[dateKeys[currentPage]];
+
+    // Atualiza o índice destacado ao modificar a consulta de pesquisa
+    useEffect(() => {
+        if (searchQuery.trim() === "") {
+            setHighlightIndex(null); // Não destaque nada se a pesquisa estiver vazia
+        } else {
+            const index = currentExams.findIndex((exam) =>
+                exam.analito.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setHighlightIndex(index >= 0 ? index : null);
+
+            // Rolar para o item encontrado
+            if (index >= 0 && scrollViewRef.current) {
+                scrollViewRef.current.scrollTo({
+                    y: index * 50,
+                    animated: true,
+                }); // Ajuste o valor multiplicador conforme necessário
+            }
+        }
+    }, [searchQuery, currentExams]);
+
     return (
-            <ScrollView style={{ flex: 1 }}>
+        <View >
+            {/* Barra de pesquisa */}
+            <View>
+                <TextInput
+                    style={styles.searchInput}
+                    placeholder="Pesquisar Analito..."
+                    placeholderTextColor={Colors[theme].textSecondary}
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                />
+            </View>
+
+            <ScrollView style={{ flex: 1 }} ref={scrollViewRef}>
+                <Text style={styles.pageTitle}>
+                    Exames de {dateKeys[currentPage]}
+                </Text>
+
                 <View style={styles.table}>
                     {/* Header */}
                     <View style={styles.row}>
@@ -29,7 +186,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                                 {
                                     backgroundColor:
                                         Colors[theme].circleBackground,
-                                }, // Use the theme color
+                                },
                             ]}
                         >
                             Analito
@@ -41,7 +198,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                                 {
                                     backgroundColor:
                                         Colors[theme].circleBackground,
-                                }, // Use the theme color
+                                },
                             ]}
                         >
                             Resultado
@@ -53,7 +210,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                                 {
                                     backgroundColor:
                                         Colors[theme].circleBackground,
-                                }, // Use the theme color
+                                },
                             ]}
                         >
                             Unidade
@@ -65,7 +222,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                                 {
                                     backgroundColor:
                                         Colors[theme].circleBackground,
-                                }, // Use the theme color
+                                },
                             ]}
                         >
                             Valores de Referência
@@ -73,53 +230,52 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                     </View>
 
                     {/* Body */}
-                    {analitos.map((analito, index) => (
-                        <View key={index} style={styles.row}>
+                    {currentExams.map((exam, index) => (
+                        <View
+                            key={index}
+                            style={[
+                                styles.row,
+                                highlightIndex === index &&
+                                    styles.highlightedRow, // Highlight the row if it matches
+                            ]}
+                        >
                             <Text style={[styles.cell, styles.fixedCellWidth]}>
-                                {analito}
+                                {exam.analito}
                             </Text>
                             <Text style={[styles.cell, styles.fixedCellWidth]}>
-                                {resultados[index] || "-"}
+                                {exam.resultado}
                             </Text>
                             <Text style={[styles.cell, styles.fixedCellWidth]}>
-                                {unidade[index] || "-"}
+                                {exam.unidade}
                             </Text>
                             <Text style={[styles.cell, styles.fixedCellWidth]}>
-                                {valoresReferencia[index] || "-"}
+                                {exam.valorReferencia}
                             </Text>
                         </View>
                     ))}
                 </View>
             </ScrollView>
-    
+
+            {/* Pagination Controls */}
+            <View style={styles.paginationControls}>
+                <Button
+                    title="Anterior"
+                    onPress={goToPreviousPage}
+                    disabled={currentPage === 0}
+                    color={Colors[theme].tint}
+                />
+                <Text>
+                    {currentPage + 1} de {dateKeys.length}
+                </Text>
+                <Button
+                    title="Próximo"
+                    onPress={goToNextPage}
+                    disabled={currentPage === dateKeys.length - 1}
+                    color={Colors[theme].tint}
+                />
+            </View>
+        </View>
     );
 };
-const { width } = Dimensions.get('window');
-
-const styles = StyleSheet.create({
-    table: {
-        width: "90%",
-        marginTop: 30,
-        alignSelf: "center",
-    },
-    row: {
-        flexDirection: "row",
-        alignSelf: "center",
-    },
-    headerCell: {
-        fontWeight: "bold",
-        borderWidth: 1,
-        padding: 8,
-        textAlign: "center",
-    },
-    cell: {
-        borderWidth: 1,
-        padding: 8,
-        textAlign: "center",
-    },
-    fixedCellWidth: {
-        width: width * 0.225,
-    },
-});
 
 export default ExamTable;

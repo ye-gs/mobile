@@ -210,6 +210,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     label={<Text style={styles.text}>Nome do Doutor</Text>}
                     placeholder="Nome do Doutor"
                     onChangeText={setDoctor}
+                    defaultValue={appointment.doctor}
                     contentStyle={[
                         styles.input,
                         { backgroundColor: Colors[theme].circleBackground },
@@ -220,6 +221,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     activeUnderlineColor={Colors[theme].tint}
                     selectionColor={Colors[theme].text}
                     activeOutlineColor={Colors[theme].tint}
+                    underlineStyle={styles.underLine}
                 />
                 <TextInput
                     label={
@@ -227,6 +229,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     }
                     placeholder="Descrição da Consulta"
                     onChangeText={setDescription}
+                    defaultValue={appointment.description}
                     contentStyle={[
                         styles.input,
                         { backgroundColor: Colors[theme].circleBackground },
@@ -237,6 +240,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     activeUnderlineColor={Colors[theme].tint}
                     selectionColor={Colors[theme].text}
                     activeOutlineColor={Colors[theme].tint}
+                    underlineStyle={styles.underLine}
                 />
                 <View
                     style={{
@@ -245,9 +249,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     }}
                 >
                     <Text style={styles.title}>
-                        {isBookmarked
-                            ? "Não ativar notificação"
-                            : "Ativar notificação"}
+                        {isBookmarked ? "Recebendo notificação" : "Desativado"}
                     </Text>
                     <View style={styles.bookmarkView}>
                         <BookmarkImage
@@ -263,10 +265,20 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     onPress={showDatePicker}
                     style={styles.datepickerButton}
                 >
-                    <Text style={{ color: Colors[theme].text }}>
+                    <Text
+                        style={{
+                            color: Colors[theme].text,
+                            fontSize: RFValue(15, 808),
+                        }}
+                    >
                         Data da consulta{" "}
                         {datetime
-                            ? datetime.toLocaleString("pt-Br")
+                            ? datetime.toLocaleTimeString("pt-BR", {
+                                    month: "2-digit",
+                                    day: "2-digit", 
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                              })
                             : "Nenhuma data selecionada"}
                     </Text>
                 </Button>
