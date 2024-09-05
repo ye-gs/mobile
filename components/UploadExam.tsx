@@ -11,7 +11,6 @@ import { useExams } from "@/hooks/exams";
 import ExamTable from "@/components/ExamTable";
 
 const ExamUpload = (exam: Exam) => {
-
     const { exams, getExamById } = useExams();
     const [specificExam, setSpecificExam] = React.useState<Exam | null>(null);
     const [selectedFileUri, setSelectedFileUri] = React.useState<string | null>(
@@ -107,10 +106,7 @@ const ExamUpload = (exam: Exam) => {
                 </>
             ) : (
                 <>
-                    {specificExam && (
-                        <ExamTable specificExam={specificExam!} />
-                        
-                    )}
+                    {specificExam && <ExamTable specificExam={specificExam!} />}
                 </>
             )}
         </View>

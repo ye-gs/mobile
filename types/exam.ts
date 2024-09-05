@@ -1,7 +1,9 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Exam {
     id: string;
     analitos: string[];
-    data: Date[];
+    data: Timestamp[];
     ficha: string[];
     limInferior: number[];
     limSuperior: number[];

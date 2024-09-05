@@ -1,5 +1,9 @@
 import React, { useEffect } from "react";
-import { FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+    FontAwesome,
+    Ionicons,
+    MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
@@ -55,6 +59,19 @@ export default function TabLayout() {
         },
     });
 
+    useEffect(() => {
+        const fetchUserTheme = async () => {
+            if (user) {
+                const userDocRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
+                if (userDoc.exists()) {
+                    setTheme(userDoc.data()?.favoriteTheme || theme);
+                }
+            }
+        };
+
+        fetchUserTheme();
+    }, []);
     function MenuButton() {
         const [visible, setVisible] = React.useState(false);
 

@@ -89,7 +89,6 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
     if (!analitos || !resultados || !unidade || !valoresReferencia || !data) {
         return <Text>Dados insuficientes para renderizar a tabela</Text>;
     }
-
     // Function to group exams by unique dates
     const groupExamsByDate = (specificExam: Exam) => {
         const groupedExams: { [key: string]: any[] } = {};
@@ -263,11 +262,6 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                     ))}
                 </View>
             </ScrollView>
-
-            {/* Mostra o tamanho total do conteúdo rolável */}
-            <Text style={{ textAlign: "center", marginVertical: 10 }}>
-                Altura total do conteúdo rolável: {contentHeight} px
-            </Text>
 
             {/* Pagination Controls */}
             <View style={styles.paginationControls}>
