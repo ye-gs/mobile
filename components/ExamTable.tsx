@@ -24,6 +24,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
     const [searchQuery, setSearchQuery] = useState(""); // State for the search query
     const scrollViewRef = useRef<ScrollView>(null); // Ref for the ScrollView
     const [highlightIndex, setHighlightIndex] = useState<number | null>(null); // State to track highlighted index
+    const [contentHeight, setContentHeight] = useState(0); // State to track the content height
     const { width } = Dimensions.get("window");
 
     const styles = StyleSheet.create({
@@ -69,12 +70,21 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
             borderRadius: 25,
             padding: 10,
             color: Colors[theme].text, // Use the theme color
-            width: '100%',
+            width: "100%",
         },
         highlightedRow: {
             backgroundColor: Colors[theme].circleBackground, // Color for the highlighted row
         },
     });
+
+    const formatDate = (timestamp: number) => {
+        const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     // Verificação condicional
     if (!analitos || !resultados || !unidade || !valoresReferencia || !data) {
         return <Text>Dados insuficientes para renderizar a tabela</Text>;
@@ -86,17 +96,13 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
 
         for (let i = 0; i < specificExam.data.length; i++) {
             const timestamp = specificExam.data[i].seconds;
-            const time = new Date(timestamp * 1000);
-
-            // Usa o formato ISO da data para facilitar a ordenação
-            const formattedDate = time.toISOString().split("T")[0]; // yyyy-mm-dd
 
             // Adiciona o exame ao grupo da data correspondente
-            if (!groupedExams[formattedDate]) {
-                groupedExams[formattedDate] = [];
+            if (!groupedExams[timestamp]) {
+                groupedExams[timestamp] = [];
             }
 
-            groupedExams[formattedDate].push({
+            groupedExams[timestamp].push({
                 analito: analitos[i],
                 resultado: resultados[i] || "-",
                 unidade: unidade[i] || "-",
@@ -104,23 +110,12 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
             });
         }
 
-        // Ordena as datas em ordem decrescente
-        const sortedGroupedExams = Object.keys(groupedExams)
-            .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
-            .reduce(
-                (obj, key) => {
-                    obj[key] = groupedExams[key];
-                    return obj;
-                },
-                {} as { [key: string]: any[] }
-            );
-
-        return sortedGroupedExams;
+        return groupedExams;
     };
 
     // Group the exams by date
     const groupedExams = groupExamsByDate(specificExam);
-    const dateKeys = Object.keys(groupedExams); // Get unique dates (pages)
+    const dateKeys = Object.keys(groupedExams).reverse(); // Get unique dates (pages) and reverse them
 
     // Function to navigate between pages
     const goToNextPage = () => {
@@ -140,26 +135,33 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
 
     // Atualiza o índice destacado ao modificar a consulta de pesquisa
     useEffect(() => {
+        const removeAccents = (str: string) =>
+            str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
         if (searchQuery.trim() === "") {
             setHighlightIndex(null); // Não destaque nada se a pesquisa estiver vazia
         } else {
+            const normalizedQuery = removeAccents(searchQuery.toLowerCase());
+
             const index = currentExams.findIndex((exam) =>
-                exam.analito.toLowerCase().includes(searchQuery.toLowerCase())
+                removeAccents(exam.analito.toLowerCase()).includes(
+                    normalizedQuery
+                )
             );
+
             setHighlightIndex(index >= 0 ? index : null);
 
             // Rolar para o item encontrado
             if (index >= 0 && scrollViewRef.current) {
                 scrollViewRef.current.scrollTo({
-                    y: index * 50,
+                    y: index * (1 / currentExams.length) * contentHeight, // Scroll to the item's position
                     animated: true,
-                }); // Ajuste o valor multiplicador conforme necessário
+                });
             }
         }
     }, [searchQuery, currentExams]);
-
     return (
-        <View >
+        <View>
             {/* Barra de pesquisa */}
             <View>
                 <TextInput
@@ -171,9 +173,15 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                 />
             </View>
 
-            <ScrollView style={{ flex: 1 }} ref={scrollViewRef}>
+            <ScrollView
+                style={{ flex: 1 }}
+                ref={scrollViewRef}
+                onContentSizeChange={(contentWidth, contentHeight) => {
+                    setContentHeight(contentHeight); // Define a altura total do conteúdo
+                }}
+            >
                 <Text style={styles.pageTitle}>
-                    Exames de {dateKeys[currentPage]}
+                    Exames de {formatDate(Number(dateKeys[currentPage]))}
                 </Text>
 
                 <View style={styles.table}>
@@ -255,6 +263,11 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                     ))}
                 </View>
             </ScrollView>
+
+            {/* Mostra o tamanho total do conteúdo rolável */}
+            <Text style={{ textAlign: "center", marginVertical: 10 }}>
+                Altura total do conteúdo rolável: {contentHeight} px
+            </Text>
 
             {/* Pagination Controls */}
             <View style={styles.paginationControls}>
