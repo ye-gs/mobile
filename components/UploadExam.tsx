@@ -9,6 +9,7 @@ import Constants from "expo-constants";
 import { Exam } from "@/types/exam";
 import { useExams } from "@/hooks/exams";
 import ExamTable from "@/components/ExamTable";
+import { router } from "expo-router";
 
 const ExamUpload = (exam: Exam) => {
     const { exams, getExamById } = useExams();
@@ -71,8 +72,10 @@ const ExamUpload = (exam: Exam) => {
             setLoading(false);
             if (response?.status !== 200) {
                 alert("Erro ao enviar arquivo " + response?.body);
+            } else {
+                alert("Arquivo enviado com sucesso");
             }
-            alert("Arquivo enviado com sucesso");
+            router.push("/exams");
         } catch (e) {
             const error = e as Error;
             console.log(error);
