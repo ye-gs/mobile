@@ -45,25 +45,36 @@ export function GenericIconButton(props: {
             width: "18%",
             alignItems: "center",
             backgroundColor: "rgba(0,0,0,0)",
+            // Add position relative for better shadow handling
+            position: 'relative',
         },
         endImageView: {
             width: "18%",
             alignItems: "center",
             backgroundColor: "rgba(0,0,0,0)",
         },
+        shadow: {
+            shadowColor: "#000", // Shadow color
+            shadowOffset: { width: 0, height: 2 }, // Shadow offset
+            shadowOpacity: 0.25, // Shadow opacity
+            shadowRadius: 3.84, // Shadow radius
+            elevation: 5, // Elevation for Android shadow
+        },
     });
+
     const { ImageComponent, EndImageComponent } = props;
+
     return (
         <Pressable
             style={styles.container}
             onPress={props.onPress as (event: GestureResponderEvent) => void}
         >
-            <View style={styles.imageView}>
+            <View style={[styles.imageView, styles.shadow]}>
                 {ImageComponent ? (
                     <ImageComponent
                         width={props.imageSize ?? "60%"}
                         height={props.imageSize ?? "60%"}
-                    ></ImageComponent>
+                    />
                 ) : null}
             </View>
             <Text style={styles.text}>{props.text}</Text>
@@ -78,3 +89,4 @@ export function GenericIconButton(props: {
         </Pressable>
     );
 }
+    

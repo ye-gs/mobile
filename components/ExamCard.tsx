@@ -78,6 +78,13 @@ export function ExamCard(props: { id: string; onPress: Function }) {
             flexDirection: "row",
             width: "auto",
         },
+        shadow: {
+            shadowColor: "#000", // Shadow color
+            shadowOffset: { width: 0, height: 2 }, // Shadow offset
+            shadowOpacity: 0.25, // Shadow opacity
+            shadowRadius: 3.84, // Shadow radius
+            elevation: 5, // Elevation for Android shadow
+        },
     });
 
     return (
@@ -94,7 +101,7 @@ export function ExamCard(props: { id: string; onPress: Function }) {
                     },
                 ]}
             >
-                <View style={styles.timeView}>
+                <View style={[styles.timeView,styles.shadow]}>
                     <Text style={styles.timeViewText}>
                         {examCreationDate.toLocaleTimeString()}
                     </Text>

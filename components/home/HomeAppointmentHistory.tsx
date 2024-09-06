@@ -7,6 +7,7 @@ import { routeAndTransformAppointments } from "@/utils/routeAndTransform";
 import { router } from "expo-router";
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
+import { shadow } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 
 export function HomeAppointmentHistory() {
@@ -25,7 +26,7 @@ export function HomeAppointmentHistory() {
 
     const styles = StyleSheet.create({
         container: {
-            flex: 1,  
+            flex: 1,
             marginTop: RFValue(20, 808),
             backgroundColor: Colors[theme].circleBackground,
             borderRadius: RFValue(25, 808),
@@ -51,12 +52,19 @@ export function HomeAppointmentHistory() {
         },
         flatListContainer: {
             flexGrow: 1,
-            paddingBottom: RFValue(40, 808),  // Espaço extra na parte inferior
+            paddingBottom: RFValue(40, 808), // Espaço extra na parte inferior
+        },
+        shadow: {
+            shadowColor: "#000", // Shadow color
+            shadowOffset: { width: 0, height: 4 }, // Shadow offset
+            shadowOpacity: 0.5, // Shadow opacity
+            shadowRadius: 6, // Shadow radius
+            elevation: 4, // Elevation for Android shadow
         },
     });
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container,styles.shadow]}>
             <View style={styles.history__heading}>
                 <Text style={styles.history__title}>Próximas consultas</Text>
                 <Text
@@ -67,7 +75,8 @@ export function HomeAppointmentHistory() {
                 </Text>
             </View>
 
-            <FlatList showsVerticalScrollIndicator={false}
+            <FlatList
+                showsVerticalScrollIndicator={false}
                 data={upcomingAppointments}
                 keyExtractor={(item) => (item.id ? item.id.toString() : "")}
                 renderItem={({ item: appointment }) => (

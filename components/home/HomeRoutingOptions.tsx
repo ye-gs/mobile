@@ -34,13 +34,18 @@ export function HomeRoutingOptions() {
             gap: RFValue(60, 808),
         },
         circle: {
-            backgroundColor: Colors[theme].circleBackground,
-            padding: RFValue(20, 808),
-            borderRadius: 100,
-            overflow: "hidden",
-            alignItems: "center",
-            justifyContent: "center",
-        },
+  backgroundColor: Colors[theme].circleBackground,
+  padding: RFValue(20, 808),
+  borderRadius: 100,
+  overflow: "hidden",
+  alignItems: "center",
+  justifyContent: "center",
+  shadowColor: "#000", // Shadow color
+  shadowOffset: { width: 0, height: 2 }, // Shadow offset
+  shadowOpacity: 1, // Shadow opacity
+  shadowRadius: 3.84, // Shadow radius
+  elevation: 10, // Elevation for Android shadow
+},
         animatedIcon: {
             transform: [{ scale: scaleAnimExams }], // Apply animation based on the icon
         },

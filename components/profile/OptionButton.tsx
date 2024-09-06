@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useTheme } from "@/contexts/theme";
 import Colors from "@/constants/Colors";
 import { RFValue } from "react-native-responsive-fontsize";
-import { DimensionValue } from "react-native";
+import { DimensionValue} from "react-native";
 
 export const OptionButton = (props: {
     text: string;
@@ -18,6 +18,7 @@ export const OptionButton = (props: {
     fontSize?: number;
 }) => {
     const { theme } = useTheme();
+
     return (
         <GenericIconButton
             text={props.text}

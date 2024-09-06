@@ -36,6 +36,13 @@ const Appointments = () => {
             elevation: 5,
             tintColor: "black",
         },
+        shadow: {
+            shadowColor: "#000", // Shadow color
+            shadowOffset: { width: 0, height: 2 }, // Shadow offset
+            shadowOpacity: 0.25, // Shadow opacity
+            shadowRadius: 3.84, // Shadow radius
+            elevation: 5, // Elevation for Android shadow
+        },
     });
     return (
         <ScrollView
@@ -63,7 +70,7 @@ const Appointments = () => {
                 />
             ))}
             <TouchableOpacity
-                style={styles.addButton}
+                style={[styles.addButton,styles.shadow]}
                 onPress={() => router.push("/appointments/new")}
             >
                 <AntDesign name="plus" size={24} color="white" />
