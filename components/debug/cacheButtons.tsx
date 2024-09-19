@@ -1,6 +1,7 @@
 import {getCachedData, clearCache, clearAllCache,insetCachedData,getExamsFromCache,getAppointmentsFromCache,getMedsFromCache} from "@/cache/index";
 import {auth} from "@/firebase/index";
 import {Button, View} from "react-native";
+import {SearchItem} from "@/components/searchItem";
 
 export function CacheButtons() {
 
@@ -17,20 +18,36 @@ const handleClearAllCache = () => {
         });
 };
 
-const handleGetCachedExam = () => {
-    const data = getExamsFromCache(auth.currentUser?.uid
-        ?? "");
+const handleGetCachedExam = async () => {
+    try {
+        const data = await getExamsFromCache(auth.currentUser?.uid ?? "");
+        // console log exams
+        console.log(data);
+    } catch (error) {
+        console.error("Error fetching cached exams:", error);
+    }
 }
 const handleGetCachedAppointment = () => {
     const data = getAppointmentsFromCache(auth.currentUser?.uid
         ?? "");
+        console.log(data);
 }
 
 const handleGetCachedMeds = () => {
     const data = getMedsFromCache(auth.currentUser?.uid
         ?? "");
+        console.log(data);
+}
+
+const handleSearch = (item : string) => {
+    
+    SearchItem(item).then(resultado => {
+        console.log(resultado);  // Exibe [{ examIndex: X, analyteIndex: Y }, ...]
+      });
 }
 return <View>
+    <Button title="Search PTH" onPress={() => handleSearch("PTH")} />
+    
     <Button title="Get Appointments" onPress={handleGetCachedAppointment} />
     <Button title="Get Meds" onPress={handleGetCachedMeds} />
     <Button title="Get Exames" onPress={handleGetCachedExam} />

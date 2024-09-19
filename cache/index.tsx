@@ -8,11 +8,6 @@ const getCachedData = async (userId: any) => {
         );
         if (cachedData !== null) {
             const parsedData = JSON.parse(cachedData);
-            console.log(
-                "Dados carregados do cache para o usuário:",
-                userId,
-                parsedData
-            );
             return parsedData;
         } else {
             console.log(
@@ -27,7 +22,7 @@ const getCachedData = async (userId: any) => {
 };
 
 // Função para obter apenas exames do cache do usuário autenticado
-const getExamsFromCache = async (userId: any) => {
+const getExamsFromCache = async (userId: string) => {
     try {
         const cachedData = await AsyncStorage.getItem(
             `firestoreData_${userId}`
@@ -36,11 +31,6 @@ const getExamsFromCache = async (userId: any) => {
             const parsedData = JSON.parse(cachedData);
 
             if (parsedData.exams) {
-                console.log(
-                    "Exames carregados do cache para o usuário:",
-                    userId,
-                    parsedData.exams
-                );
                 return parsedData.exams;
             } else {
                 console.log(
@@ -72,11 +62,6 @@ const getAppointmentsFromCache = async (userId: any) => {
             const parsedData = JSON.parse(cachedData);
 
             if (parsedData.appointments) {
-                console.log(
-                    "Consultas carregadas do cache para o usuário:",
-                    userId,
-                    parsedData.appointments
-                );
                 return parsedData.appointments;
             } else {
                 console.log(
@@ -108,11 +93,6 @@ const getMedsFromCache = async (userId: any) => {
             const parsedData = JSON.parse(cachedData);
 
             if (parsedData.meds) {
-                console.log(
-                    "Medicamentos carregados do cache para o usuário:",
-                    userId,
-                    parsedData.meds
-                );
                 return parsedData.meds;
             } else {
                 console.log(
@@ -166,7 +146,7 @@ const insetCachedData = async (userId: any, data: any) => {
 };
 
 // Função para atualizar o cache do usuário autenticado (sem alterações)
-const updateCache = async (userId, data) => {
+const updateCache = async (userId : any, data : any) => {
     try {
         await AsyncStorage.setItem(
             `firestoreData_${userId}`,
