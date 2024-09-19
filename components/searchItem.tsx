@@ -3,11 +3,10 @@ import { auth } from "@/firebase/index";
 
 interface Exam {
     ANALITOS: string[];
-    Data?: {
-        // Data é opcional, já que pode não existir
+    Data: {
         seconds: number;
         nanoseconds: number;
-    };
+    }[];
     RESULTADOS?: string[];
     Unidade?: string[];
     "VALORES DE REFERÊNCIA"?: string[];
@@ -22,17 +21,17 @@ interface ItemPosition {
     analyteIndex: number; // Posição do item dentro de ANALITOS
 }
 
-interface AnalyteWithSeconds {
+export interface AnalitoInfo {
     analyteIndex: number;
     examIndex: number;
-    seconds?: number;
+    seconds: number | undefined | Date;
     resultado?: string;
     unidade?: string;
     analitos?: string;
     valorReferencia?: string;
     referenciaIdade?: string;
-    limiteSuperior?: any;
-    limiteInferior?: any;
+    limiteSuperior?: string | number;
+    limiteInferior?: string| number;
     ficha?: string;
 }
 
@@ -66,7 +65,7 @@ export async function SearchItemByName(item: string): Promise<ItemPosition[]> {
 
 export async function SearchItemByPosition(
     positions: ItemPosition[]
-): Promise<AnalyteWithSeconds[]> {
+): Promise<AnalitoInfo[]> {
     const userId = auth.currentUser?.uid ?? "";
 
     try {
@@ -74,7 +73,7 @@ export async function SearchItemByPosition(
         const exams: Exam[] = await getExamsFromCache(userId);
 
         // Armazena os resultados com os valores de seconds
-        const results: AnalyteWithSeconds[] = [];
+        const results: AnalitoInfo[] = [];
 
         // Itera sobre as posições fornecidas
         positions.forEach(({ examIndex, analyteIndex }) => {
@@ -89,7 +88,6 @@ export async function SearchItemByPosition(
                 // Verifica se o exame possui uma Data válida com seconds
                 if (
                     exam.Data &&
-                    exam.Data[analyteIndex].seconds !== undefined &&
                     exam.RESULTADOS &&
                     exam.RESULTADOS[analyteIndex] !== undefined &&
                     exam.Unidade &&
@@ -99,7 +97,7 @@ export async function SearchItemByPosition(
                     results.push({
                         analyteIndex,
                         examIndex,
-                        seconds: new Date(exam.Data[examIndex].seconds),
+                        seconds: new Date(exam.Data[analyteIndex].seconds * 1000),
                         resultado: exam.RESULTADOS[analyteIndex],
                         unidade: exam.Unidade[analyteIndex],
                         analitos: exam.ANALITOS[analyteIndex],
@@ -109,7 +107,7 @@ export async function SearchItemByPosition(
                         referenciaIdade: exam["Referência varia com idade"]
                             ? exam["Referência varia com idade"][analyteIndex]
                             : undefined,
-                        limiteSnferior: exam["Limite superior"]
+                        limiteSuperior: exam["Limite superior"]
                             ? exam["Limite superior"][analyteIndex]
                             : undefined,
                         limiteInferior: exam["Limite inferior"]
@@ -159,7 +157,9 @@ export async function GetItemInfo(item: string) {
     }
 }
 
-/*
+
+
+
 // Exemplo de uso da função SearchItemByName com o item "VCM"
 SearchItemByName("VCM").then((resultado) => {
     console.log("SearchItemByName");
@@ -179,4 +179,3 @@ SearchItemByPosition(positions).then((resultado) => {
   console.log("SearchItemByPosition Solo");
     console.log(resultado); // Exibe [{ analyteIndex: 342, examIndex: 1, seconds: 1549843200 }]
 });
-*/

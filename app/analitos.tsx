@@ -1,19 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router'; // Use `expo-router` para navegação
-import { GetItemInfo } from '@/components/searchItem';
+import React, { useEffect, useState } from "react";
+import {
+    View,
+    Text,
+    StyleSheet,
+    FlatList,
+    TouchableOpacity,
+} from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { GetItemInfo, AnalitoInfo } from "@/components/searchItem";
 
 const Analitos = () => {
-    const { analitoName } = useLocalSearchParams(); // Recupera o nome do analito passado como parâmetro
-    const analitoNameStr = Array.isArray(analitoName) ? analitoName[0] : analitoName;
-    interface AnalitoInfo {
-        resultado: string;
-        unidade: string;
-        analitos: string;
-    }
-    
+    const { analitoName } = useLocalSearchParams();
+    const analitoNameStr = Array.isArray(analitoName)
+        ? analitoName[0]
+        : analitoName;
+
     const [analitoInfo, setAnalitoInfo] = useState<AnalitoInfo[]>([]);
-    const router = useRouter(); // Use `useRouter` para navegar entre as telas
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,94 +28,187 @@ const Analitos = () => {
         fetchData();
     }, [analitoNameStr]);
 
-    // Função para pegar o analito mais recente
-    const handleUseLatest = async () => {
-        const latestData = await GetItemInfo("latest"); // ou outra lógica para o "mais recente"
-        setAnalitoInfo(latestData);
+    const handleUseLatest = () => {
+        if (analitoInfo.length > 0) {
+            const sortedAnalitoInfo = [...analitoInfo].sort((a, b) => {
+                if (a.seconds && b.seconds) {
+                    return Number(b.seconds) - Number(a.seconds);
+                }
+                return 0;
+            });
+            setSelectedIndex(0);
+            console.log(
+                `Usando o item mais recente: ${sortedAnalitoInfo[0].resultado}`
+            );
+        }
     };
-    return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.headerContainer}>
-                <Text style={styles.title}>Analito Selecionado</Text>
-                <Button title="Voltar para Home" onPress={() => router.push('/home')} />
-                <Button title="Usar mais recente" onPress={handleUseLatest} />
-            </View>
-            <Text style={styles.analitoName}>{analitoNameStr}</Text>
 
-            {analitoInfo.map((item, index) => (
-                <View key={index} style={styles.buttonContainer}>
-                    <Button
-                        title={`${item.resultado} ${item.unidade}`}
-                        onPress={() => console.log(item)}
-                    />
-                    <Text style={styles.details}>
-                        Referência: {item.analitos}
+    const renderAnalitoItem = ({
+        item,
+        index,
+    }: {
+        item: AnalitoInfo;
+        index: number;
+    }) => (
+        <TouchableOpacity
+            style={[
+                styles.card,
+                selectedIndex === index && styles.selectedCard,
+            ]}
+            onPress={() => {
+                setSelectedIndex(index);
+                console.log(item.resultado); // Exibir o resultado no console
+            }}
+        >
+            <View style={styles.checkboxAndTextContainer}>
+                <TouchableOpacity
+                    style={styles.checkboxContainer}
+                    onPress={() =>
+                        setSelectedIndex(selectedIndex === index ? null : index)
+                    }
+                />
+                <View style={styles.textContainer}>
+                    <Text style={styles.cardText}>
+                        {item.resultado} {item.unidade}
+                    </Text>
+                    <Text style={styles.cardDate}>
+                        {item.seconds?.toLocaleString()}
                     </Text>
                 </View>
-            ))}
-        </ScrollView>
+                <View style={styles.checkbox}>
+                    {selectedIndex === index ? (
+                        <View style={styles.checkboxFilled} />
+                    ) : null}
+                </View>
+            </View>
+        </TouchableOpacity>
+    );
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.headerContainer}>
+                <Text style={styles.title}>Analito Selecionado</Text>
+            </View>
+            <TouchableOpacity onPress={() => router.push("/home")}>
+                <Text style={styles.link}>Voltar para Home</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleUseLatest}>
+                <Text style={styles.link}>Usar mais recente</Text>
+            </TouchableOpacity>
+            <Text style={styles.analitoName}>{analitoNameStr}</Text>
+
+            <FlatList
+                data={analitoInfo
+                    .filter(
+                        (item) =>
+                            item.resultado !== null &&
+                            item.resultado !== undefined
+                    )
+                    .sort((a, b) => {
+                        if (a.seconds && b.seconds) {
+                            return Number(b.seconds) - Number(a.seconds);
+                        }
+                        if (a.seconds) return -1;
+                        if (b.seconds) return 1;
+                        return 0;
+                    })}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderAnalitoItem}
+                contentContainerStyle={styles.listContainer}
+            />
+        </View>
     );
 };
 
-
 const colors = {
-    primary: '#333',
-    secondary: '#666',
-    background: '#f5f5f5',
-    buttonBackground: '#007BFF',
-    buttonText: '#FFF',
+    primary: "#333",
+    secondary: "#fff",
+    background: "#f5f5f5",
+    cardBackground: "#fff",
+    cardBorder: "#ddd",
+    buttonBackground: "#007BFF",
+    buttonText: "#FFF",
 };
 
 const styles = StyleSheet.create({
     container: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        flex: 1,
         backgroundColor: colors.background,
         padding: 20,
-        width: '100%',
     },
     headerContainer: {
-        marginTop: 50,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '100%',
+        marginTop: 20,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
         marginBottom: 20,
     },
     title: {
         fontSize: 26,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         color: colors.primary,
-        textAlign: 'center',
+    },
+    link: {
+        fontSize: 16,
+        color: colors.buttonBackground,
     },
     analitoName: {
         fontSize: 22,
         color: colors.primary,
         marginBottom: 20,
-        textAlign: 'center',
-        lineHeight: 30,
+        textAlign: "center",
     },
-    buttonContainer: {
-        marginBottom: 15,
-        width: '100%',
-        backgroundColor: colors.buttonBackground,
-        borderRadius: 8,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
+    listContainer: {
+        paddingBottom: 40,
     },
-    buttonText: {
-        color: colors.buttonText,
+    card: {
+        backgroundColor: colors.cardBackground,
+        borderRadius: 10,
+        padding: 20,
+        marginVertical: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 4, // Shadow for Android
+    },
+    selectedCard: {
+        borderColor: colors.buttonBackground,
+        borderWidth: 2,
+    },
+    checkboxAndTextContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    checkboxContainer: {
+        marginRight: 15,
+    },
+    checkbox: {
+        width: 22,
+        height: 22,
+        borderRadius: 5,
+        borderWidth: 2,
+        borderColor: colors.primary,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    checkboxFilled: {
+        width: 12,
+        height: 12,
+        backgroundColor: colors.primary,
+    },
+    textContainer: {
+        flex: 1,
+    },
+    cardText: {
         fontSize: 18,
-        fontWeight: '600',
-        textAlign: 'center',
+        fontWeight: "bold",
+        color: colors.primary,
     },
-    details: {
-        marginTop: 5,
+    cardDate: {
+        marginTop: 10,
         fontSize: 16,
-        color: colors.secondary,
-        textAlign: 'center',
-        lineHeight: 24,
+        color: colors.primary,
     },
 });
 
