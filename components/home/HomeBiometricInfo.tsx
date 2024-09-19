@@ -7,7 +7,7 @@ import { getExamsFromCache } from '@/cache/index'; // Importar a função de cac
 import { auth } from '@/firebase/index';
 import { AddButton } from '@/components/AddButton';
 import { BiometricModal } from '@/components/BiometricModal';
-
+import { router } from "expo-router";
 export function HomeBiometricInfo() {
     const { theme } = useTheme();
     const [modalVisible, setModalVisible] = useState(false);
@@ -53,20 +53,26 @@ export function HomeBiometricInfo() {
     const handleCloseModal = () => {
         setModalVisible(false);
     };
-
     const renderItem = ({ item }: { item: string }) => (
         <View style={styles(theme).itemContainer}>
             <TouchableOpacity
                 style={[styles(theme).itemButton, { backgroundColor: Colors[theme].primary }]}
                 onPress={() => {
-                    console.log('Selected analyte:', item); // Log the name of the item (analyte)
-                    handleCloseModal(); // Close the modal after logging the item
+                    console.log('Selected analyte:', item); // Log apenas o nome do item
+                    handleCloseModal(); // Fechar o modal após a seleção
+                    // Navegar para a tela de analitos, passando o nome do item via router como objeto
+                    router.push({
+                        pathname: '/analitos',
+                        params: { analitoName: item }
+                    });
                 }}
             >
                 <Text style={styles(theme).itemText}>{item}</Text>
             </TouchableOpacity>
         </View>
     );
+    
+    
     
 
     if (loading) {

@@ -28,7 +28,6 @@ export default function Home() {
             <HomeRoutingOptions />
             <HomeAppointmentHistory />
             <CacheButtons />
-            <PostExams/>
         </View>
     );
 }
