@@ -11,6 +11,8 @@ import {
 import { Exam } from "@/types/exam";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
+import { Line } from "./charts/Line";
+import { LineChartData } from "react-native-chart-kit/dist/line-chart/LineChart";
 
 interface ExamTableProps {
     specificExam: Exam;
@@ -26,7 +28,6 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
     const [highlightIndex, setHighlightIndex] = useState<number | null>(null); // State to track highlighted index
     const [contentHeight, setContentHeight] = useState(0); // State to track the content height
     const { width } = Dimensions.get("window");
-
     const styles = StyleSheet.create({
         table: {
             width: "90%",
@@ -161,6 +162,10 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
     }, [searchQuery, currentExams]);
     return (
         <View>
+            <Line
+                exam={specificExam}
+                analito={currentExams[highlightIndex || 0]?.analito}
+            />
             {/* Barra de pesquisa */}
             <View>
                 <TextInput
