@@ -83,7 +83,7 @@ export const Line = (props: { exam: Exam; analito: string }) => {
             </Text>
             <LineChart
                 data={chartData}
-                width={screenWidth}
+                width={screenWidth*0.95}
                 height={220}
                 chartConfig={{
                     backgroundColor: Colors[theme].circleBackground,
@@ -105,6 +105,7 @@ export const Line = (props: { exam: Exam; analito: string }) => {
                 style={{
                     marginVertical: 8,
                     borderRadius: 16,
+                    alignSelf: "center",
                 }}
             />
         </View>

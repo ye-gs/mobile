@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { GetItemInfo, AnalitoInfo } from "@/components/searchItem";
+import { HomeBiometricInfo } from "@/components/home/HomeBiometricInfo";
 
 const Analitos = () => {
     const { analitoName } = useLocalSearchParams();
@@ -38,7 +39,9 @@ const Analitos = () => {
             });
             setSelectedIndex(0);
             console.log(
-                `Usando o item mais recente: ${sortedAnalitoInfo[0].resultado}`
+                `Usando o item mais recente: ${sortedAnalitoInfo[0].resultado}`,
+                router.push("/home")
+
             );
         }
     };
@@ -58,6 +61,8 @@ const Analitos = () => {
             onPress={() => {
                 setSelectedIndex(index);
                 console.log(item.resultado); // Exibir o resultado no console
+                router.push("/home")
+
             }}
         >
             <View style={styles.checkboxAndTextContainer}>
@@ -160,6 +165,8 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         paddingBottom: 40,
+        width: "98%",
+        alignSelf: "center",
     },
     card: {
         backgroundColor: colors.cardBackground,
@@ -171,6 +178,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 6,
         elevation: 4, // Shadow for Android
+        width: "95%",
+        alignSelf: "center",
     },
     selectedCard: {
         borderColor: colors.buttonBackground,

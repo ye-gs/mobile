@@ -28,11 +28,16 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
     const [highlightIndex, setHighlightIndex] = useState<number | null>(null); // State to track highlighted index
     const [contentHeight, setContentHeight] = useState(0); // State to track the content height
     const { width } = Dimensions.get("window");
+
     const styles = StyleSheet.create({
-        table: {
-            width: "90%",
-            marginTop: 30,
+        container: {
             alignSelf: "center",
+            paddingHorizontal: 15, // Adiciona espaço nas laterais da tela
+        },
+        table: {
+            width: "100%",
+            marginTop: 30,
+            paddingHorizontal: 15, // Garante que a tabela não encoste nas bordas
         },
         row: {
             flexDirection: "row",
@@ -41,22 +46,27 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
         headerCell: {
             fontWeight: "bold",
             borderWidth: 1,
-            padding: 8,
+            padding: 10,
             textAlign: "center",
+            backgroundColor: Colors[theme].headerBackground,
+            color: Colors[theme].headerText,
         },
         cell: {
             borderWidth: 1,
-            padding: 8,
+            padding: 10,
             textAlign: "center",
+            color: Colors[theme].text,
         },
         fixedCellWidth: {
             width: width * 0.225,
         },
         pageTitle: {
             textAlign: "center",
-            fontSize: 18,
+            fontSize: 22,
             fontWeight: "bold",
-            marginVertical: 10,
+            marginVertical: 15,
+            color: Colors[theme].primary,
+            paddingHorizontal: 15, // Evita encostar nas bordas
         },
         paginationControls: {
             flexDirection: "row",
@@ -70,11 +80,31 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
             borderColor: Colors[theme].border,
             borderRadius: 25,
             padding: 10,
-            color: Colors[theme].text, // Use the theme color
-            width: "100%",
+            color: Colors[theme].text,
+            width: "90%",
+            paddingHorizontal: 15, // Garante espaçamento nas laterais
+            alignSelf: "center",
         },
         highlightedRow: {
-            backgroundColor: Colors[theme].circleBackground, // Color for the highlighted row
+            backgroundColor: Colors[theme].circleBackground,
+        },
+        graphContainer: {
+            marginVertical: 20,
+            paddingHorizontal: 20, // Ajustado para evitar encostar nas bordas
+            alignItems: "center",
+            alignSelf: "center",
+        },
+        
+        graphTitle: {
+            fontSize: 28,
+            fontWeight: "bold",
+            marginBottom: 20,
+            color: Colors[theme].primary,
+            paddingHorizontal: 15, // Espaçamento adicional
+        },
+        button: {
+            borderRadius: 20,
+            padding: 10,
         },
     });
 
@@ -90,7 +120,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
     if (!analitos || !resultados || !unidade || !valoresReferencia || !data) {
         return <Text>Dados insuficientes para renderizar a tabela</Text>;
     }
-    // Function to group exams by unique dates
+
     const groupExamsByDate = (specificExam: Exam) => {
         const groupedExams: { [key: string]: any[] } = {};
 
@@ -113,11 +143,11 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
         return groupedExams;
     };
 
-    // Group the exams by date
+    // Agrupa os exames por data
     const groupedExams = groupExamsByDate(specificExam);
-    const dateKeys = Object.keys(groupedExams).reverse(); // Get unique dates (pages) and reverse them
+    const dateKeys = Object.keys(groupedExams).reverse(); // Obtém as datas e as ordena inversamente
 
-    // Function to navigate between pages
+    // Função para navegação entre páginas
     const goToNextPage = () => {
         if (currentPage < dateKeys.length - 1) {
             setCurrentPage(currentPage + 1);
@@ -130,7 +160,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
         }
     };
 
-    // Get exams for the current page (date)
+    // Exames da página atual (data)
     const currentExams = groupedExams[dateKeys[currentPage]];
 
     // Atualiza o índice destacado ao modificar a consulta de pesquisa
@@ -160,13 +190,27 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
             }
         }
     }, [searchQuery, currentExams]);
+
     return (
-        <View>
-            <Line
-                exam={specificExam}
-                analito={currentExams[highlightIndex || 0]?.analito}
-            />
-            {/* Barra de pesquisa */}
+        <View style={styles.container}>
+            <View style={styles.graphContainer}>
+                <Text style={styles.graphTitle}>
+                    Gráfico de {currentExams[highlightIndex || 0]?.analito}
+                </Text>
+                <Line
+                    exam={specificExam}
+                    analito={currentExams[highlightIndex || 0]?.analito}
+                    lineStyle={{
+                        strokeWidth: 2,
+                        stroke: Colors[theme].graphLine,
+                    }}
+                    dotStyle={{ fill: Colors[theme].graphDot }}
+                    backgroundGradientFrom={
+                        Colors[theme].backgroundGradientFrom
+                    }
+                    backgroundGradientTo={Colors[theme].backgroundGradientTo}
+                />
+            </View>
             <View>
                 <TextInput
                     style={styles.searchInput}
@@ -185,57 +229,29 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                 }}
             >
                 <Text style={styles.pageTitle}>
-                    Exames de {formatDate(Number(dateKeys[currentPage]))}
+                    Data do exame {formatDate(Number(dateKeys[currentPage]))}
                 </Text>
 
                 <View style={styles.table}>
                     {/* Header */}
                     <View style={styles.row}>
                         <Text
-                            style={[
-                                styles.headerCell,
-                                styles.fixedCellWidth,
-                                {
-                                    backgroundColor:
-                                        Colors[theme].circleBackground,
-                                },
-                            ]}
+                            style={[styles.headerCell, styles.fixedCellWidth]}
                         >
                             Analito
                         </Text>
                         <Text
-                            style={[
-                                styles.headerCell,
-                                styles.fixedCellWidth,
-                                {
-                                    backgroundColor:
-                                        Colors[theme].circleBackground,
-                                },
-                            ]}
+                            style={[styles.headerCell, styles.fixedCellWidth]}
                         >
                             Resultado
                         </Text>
                         <Text
-                            style={[
-                                styles.headerCell,
-                                styles.fixedCellWidth,
-                                {
-                                    backgroundColor:
-                                        Colors[theme].circleBackground,
-                                },
-                            ]}
+                            style={[styles.headerCell, styles.fixedCellWidth]}
                         >
                             Unidade
                         </Text>
                         <Text
-                            style={[
-                                styles.headerCell,
-                                styles.fixedCellWidth,
-                                {
-                                    backgroundColor:
-                                        Colors[theme].circleBackground,
-                                },
-                            ]}
+                            style={[styles.headerCell, styles.fixedCellWidth]}
                         >
                             Valores de Referência
                         </Text>
@@ -248,7 +264,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                             style={[
                                 styles.row,
                                 highlightIndex === index &&
-                                    styles.highlightedRow, // Highlight the row if it matches
+                                    styles.highlightedRow,
                             ]}
                         >
                             <Text style={[styles.cell, styles.fixedCellWidth]}>
@@ -268,22 +284,19 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                 </View>
             </ScrollView>
 
-            {/* Pagination Controls */}
+            {/* Paginação */}
             <View style={styles.paginationControls}>
                 <Button
                     title="Anterior"
                     onPress={goToPreviousPage}
                     disabled={currentPage === 0}
-                    color={Colors[theme].tint}
+                    color={Colors[theme].primary}
                 />
-                <Text>
-                    {currentPage + 1} de {dateKeys.length}
-                </Text>
                 <Button
                     title="Próximo"
                     onPress={goToNextPage}
                     disabled={currentPage === dateKeys.length - 1}
-                    color={Colors[theme].tint}
+                    color={Colors[theme].primary}
                 />
             </View>
         </View>

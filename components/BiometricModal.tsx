@@ -70,44 +70,52 @@ export const BiometricModal: React.FC<BiometricModalProps> = ({
     </Modal>
 );
 
+const COLORS = {
+    background: "#f5f5f5",
+    textPrimary: "#333333",
+    textInputBackground: "#333333",
+    textInputPlaceholder: "#FFFFFF",
+    buttonBackground: "#007BFF",
+    buttonText: "#FFFFFF",
+    border: "#007BFF",
+};
+
 const styles = StyleSheet.create({
     modalView: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        padding: 20,
-        backgroundColor: "#f5f5f5", // Cor de fundo sólida
+        padding: 10,
+        backgroundColor: COLORS.background, // Cor de fundo sólida
     },
     modalText: {
         fontSize: RFValue(18, 808),
         marginBottom: 20,
-        color: "#333333", // Texto com cor sólida
+        color: COLORS.textPrimary, // Cor do texto principal
     },
     searchInput: {
         width: "100%",
         padding: 10,
         borderRadius: 5,
         marginBottom: 20,
-        backgroundColor: "#333333", // Fundo do input
-        color: "#FFFFFF", // Texto branco no input
-        borderColor: "#007BFF", // Borda azul
+        backgroundColor: COLORS.textInputBackground, // Fundo do input
+        color: COLORS.textInputPlaceholder, // Texto branco no input
+        borderColor: COLORS.border, // Borda azul
         borderWidth: 1,
     },
     listContainer: {
         width: "100%",
-        flex: 1,
-        marginTop: 10,
     },
     closeButton: {
         marginTop: 20,
         padding: 10,
         borderRadius: 20,
-        backgroundColor: "#007BFF", // Botão de fechar com cor sólida
+        backgroundColor: COLORS.buttonBackground, // Botão de fechar com cor sólida
         width: "90%",
         alignItems: "center",
     },
     closeButtonText: {
-        color: "#FFFFFF", // Texto branco no botão
+        color: COLORS.buttonText, // Texto branco no botão
         fontSize: RFValue(16, 808),
     },
 });
