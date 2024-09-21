@@ -12,10 +12,18 @@ import { Exam } from "@/types/exam";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { Line } from "./charts/Line";
-import { LineChartData } from "react-native-chart-kit/dist/line-chart/LineChart";
 
 interface ExamTableProps {
     specificExam: Exam;
+}
+
+interface GroupedExams {
+    [key: string]: {
+        analito: string;
+        resultado: string | number;
+        unidade: string;
+        valorReferencia: string;
+    }[];
 }
 
 const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
@@ -32,12 +40,12 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
     const styles = StyleSheet.create({
         container: {
             alignSelf: "center",
-            paddingHorizontal: 15, // Adiciona espaço nas laterais da tela
+            paddingHorizontal: 15, // Add padding to the sides of the screen
         },
         table: {
             width: "100%",
             marginTop: 30,
-            paddingHorizontal: 15, // Garante que a tabela não encoste nas bordas
+            paddingHorizontal: 15, // Ensure the table does not touch the edges
         },
         row: {
             flexDirection: "row",
@@ -66,7 +74,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
             fontWeight: "bold",
             marginVertical: 15,
             color: Colors[theme].primary,
-            paddingHorizontal: 15, // Evita encostar nas bordas
+            paddingHorizontal: 15, // Prevent touching the edges
         },
         paginationControls: {
             flexDirection: "row",
@@ -82,7 +90,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
             padding: 10,
             color: Colors[theme].text,
             width: "90%",
-            paddingHorizontal: 15, // Garante espaçamento nas laterais
+            paddingHorizontal: 15, // Ensure padding on the sides
             alignSelf: "center",
         },
         highlightedRow: {
@@ -90,17 +98,16 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
         },
         graphContainer: {
             marginVertical: 20,
-            paddingHorizontal: 20, // Ajustado para evitar encostar nas bordas
+            paddingHorizontal: 20, // Adjusted to prevent touching the edges
             alignItems: "center",
             alignSelf: "center",
         },
-        
         graphTitle: {
             fontSize: 28,
             fontWeight: "bold",
             marginBottom: 20,
             color: Colors[theme].primary,
-            paddingHorizontal: 15, // Espaçamento adicional
+            paddingHorizontal: 15, // Additional padding
         },
         button: {
             borderRadius: 20,
@@ -116,18 +123,18 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
         return `${day}/${month}/${year}`;
     };
 
-    // Verificação condicional
+    // Conditional check
     if (!analitos || !resultados || !unidade || !valoresReferencia || !data) {
         return <Text>Dados insuficientes para renderizar a tabela</Text>;
     }
 
-    const groupExamsByDate = (specificExam: Exam) => {
-        const groupedExams: { [key: string]: any[] } = {};
+    const groupExamsByDate = (specificExam: Exam): GroupedExams => {
+        const groupedExams: GroupedExams = {};
 
         for (let i = 0; i < specificExam.data.length; i++) {
             const timestamp = specificExam.data[i].seconds;
 
-            // Adiciona o exame ao grupo da data correspondente
+            // Add the exam to the corresponding date group
             if (!groupedExams[timestamp]) {
                 groupedExams[timestamp] = [];
             }
@@ -143,11 +150,11 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
         return groupedExams;
     };
 
-    // Agrupa os exames por data
+    // Group exams by date
     const groupedExams = groupExamsByDate(specificExam);
-    const dateKeys = Object.keys(groupedExams).reverse(); // Obtém as datas e as ordena inversamente
+    const dateKeys = Object.keys(groupedExams).reverse(); // Get dates and sort them in reverse order
 
-    // Função para navegação entre páginas
+    // Function for page navigation
     const goToNextPage = () => {
         if (currentPage < dateKeys.length - 1) {
             setCurrentPage(currentPage + 1);
@@ -160,16 +167,16 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
         }
     };
 
-    // Exames da página atual (data)
+    // Exams of the current page (date)
     const currentExams = groupedExams[dateKeys[currentPage]];
 
-    // Atualiza o índice destacado ao modificar a consulta de pesquisa
+    // Update the highlighted index when the search query changes
     useEffect(() => {
         const removeAccents = (str: string) =>
             str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         if (searchQuery.trim() === "") {
-            setHighlightIndex(null); // Não destaque nada se a pesquisa estiver vazia
+            setHighlightIndex(null); // Do not highlight anything if the search is empty
         } else {
             const normalizedQuery = removeAccents(searchQuery.toLowerCase());
 
@@ -181,7 +188,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
 
             setHighlightIndex(index >= 0 ? index : null);
 
-            // Rolar para o item encontrado
+            // Scroll to the found item
             if (index >= 0 && scrollViewRef.current) {
                 scrollViewRef.current.scrollTo({
                     y: index * (1 / currentExams.length) * contentHeight, // Scroll to the item's position
@@ -189,7 +196,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                 });
             }
         }
-    }, [searchQuery, currentExams]);
+    }, [searchQuery, currentExams, contentHeight]);
 
     return (
         <View style={styles.container}>
@@ -225,7 +232,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                 style={{ flex: 1 }}
                 ref={scrollViewRef}
                 onContentSizeChange={(contentWidth, contentHeight) => {
-                    setContentHeight(contentHeight); // Define a altura total do conteúdo
+                    setContentHeight(contentHeight); // Set the total content height
                 }}
             >
                 <Text style={styles.pageTitle}>
@@ -284,7 +291,7 @@ const ExamTable: React.FC<ExamTableProps> = ({ specificExam }) => {
                 </View>
             </ScrollView>
 
-            {/* Paginação */}
+            {/* Pagination */}
             <View style={styles.paginationControls}>
                 <Button
                     title="Anterior"

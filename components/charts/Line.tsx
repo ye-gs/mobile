@@ -9,7 +9,27 @@ import Colors from "@/constants/Colors";
 
 const screenWidth = Dimensions.get("window").width;
 
-export const Line = (props: { exam: Exam; analito: string }) => {
+interface LineProps {
+    exam: Exam;
+
+    analito: string;
+
+    lineStyle: {
+        strokeWidth: number;
+
+        stroke: string;
+    };
+
+    dotStyle: {
+        fill: string;
+    };
+
+    backgroundGradientFrom: string;
+
+    backgroundGradientTo: string;
+}
+
+export const Line = (props: LineProps) => {
     const { exam, analito } = props;
     const { theme } = useTheme();
     // Find all indices of the analito
@@ -83,7 +103,7 @@ export const Line = (props: { exam: Exam; analito: string }) => {
             </Text>
             <LineChart
                 data={chartData}
-                width={screenWidth*0.95}
+                width={screenWidth * 0.95}
                 height={220}
                 chartConfig={{
                     backgroundColor: Colors[theme].circleBackground,

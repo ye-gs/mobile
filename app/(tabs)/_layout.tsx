@@ -214,7 +214,7 @@ export default function TabLayout() {
                     ),
                 }}
             />
-             <Tabs.Screen
+            <Tabs.Screen
                 name="chat"
                 options={{
                     title: "Chat",
