@@ -1,17 +1,24 @@
 import { initializeApp } from "firebase/app";
-import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import {
+    initializeAuth,
+    getReactNativePersistence,
+    User,
+    Auth,
+} from "firebase/auth";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import {
     initializeFirestore,
     doc,
     collection,
     onSnapshot,
-    getDocs,
+    Firestore,
+    DocumentData,
+    QuerySnapshot,
 } from "firebase/firestore";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import Constants from "expo-constants";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getCachedData,updateCache } from "@/cache/index";
+import { getCachedData, updateCache } from "@/cache/index";
+
 // Configuração do Google Sign-in
 GoogleSignin.configure({
     webClientId: Constants?.expoConfig?.extra?.webClientId || "",
@@ -30,31 +37,42 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = initializeAuth(app, {
+const auth: Auth = initializeAuth(app, {
     persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
-const db = initializeFirestore(app, {});
+const db: Firestore = initializeFirestore(app, {});
 
 // Listener para alterações em subcoleções (meds, appointments, exams)
-const setupSubcollectionListener = (userId, subcollectionName, updateData) => {
+const setupSubcollectionListener = (
+    userId: string,
+    subcollectionName: string,
+    updateData: (subcollectionName: string, data: DocumentData[]) => void
+) => {
     const subcollectionRef = collection(
         db,
-         `users/${userId}/${subcollectionName}`
+        `users/${userId}/${subcollectionName}`
     );
 
-    return onSnapshot(subcollectionRef, (snapshot) => {
-        const subcollectionData = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-        }));
+    return onSnapshot(
+        subcollectionRef,
+        (snapshot: QuerySnapshot<DocumentData>) => {
+            const subcollectionData = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
 
-        // Atualizar os dados da subcoleção e chamar a função para atualizar o cache
-        updateData(subcollectionName, subcollectionData);
-    });
+            // Atualizar os dados da subcoleção e chamar a função para atualizar o cache
+            updateData(subcollectionName, subcollectionData);
+        }
+    );
 };
 
 // Função para unir e atualizar todos os dados e o cache
-const updateCompleteData = (userId, userData, subcollections) => {
+const updateCompleteData = (
+    userId: string,
+    userData: DocumentData,
+    subcollections: Record<string, DocumentData[]>
+) => {
     const completeData = {
         user: userData,
         ...subcollections,
@@ -63,20 +81,20 @@ const updateCompleteData = (userId, userData, subcollections) => {
 };
 
 // Listener para alterações no Firestore do documento principal do usuário
-const setupFirestoreListener = (userId) => {
+const setupFirestoreListener = (userId: string) => {
     const userDocRef = doc(db, "users", userId);
 
-    let subcollections = {
+    let subcollections: Record<string, DocumentData[]> = {
         meds: [],
         appointments: [],
         exams: [],
     };
 
     // Initialize an empty userData object
-    let userData = {}; 
+    let userData: DocumentData = {};
 
     // Função auxiliar para atualizar subcoleções
-    const updateData = (subcollectionName, data) => {
+    const updateData = (subcollectionName: string, data: DocumentData[]) => {
         subcollections[subcollectionName] = data;
         updateCompleteData(userId, userData, subcollections); // Atualiza o cache com dados da subcoleção
     };
@@ -98,7 +116,7 @@ const setupFirestoreListener = (userId) => {
     return onSnapshot(userDocRef, (snapshot) => {
         if (snapshot.exists()) {
             // Update userData here before using it
-            userData = snapshot.data();
+            userData = snapshot.data() as DocumentData;
             updateCompleteData(userId, userData, subcollections);
         } else {
             console.log("Documento do usuário não encontrado:", userId);
@@ -107,9 +125,8 @@ const setupFirestoreListener = (userId) => {
     });
 };
 
-
 // Função inicial para carregar os dados e configurar o listener
-const initializeData = async (userId) => {
+const initializeData = async (userId: string) => {
     const cachedData = await getCachedData(userId);
     if (!cachedData) {
         console.log(
@@ -123,7 +140,7 @@ const initializeData = async (userId) => {
 };
 
 // Autenticação do Firebase e configuração do listener para o usuário autenticado
-auth.onAuthStateChanged((user) => {
+auth.onAuthStateChanged((user: User | null) => {
     if (user) {
         const userId = user.uid;
         console.log("Usuário autenticado:", userId);
