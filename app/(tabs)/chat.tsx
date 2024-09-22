@@ -133,9 +133,9 @@ export default function ChatScreen() {
                 bmi,
                 messages: prevMessages,
                 birthday,
-                exams,
-                appointments,
-                meds,
+                exams_data: exams,
+                appointments_data: appointments,
+                meds_data: meds,
             });
             const res = await fetch(
                 Constants.expoConfig?.extra?.chatGptAPIUrl,
