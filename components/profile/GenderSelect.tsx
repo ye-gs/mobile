@@ -4,12 +4,15 @@ import { FontAwesome } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 
-export function GenderSelect() {
+export function GenderSelect(props: {
+    gender: string | null;
+    setGender: (value: "Homem" | "Mulher" | "Outro" | null) => void;
+}) {
+    const { gender, setGender } = props;
     type Genero = "Homem" | "Mulher" | "Outro" | null;
     const [visible, setVisible] = useState(false);
     const showDialog = () => setVisible(true);
     const hideDialog = () => setVisible(false);
-    const [gender, setGender] = useState<Genero>(null);
 
     const { theme } = useTheme();
 
