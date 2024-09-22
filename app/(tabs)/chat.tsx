@@ -88,6 +88,8 @@ export default function ChatScreen() {
                 collection(db, `users/${userId}/messages`),
                 newMessage
             );
+            const messageToSend = inputMessage;
+            setInputMessage("");
             const initialPath = `users/${userId}`;
             const document = await getDoc(doc(db, initialPath));
 
@@ -105,7 +107,7 @@ export default function ChatScreen() {
                 bmi = weight / (height * height);
             }
             console.log(bmi);
-
+            const gender = userData?.gender || "Desconhecido";
             const birthday = userData?.birthday.toDate().toISOString();
             console.log(birthday);
             const [exams, appointments, meds] = await Promise.all([
@@ -115,11 +117,21 @@ export default function ChatScreen() {
             ]);
             const authHeader =
                 "Bearer " + (await auth.currentUser?.getIdToken());
+            const prevMessages = messages.map((message) => {
+                return {
+                    content: message.text,
+                    role: message.sender === "user" ? "user" : "assistant",
+                };
+            });
+
+            console.log(prevMessages);
             const body = JSON.stringify({
                 weight,
                 height,
-                message: inputMessage,
+                gender,
+                message: messageToSend,
                 bmi,
+                messages: prevMessages,
                 birthday,
                 exams,
                 appointments,
@@ -150,7 +162,6 @@ export default function ChatScreen() {
                 );
             } else {
                 const data = await res.json();
-                console.log(data);
                 const botMessage = {
                     text: "Erro ao enviar mensagem: " + data.Message,
                     sender: "bot",
@@ -161,8 +172,6 @@ export default function ChatScreen() {
                     botMessage
                 );
             }
-
-            setInputMessage("");
         }
     };
 
