@@ -10,14 +10,61 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { GenderSelect } from "@/components/profile/GenderSelect";
 import { TextInput } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+import { updateProfile } from "firebase/auth";
 
 export default function UserInfo() {
     const { user } = useUser();
+    if (user == null) return null;
     const { theme } = useTheme();
-    const [datetime, setDatetime] = useState(
-        new Date(user?.metadata.creationTime!) || new Date()
-    );
+    if (user == null) return null;
+    const [userDocData, setUserDocData] = useState<any>(null);
+    const [datetime, setDatetime] = useState<Date | null>(null);
+    const [altura, setAltura] = useState<string | undefined>(undefined);
+    const [peso, setPeso] = useState<string | undefined>(undefined);
+    const [genero, setGenero] = useState<string | null>(null);
+    const [userName, setUserName] = useState<string>(user?.displayName || "");
+    if (user == null) return;
+    const userDocRef = doc(db, "users", user.uid);
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const userDoc = await getDoc(userDocRef);
+            const userData = userDoc.data();
+            setUserDocData(userData);
+            setDatetime(new Date(userData?.birthday?.seconds * 1000) || null);
+            setAltura(String(userData?.height) || undefined);
+            setPeso(String(userData?.weight) || undefined);
+            setGenero(userData?.gender || null);
+        };
+
+        fetchUserData();
+    }, [user]);
+
+    const salvarMudancas = async () => {
+        let alturaNumerica;
+        let pesoNumerico;
+        try {
+            alturaNumerica = parseFloat(altura!);
+            pesoNumerico = parseFloat(peso!);
+        } catch (error) {
+            alert("Altura e peso devem ser numéricos e preenchidos");
+            return;
+        }
+        if (userName !== user?.displayName) {
+            await updateProfile(user, {
+                displayName: userName,
+            });
+        }
+        await setDoc(userDocRef, {
+            ...userDocData,
+            birthday: datetime,
+            height: alturaNumerica,
+            weight: pesoNumerico,
+            gender: genero,
+        });
+    };
     const [datePickerVisible, setDatePickerVisible] = useState(false);
     const showDatePicker = () => {
         setDatePickerVisible(true);
@@ -66,7 +113,8 @@ export default function UserInfo() {
             <View style={styles.options}>
                 <TextInput
                     label="Nome"
-                    defaultValue={user?.displayName!}
+                    defaultValue={userName}
+                    onChangeText={(text) => setUserName(text)}
                     style={styles.input}
                     textColor={Colors[theme].text}
                     outlineColor={Colors[theme].text}
@@ -105,7 +153,34 @@ export default function UserInfo() {
                     display="default"
                     onCancel={hideDatePicker}
                 />
-                <GenderSelect />
+                <TextInput
+                    label="Altura"
+                    defaultValue={altura}
+                    onChangeText={(text) => setAltura(text)}
+                    style={styles.input}
+                    inputMode="numeric"
+                    textColor={Colors[theme].text}
+                    outlineColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].altTextColor}
+                    underlineColor={Colors[theme].text}
+                    activeUnderlineColor={Colors[theme].altTextColor}
+                ></TextInput>
+                <TextInput
+                    label="Peso"
+                    defaultValue={peso}
+                    inputMode="numeric"
+                    onChangeText={(text) => setPeso(text)}
+                    style={styles.input}
+                    textColor={Colors[theme].text}
+                    outlineColor={Colors[theme].text}
+                    activeOutlineColor={Colors[theme].altTextColor}
+                    underlineColor={Colors[theme].text}
+                    activeUnderlineColor={Colors[theme].altTextColor}
+                ></TextInput>
+                <GenderSelect gender={genero} setGender={setGenero} />
+                <Button onPress={salvarMudancas}>
+                    <Text>Salvar</Text>
+                </Button>
             </View>
         </KeyboardAvoidingView>
     );
