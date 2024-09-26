@@ -31,7 +31,7 @@ export interface AnalitoInfo {
     valorReferencia?: string;
     referenciaIdade?: string;
     limiteSuperior?: string | number;
-    limiteInferior?: string| number;
+    limiteInferior?: string | number;
     ficha?: string;
 }
 
@@ -64,81 +64,137 @@ export async function SearchItemByName(item: string): Promise<ItemPosition[]> {
 }
 
 export async function SearchItemByPosition(
-    positions: ItemPosition[]
+    positions: ItemPosition[],
+    filters?: {
+        resultado?: boolean;
+        unidade?: boolean;
+        valorReferencia?: boolean;
+        referenciaIdade?: boolean;
+        limiteSuperior?: boolean;
+        limiteInferior?: boolean;
+        ficha?: boolean;
+        seconds?: boolean;
+    }
 ): Promise<AnalitoInfo[]> {
+    const hasFilters = filters && Object.keys(filters).length > 0;
+
+    const {
+        resultado = !hasFilters,
+        unidade = !hasFilters,
+        valorReferencia = !hasFilters,
+        referenciaIdade = !hasFilters,
+        limiteSuperior = !hasFilters,
+        limiteInferior = !hasFilters,
+        ficha = !hasFilters,
+        seconds = !hasFilters || filters?.seconds === true,
+    } = filters || {};
+
     const userId = auth.currentUser?.uid ?? "";
 
     try {
-        // Recupera os exames do cache (aguardando a Promise resolver)
+        // Recupera os exames do cache e loga os exames
         const exams: Exam[] = await getExamsFromCache(userId);
 
-        // Armazena os resultados com os valores de seconds
         const results: AnalitoInfo[] = [];
 
         // Itera sobre as posições fornecidas
         positions.forEach(({ examIndex, analyteIndex }) => {
             const exam = exams[examIndex];
 
-            // Verifica se o exame e ANALITOS existem
             if (
                 exam &&
                 exam.ANALITOS &&
                 exam.ANALITOS[analyteIndex] !== undefined
             ) {
-                // Verifica se o exame possui uma Data válida com seconds
-                if (
-                    exam.Data &&
-                    exam.RESULTADOS &&
-                    exam.RESULTADOS[analyteIndex] !== undefined &&
-                    exam.Unidade &&
-                    exam.Unidade[analyteIndex] !== undefined
-                ) {
-                    // Armazena o campo seconds da Data
-                    results.push({
-                        analyteIndex,
-                        examIndex,
-                        seconds: new Date(exam.Data[analyteIndex].seconds * 1000),
-                        resultado: exam.RESULTADOS[analyteIndex],
-                        unidade: exam.Unidade[analyteIndex],
-                        analitos: exam.ANALITOS[analyteIndex],
-                        valorReferencia: exam["VALORES DE REFERÊNCIA"]
-                            ? exam["VALORES DE REFERÊNCIA"][analyteIndex]
-                            : undefined,
-                        referenciaIdade: exam["Referência varia com idade"]
-                            ? exam["Referência varia com idade"][analyteIndex]
-                            : undefined,
-                        limiteSuperior: exam["Limite superior"]
-                            ? exam["Limite superior"][analyteIndex]
-                            : undefined,
-                        limiteInferior: exam["Limite inferior"]
-                            ? exam["Limite inferior"][analyteIndex]
-                            : undefined,
-                        ficha: exam.Ficha
-                            ? exam.Ficha[analyteIndex]
-                            : undefined,
-                    });
-                } else {
-                    console.warn(
-                        `Data ou seconds ausente no exame ${examIndex}`
+                const result: Partial<AnalitoInfo> = {};
+
+                if (seconds && exam.Data && exam.Data[analyteIndex]) {
+                    result.seconds = new Date(
+                        exam.Data[analyteIndex].seconds * 1000
                     );
-                    // Caso Data ou seconds não exista, adiciona undefined
-                    results.push({
-                        analyteIndex,
-                        examIndex,
-                        seconds: undefined, // Deixa seconds undefined explicitamente
-                    });
+                }
+
+                if (
+                    resultado &&
+                    exam.RESULTADOS &&
+                    exam.RESULTADOS[analyteIndex] !== null
+                ) {
+                    result.resultado = exam.RESULTADOS[analyteIndex];
+                } else if (resultado) {
+                    return; // Se o valor de resultado for null, pula este item
+                }
+
+                if (
+                    unidade &&
+                    exam.Unidade &&
+                    exam.Unidade[analyteIndex] !== null
+                ) {
+                    result.unidade = exam.Unidade[analyteIndex];
+                } else if (unidade) {
+                    return; // Se o valor de unidade for null, pula este item
+                }
+
+                if (
+                    valorReferencia &&
+                    exam["VALORES DE REFERÊNCIA"] &&
+                    exam["VALORES DE REFERÊNCIA"][analyteIndex] !== null
+                ) {
+                    result.valorReferencia =
+                        exam["VALORES DE REFERÊNCIA"][analyteIndex];
+                } else if (valorReferencia) {
+                    return; // Se o valor de valorReferencia for null, pula este item
+                }
+
+                if (
+                    referenciaIdade &&
+                    exam["Referência varia com idade"] &&
+                    exam["Referência varia com idade"][analyteIndex] !== null
+                ) {
+                    result.referenciaIdade =
+                        exam["Referência varia com idade"][analyteIndex];
+                } else if (referenciaIdade) {
+                    return; // Se o valor de referenciaIdade for null, pula este item
+                }
+
+                if (
+                    limiteSuperior &&
+                    exam["Limite superior"] &&
+                    exam["Limite superior"][analyteIndex] !== null
+                ) {
+                    result.limiteSuperior =
+                        exam["Limite superior"][analyteIndex];
+                } else if (limiteSuperior) {
+                    return; // Se o valor de limiteSuperior for null, pula este item
+                }
+
+                if (
+                    limiteInferior &&
+                    exam["Limite inferior"] &&
+                    exam["Limite inferior"][analyteIndex] !== null
+                ) {
+                    result.limiteInferior =
+                        exam["Limite inferior"][analyteIndex];
+                } else if (limiteInferior) {
+                    return; // Se o valor de limiteInferior for null, pula este item
+                }
+
+                if (ficha && exam.Ficha && exam.Ficha[analyteIndex] !== null) {
+                    result.ficha = exam.Ficha[analyteIndex];
+                } else if (ficha) {
+                    return; // Se o valor de ficha for null, pula este item
+                }
+
+                // Só adiciona o resultado se tiver pelo menos um dado relevante
+                if (Object.keys(result).length > 0) {
+                    results.push(result as AnalitoInfo);
                 }
             } else {
-                console.warn(`Exame ou ANALITOS ausente no exame ${examIndex}`);
-                results.push({
-                    analyteIndex,
-                    examIndex,
-                    seconds: undefined, // Deixa undefined se o exame não estiver correto
-                });
+                console.warn(
+                    `Invalid exam or analyte at position: ${examIndex}, ${analyteIndex}`
+                );
             }
         });
 
-        // Retorna os resultados com os valores de seconds
         return results;
     } catch (error) {
         console.error("Erro ao buscar exames:", error);
@@ -146,10 +202,25 @@ export async function SearchItemByPosition(
     }
 }
 
-export async function GetItemInfo(item: string) {
+export async function GetItemInfo(
+    item: string,
+    filters?: {
+        resultado?: boolean;
+        unidade?: boolean;
+        valorReferencia?: boolean;
+        referenciaIdade?: boolean;
+        limiteSuperior?: boolean;
+        limiteInferior?: boolean;
+        ficha?: boolean;
+        seconds?: boolean;
+    }
+) {
     try {
         const resultadoNome = await SearchItemByName(item);
-        const resultadoPosicao = await SearchItemByPosition(resultadoNome);
+        const resultadoPosicao = await SearchItemByPosition(
+            resultadoNome,
+            filters
+        );
         return resultadoPosicao;
     } catch (error) {
         console.error("Erro ao buscar informações do item:", error);
@@ -157,25 +228,43 @@ export async function GetItemInfo(item: string) {
     }
 }
 
-
-
-
 // Exemplo de uso da função SearchItemByName com o item "VCM"
-SearchItemByName("VCM").then((resultado) => {
-    console.log("SearchItemByName");
-    console.log({ resultado }); // Exibe [{ examIndex: X, analyteIndex: Y }, ...]
-    SearchItemByPosition(resultado).then(
-        (resultado) => {
+if (false) {
+    SearchItemByName("VCM").then((resultado) => {
+        console.log("SearchItemByName");
+        console.log({ resultado }); // Exibe [{ examIndex: X, analyteIndex: Y }, ...]
+        SearchItemByPosition(resultado).then((resultado) => {
             console.log("SearchItemByPosition");
             console.log(resultado); // Exibe [{ analyteIndex: Y, examIndex: X, seconds: Z }, ...]
-        },
-    );
-});
+        });
+    });
+}
 
 // Exemplo de uso da função SearchItemByPosition com posições específicas
-const positions: ItemPosition[] = [{ examIndex: 1, analyteIndex: 342 }];
+const positions: ItemPosition[] = [{ examIndex: 0, analyteIndex: 3 }];
 
-SearchItemByPosition(positions).then((resultado) => {
-  console.log("SearchItemByPosition Solo");
-    console.log(resultado); // Exibe [{ analyteIndex: 342, examIndex: 1, seconds: 1549843200 }]
-});
+SearchItemByPosition(positions, { resultado: true, seconds: true }).then(
+    (resultado) => {
+        console.log("SearchItemByPosition Solo");
+        console.log(resultado); // Exibe [{ analyteIndex: 342, examIndex: 1, seconds: 1549843200 }]
+    }
+);
+
+// Suponha que você queira buscar informações sobre o item "VCM"
+const item = "PTH";
+const filters = {
+    resultado: true, // Queremos que o resultado seja incluído
+    unidade: true, // Queremos que a unidade seja incluída
+    valorReferencia: true, // Queremos o valor de referência
+    seconds: true, // Queremos que a data/tempo seja incluída
+};
+
+// Exemplo de uso da função GetItemInfo com o item "VCM" e os filtros
+GetItemInfo(item, filters)
+    .then((resultadoPosicao) => {
+        console.log("GetItemInfo resultado:");
+        console.log(resultadoPosicao); // Aqui você verá as informações sobre o item "VCM" conforme os filtros fornecidos
+    })
+    .catch((error) => {
+        console.error("Erro ao obter informações do item:", error);
+    });
