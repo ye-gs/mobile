@@ -1,4 +1,9 @@
-import { View, Animated, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import {
+    View,
+    Animated,
+    StyleSheet,
+    TouchableWithoutFeedback,
+} from "react-native";
 import { HomeOption } from "@/components/home/HomeOption";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
@@ -34,18 +39,18 @@ export function HomeRoutingOptions() {
             gap: RFValue(60, 808),
         },
         circle: {
-  backgroundColor: Colors[theme].circleBackground,
-  padding: RFValue(20, 808),
-  borderRadius: 100,
-  overflow: "hidden",
-  alignItems: "center",
-  justifyContent: "center",
-  shadowColor: "#000", // Shadow color
-  shadowOffset: { width: 0, height: 2 }, // Shadow offset
-  shadowOpacity: 1, // Shadow opacity
-  shadowRadius: 3.84, // Shadow radius
-  elevation: 10, // Elevation for Android shadow
-},
+            backgroundColor: Colors[theme].circleBackground,
+            padding: RFValue(20, 808),
+            borderRadius: 100,
+            overflow: "hidden",
+            alignItems: "center",
+            justifyContent: "center",
+            shadowColor: "#000", // Shadow color
+            shadowOffset: { width: 0, height: 2 }, // Shadow offset
+            shadowOpacity: 1, // Shadow opacity
+            shadowRadius: 3.84, // Shadow radius
+            elevation: 10, // Elevation for Android shadow
+        },
         animatedIcon: {
             transform: [{ scale: scaleAnimExams }], // Apply animation based on the icon
         },
@@ -68,7 +73,9 @@ export function HomeRoutingOptions() {
                         onPressOut={() => handlePressOut(scaleAnimExams)}
                         onPress={() => router.replace("/exams")}
                     >
-                        <Animated.View style={[styles.circle, styles.animatedIcon]}>
+                        <Animated.View
+                            style={[styles.circle, styles.animatedIcon]}
+                        >
                             <MaterialCommunityIcons
                                 name="stethoscope"
                                 size={RFValue(40, 808)}
@@ -86,7 +93,9 @@ export function HomeRoutingOptions() {
                         onPressOut={() => handlePressOut(scaleAnimMeds)}
                         onPress={() => router.replace("/meds")}
                     >
-                        <Animated.View style={[styles.circle, styles.animatedIconMeds]}>
+                        <Animated.View
+                            style={[styles.circle, styles.animatedIconMeds]}
+                        >
                             <MaterialCommunityIcons
                                 name="pill"
                                 size={RFValue(40, 808)}

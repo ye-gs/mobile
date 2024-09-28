@@ -10,7 +10,6 @@ export default function UserInfo() {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            alignItems: "center",
             backgroundColor: Colors[theme].background, // Adicionando cor de fundo para melhor visualização
         },
         main: {

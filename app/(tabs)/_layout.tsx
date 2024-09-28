@@ -14,6 +14,7 @@ import { auth, db } from "@/firebase";
 import { StyleSheet } from "react-native";
 import { ThemeNames } from "@/constants/ThemeNames";
 import { doc, getDoc } from "firebase/firestore";
+import GlucosePage from "../glucose";
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];

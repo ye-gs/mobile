@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "@/contexts/theme";
 import { RFValue } from "react-native-responsive-fontsize";
-import Colors from "@/constants/Colors";
 import { getExamsFromCache } from "@/cache/index"; // Importar a função de cache
 import { auth } from "@/firebase/index";
 import { AddButton } from "@/components/AddButton";
@@ -102,15 +101,15 @@ export function HomeBiometricInfo() {
             <AddButton theme={theme} onPress={handleAddBiometric} />
             <View style={styles.verticalSeparator} />
             <AddButton theme={theme} onPress={handleAddBiometric} />
-
             <BiometricModal
                 modalVisible={modalVisible}
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
                 analytes={analytes}
                 handleCloseModal={handleCloseModal}
-                renderItem={renderItem} 
-                loading={loading}            />
+                renderItem={renderItem}
+                loading={loading}
+            />
         </View>
     );
 }
@@ -215,5 +214,15 @@ const styles = StyleSheet.create({
         height: "80%",
         alignSelf: "center",
         backgroundColor: colors.primary, // Adicionar cor à separação
+    },
+    cadastroContainer: {
+        alignItems: "center",
+        padding: 10,
+    },
+    cadastroTitle: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: colors.primary,
+        marginBottom: 10,
     },
 });

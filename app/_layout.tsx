@@ -1,6 +1,12 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { ErrorBoundary, ErrorBoundaryProps, Link, router, Stack } from "expo-router";
+import {
+    ErrorBoundary,
+    ErrorBoundaryProps,
+    Link,
+    router,
+    Stack,
+} from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { ThemeProvider, useTheme } from "@/contexts/theme";
@@ -242,6 +248,48 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Detalhes do Laudo Evolutivo",
+                    headerTitleAlign: "center",
+                    headerStyle: {
+                        backgroundColor: Colors[theme].background,
+                    },
+                    headerTitleStyle: { color: Colors[theme].text },
+                }}
+            />
+            <Stack.Screen
+                name="glucose"
+                options={{
+                    headerLeft: () => (
+                        <Link href="/home">
+                            <FontAwesome
+                                size={38}
+                                name="arrow-left"
+                                color={Colors[theme].text}
+                            />
+                        </Link>
+                    ),
+                    headerShown: true,
+                    headerTitle: "Medidas de Glicose",
+                    headerTitleAlign: "center",
+                    headerStyle: {
+                        backgroundColor: Colors[theme].background,
+                    },
+                    headerTitleStyle: { color: Colors[theme].text },
+                }}
+            />
+            <Stack.Screen
+                name="pressure"
+                options={{
+                    headerLeft: () => (
+                        <Link href="/home">
+                            <FontAwesome
+                                size={38}
+                                name="arrow-left"
+                                color={Colors[theme].text}
+                            />
+                        </Link>
+                    ),
+                    headerShown: true,
+                    headerTitle: "Medidas de Pressão",
                     headerTitleAlign: "center",
                     headerStyle: {
                         backgroundColor: Colors[theme].background,
