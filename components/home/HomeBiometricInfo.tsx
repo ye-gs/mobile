@@ -7,11 +7,16 @@ import { auth } from "@/firebase/index";
 import { AddButton } from "@/components/AddButton";
 import { BiometricModal } from "@/components/BiometricModal";
 import { router } from "expo-router";
-
+import { Exam } from "@/types/exam";
+interface IExam {
+    ANALITOS: string[];
+    DATA: string;
+    RESULTADOS: string;
+}
 export function HomeBiometricInfo() {
-    const { theme } = useTheme();
+    const { theme } = useTheme() as { theme: string };
     const [modalVisible, setModalVisible] = useState(false);
-    const [exams, setExams] = useState<any[]>([]);
+    const [exams, setExams] = useState<IExam[]>([]);//Todo: add type
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de busca

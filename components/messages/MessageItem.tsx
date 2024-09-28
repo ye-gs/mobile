@@ -7,7 +7,13 @@ const MessageItem = ({
     item,
     theme,
 }: {
-    item: { id: string; text: string; sender: string; createdAt: Date };
+    item: {
+        id: string;
+        text: string;
+        sender: string;
+        createdAt: Date;
+        isTyping: boolean;
+    };
     theme: string;
 }) => {
     const formattedDate = new Date(item.createdAt).toLocaleString();

@@ -5,7 +5,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import Colors from "@/constants/Colors";
 
 interface AddButtonProps {
-    theme: string;
+    theme: string | number;
     onPress: () => void;
 }
 

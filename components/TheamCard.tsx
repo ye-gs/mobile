@@ -33,7 +33,7 @@ export function ThemeCard(props: ThemeCardProps) {
     }, [user]);
 
     const handlePress = (event: GestureResponderEvent, themeName: string) => {
-        setTheme(themeName as any);
+        setTheme(themeName as string);
         props.onPress(event, themeName); // Call onPress with event and selected theme name
         //onFavoritePress: (themeName: string) => void; // Callback for when the favorite icon is pressed
     };
@@ -44,7 +44,7 @@ export function ThemeCard(props: ThemeCardProps) {
     ) => {
         const newFavorite = favoriteTheme === themeName ? null : themeName;
         if (newFavorite && user) {
-            setTheme(themeName as any);
+            setTheme(themeName as string);
             props.onPress(event, themeName);
             await updateDoc(doc(db, "/users", user.uid), {
                 favoriteTheme: themeName,

@@ -11,15 +11,16 @@ import { Bookmark, MarkedBM } from "@/assets/images/index";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useTheme } from "@/contexts/theme";
 import Colors from "@/constants/Colors";
-
-export function HomeHistoryCard(props: {
+import { Appointment, AppointmentData } from "@/types/appointment";
+interface HomeHistoryCardProps {
     description: string;
     text: string;
     date: string;
     imageUrl: string;
     isBookmarked: boolean;
     onPress?: () => void;
-}) {
+}
+export function HomeHistoryCard(props: HomeHistoryCardProps) {
     const { theme } = useTheme();
     const [isBookmarked, setBookmarked] = useState(props.isBookmarked);
     const BookmarkImage = isBookmarked ? MarkedBM : Bookmark;
@@ -93,8 +94,8 @@ export function HomeHistoryCard(props: {
     );
 }
 
-export function ConsultationsList(props: { consultations: any[] }) {
-    const renderItem = ({ item }: { item: any }) => (
+export function ConsultationsList(props: { consultations: HomeHistoryCardProps[] }) {
+    const renderItem = ({ item }: { item: HomeHistoryCardProps }) => (
         <HomeHistoryCard
             description={item.description}
             text={item.text}

@@ -13,7 +13,7 @@ export default function UserInfo() {
         event: GestureResponderEvent,
         themeName: string
     ) => {
-        setTheme(themeName as any); // Update the theme with the selected theme name
+        setTheme(themeName as string); // Update the theme with the selected theme name 
     };
 
     return (

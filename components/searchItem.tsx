@@ -11,7 +11,7 @@ interface Exam {
     Unidade?: string[];
     "VALORES DE REFERÊNCIA"?: string[];
     "Referência varia com idade"?: string[];
-    "Limite superior"?: any;
+    "Limite superior"?: string[];
     "Limite inferior"?: string[];
     Ficha?: string[];
 }

@@ -1,8 +1,10 @@
 import { auth, db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import React, { createContext, useState, useContext, useEffect } from "react";
+import Colors from "@/constants/Colors";
 
-type Theme = "light" | "dark" | "blueLight";
+
+export type Theme = keyof typeof Colors;
 type ThemeContextType = {
     theme: Theme;
     setTheme: React.Dispatch<React.SetStateAction<Theme>>;
