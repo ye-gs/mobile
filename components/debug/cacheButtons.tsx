@@ -12,6 +12,7 @@ import { Button, View } from "react-native";
 import {
     SearchItemByName,
     SearchItemByPosition,
+    GetItemInfo,
 } from "@/components/searchItem";
 
 export function CacheButtons() {
@@ -47,18 +48,19 @@ export function CacheButtons() {
         console.log(data);
     };
 
-    const handleSearch = (item: string) => {
-        SearchItemByName(item).then((resultado) => {
-            console.log(resultado); // Exibe [{ examIndex: X, analyteIndex: Y }, ...]
-            SearchItemByPosition(resultado).then(
-                (resultado) => {
-                    console.log(resultado); // Exibe [{ analyteIndex: Y, examIndex: X, seconds: Z }, ...]
-                },
-                (error) => {
-                    console.error("Erro ao buscar second:", error);
-                }
-            );
-        });
+    const handleSearch = async (item: string = "PTH") => {
+        try {
+            const resultado = await GetItemInfo(item, {
+                resultado: true, // Queremos que o resultado seja incluído
+                unidade: true, // Queremos que a unidade seja incluída
+                valorReferencia: true, // Queremos o valor de referência
+                seconds: true, // Queremos que a data/tempo seja incluída
+            });
+            console.log(item);
+            console.log("Resultado da busca:", resultado);
+        } catch (error) {
+            console.error("Erro ao buscar informações do item:", error);
+        }
     };
     return (
         <View>

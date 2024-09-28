@@ -135,7 +135,7 @@ const clearAllCache = async () => {
 };
 
 // Função para salvar dados no cache do usuário autenticado
-const insetCachedData = async (userId: string, data: any) => {
+const insetCachedData = async (userId: string, data: string) => {
     try {
         const stringifiedData = JSON.stringify(data);
         await AsyncStorage.setItem(`firestoreData_${userId}`, stringifiedData);
@@ -146,7 +146,7 @@ const insetCachedData = async (userId: string, data: any) => {
 };
 
 // Função para atualizar o cache do usuário autenticado (sem alterações)
-const updateCache = async (userId: string, data: any) => {
+const updateCache = async (userId: string, data: string) => {
     try {
         await AsyncStorage.setItem(
             `firestoreData_${userId}`,
@@ -162,7 +162,7 @@ const updateCache = async (userId: string, data: any) => {
 const updateCacheSection = async (
     userId: string,
     section: string,
-    data: any
+    data: string
 ) => {
     try {
         // Pega o cache atual do usuário
@@ -189,17 +189,17 @@ const updateCacheSection = async (
 };
 
 // Função para atualizar o cache de appointments
-const updateAppointmentsCache = async (userId: string, appointments: any) => {
+const updateAppointmentsCache = async (userId: string, appointments: string) => {
     await updateCacheSection(userId, "appointments", appointments);
 };
 
 // Função para atualizar o cache de exames
-const updateExamsCache = async (userId: string, exams: any) => {
+const updateExamsCache = async (userId: string, exams: string) => {
     await updateCacheSection(userId, "exams", exams);
 };
 
 // Função para atualizar o cache de medicamentos (meds)
-const updateMedsCache = async (userId: string, meds: any) => {
+const updateMedsCache = async (userId: string, meds: string) => {
     await updateCacheSection(userId, "meds", meds);
 };
 

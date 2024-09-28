@@ -11,7 +11,7 @@ import { GenderSelect } from "@/components/profile/GenderSelect";
 import { TextInput } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useEffect, useState } from "react";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, DocumentData, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { updateProfile } from "firebase/auth";
 
@@ -20,7 +20,7 @@ export default function UserInfo() {
     if (user == null) return null;
     const { theme } = useTheme();
     if (user == null) return null;
-    const [userDocData, setUserDocData] = useState<any>(null);
+    const [userDocData, setUserDocData] = useState<DocumentData | null >(null);
     const [datetime, setDatetime] = useState<Date | null>(null);
     const [altura, setAltura] = useState<string | undefined>(undefined);
     const [peso, setPeso] = useState<string | undefined>(undefined);
@@ -32,7 +32,9 @@ export default function UserInfo() {
         const fetchUserData = async () => {
             const userDoc = await getDoc(userDocRef);
             const userData = userDoc.data();
-            setUserDocData(userData);
+            if (userData) {
+                setUserDocData(userData);
+            }
             setDatetime(new Date(userData?.birthday?.seconds * 1000) || null);
             setAltura(String(userData?.height) || undefined);
             setPeso(String(userData?.weight) || undefined);

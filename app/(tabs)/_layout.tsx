@@ -14,6 +14,7 @@ import { auth, db } from "@/firebase";
 import { StyleSheet } from "react-native";
 import { ThemeNames } from "@/constants/ThemeNames";
 import { doc, getDoc } from "firebase/firestore";
+import { Theme } from "@/contexts/theme";
 import GlucosePage from "../glucose";
 
 function TabBarIcon(props: {
@@ -94,7 +95,7 @@ export default function TabLayout() {
             // Pick a random theme from the remaining options
             const randomTheme =
                 themes[Math.floor(Math.random() * themes.length)];
-            setTheme(randomTheme as any); // Ensure type safety
+            setTheme(randomTheme); // Ensure type safety
             closeMenu();
         }
 
@@ -141,7 +142,13 @@ export default function TabLayout() {
                     leadingIcon={() => (
                         <FontAwesome
                             size={25}
-                            name={colorSchemeMap[theme]}
+                            name={
+                                colorSchemeMap[
+                                    theme as keyof ColorSchemeMap
+                                ] as React.ComponentProps<
+                                    typeof FontAwesome
+                                >["name"]
+                            }
                             color={Colors[theme].text}
                         ></FontAwesome>
                     )}
