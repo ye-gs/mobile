@@ -3,16 +3,29 @@ import { View, Text, StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import Colors from "@/constants/Colors";
 
-const MessageItem = ({ item, theme }: { item: { id: string; text: string; sender: string; createdAt: Date }; theme: string }) => (
-    <View
-        style={[
-            styles(theme).messageContainer,
-            item.sender === "user" ? styles(theme).userMessage : styles(theme).botMessage,
-        ]}
-    >
-        <Text style={styles(theme).messageText}>{item.text}</Text>
-    </View>
-);
+const MessageItem = ({
+    item,
+    theme,
+}: {
+    item: { id: string; text: string; sender: string; createdAt: Date };
+    theme: string;
+}) => {
+    const formattedDate = new Date(item.createdAt).toLocaleString();
+
+    return (
+        <View
+            style={[
+                styles(theme).messageContainer,
+                item.sender === "user"
+                    ? styles(theme).userMessage
+                    : styles(theme).botMessage,
+            ]}
+        >
+            <Text style={styles(theme).messageText}>{item.text}</Text>
+            <Text style={styles(theme).timestamp}>{formattedDate}</Text>
+        </View>
+    );
+};
 
 const styles = (theme: string) =>
     StyleSheet.create({
@@ -31,7 +44,14 @@ const styles = (theme: string) =>
             backgroundColor: Colors[theme].tint,
         },
         messageText: {
-            fontSize: RFValue(12),
+            fontSize: RFValue(14),
+            color: Colors[theme].text,
+        },
+        timestamp: {
+            fontSize: RFValue(10),
+            color: Colors[theme].text,
+            marginTop: RFValue(5),
+            textAlign: "right",
         },
     });
 
