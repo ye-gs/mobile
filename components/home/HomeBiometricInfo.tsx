@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { useTheme } from "@/contexts/theme";
 import { RFValue } from "react-native-responsive-fontsize";
 import { getExamsFromCache } from "@/cache/index"; // Importar a função de cache
 import { auth } from "@/firebase/index";
 import { AddButton } from "@/components/AddButton";
 import { BiometricModal } from "@/components/BiometricModal";
-import { router } from "expo-router";
 import { Exam } from "@/types/exam";
+import AnalitosModel from "@/components/home/AnalitosModel";
+
 interface IExam {
     ANALITOS: string[];
     DATA: string;
     RESULTADOS: string;
 }
+
 export function HomeBiometricInfo() {
     const { theme } = useTheme() as { theme: string };
     const [modalVisible, setModalVisible] = useState(false);
-    const [exams, setExams] = useState<IExam[]>([]);//Todo: add type
+    const [popupVisible, setPopupVisible] = useState(false); // Estado para controlar o popup
+    const [selectedAnalyte, setSelectedAnalyte] = useState<string | null>(null); // Guardar o analito selecionado
+    const [exams, setExams] = useState<IExam[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de busca
@@ -59,18 +63,28 @@ export function HomeBiometricInfo() {
         setModalVisible(false);
     };
 
+    const handleAnalytePress = (analyte: string) => {
+        setSelectedAnalyte(analyte); // Define o analito selecionado
+        setPopupVisible(true); // Mostra o popup
+    };
+
+    const closePopup = () => {
+        setPopupVisible(false);
+        setSelectedAnalyte(null); // Limpa o analito selecionado ao fechar o popup
+    };
+
+    const handleAnalyteSelect = () => {
+        // Função para ser chamada quando o usuário confirma a seleção de um analito
+        setPopupVisible(false); // Fecha o popup
+        setModalVisible(false); // Fecha o modal principal
+        setSelectedAnalyte(null); // Limpa o analito selecionado
+    };
+
     const renderItem = ({ item }: { item: string }) => (
         <View style={styles.container}>
             <TouchableOpacity
                 style={[styles.card]}
-                onPress={() => {
-                    console.log("Selected analyte:", item); // Log apenas o nome do item
-                    handleCloseModal(); // Fechar o modal após a seleção
-                    router.push({
-                        pathname: "/analitos",
-                        params: { analitoName: item },
-                    });
-                }}
+                onPress={() => handleAnalytePress(item)}
             >
                 <Text style={styles.cardText}>{item}</Text>
             </TouchableOpacity>
@@ -102,10 +116,6 @@ export function HomeBiometricInfo() {
     return (
         <View style={styles.biometricInfo}>
             <AddButton theme={theme} onPress={handleAddBiometric} />
-            <View style={styles.verticalSeparator} />
-            <AddButton theme={theme} onPress={handleAddBiometric} />
-            <View style={styles.verticalSeparator} />
-            <AddButton theme={theme} onPress={handleAddBiometric} />
             <BiometricModal
                 modalVisible={modalVisible}
                 searchTerm={searchTerm}
@@ -115,6 +125,22 @@ export function HomeBiometricInfo() {
                 renderItem={renderItem}
                 loading={loading}
             />
+
+            {/* Modal de popup para o analito selecionado */}
+            <Modal
+                transparent={true}
+                visible={popupVisible}
+                onRequestClose={closePopup}
+                animationType="slide"
+            >
+                <View style={styles.fullscreenPopupContainer}>
+                    <AnalitosModel
+                        selectedAnalyte={selectedAnalyte || ""}
+                        onClose={closePopup} // Fechar apenas o popup
+                        onSelect={handleAnalyteSelect} // Selecionar e fechar ambos os modals
+                    />
+                </View>
+            </Modal>
         </View>
     );
 }
@@ -136,31 +162,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
         padding: 20,
     },
-    headerContainer: {
-        marginTop: 20,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 20,
-    },
-    title: {
-        fontSize: 26,
-        fontWeight: "bold",
-        color: colors.primary,
-    },
-    link: {
-        fontSize: 16,
-        color: colors.buttonBackground,
-    },
-    analitoName: {
-        fontSize: 22,
-        color: colors.primary,
-        marginBottom: 20,
-        textAlign: "center",
-    },
-    listContainer: {
-        paddingBottom: 40,
-    },
     card: {
         backgroundColor: colors.cardBackground,
         borderRadius: 10,
@@ -171,42 +172,9 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
         elevation: 4, // Shadow for Android
     },
-    selectedCard: {
-        borderColor: colors.buttonBackground,
-        borderWidth: 2,
-    },
-    checkboxAndTextContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    checkboxContainer: {
-        marginRight: 15,
-    },
-    checkbox: {
-        width: 22,
-        height: 22,
-        borderRadius: 5,
-        borderWidth: 2,
-        borderColor: colors.primary,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    checkboxFilled: {
-        width: 12,
-        height: 12,
-        backgroundColor: colors.primary,
-    },
-    textContainer: {
-        flex: 1,
-    },
     cardText: {
         fontSize: 18,
         fontWeight: "bold",
-        color: colors.primary,
-    },
-    cardDate: {
-        marginTop: 10,
-        fontSize: 16,
         color: colors.primary,
     },
     biometricInfo: {
@@ -214,20 +182,21 @@ const styles = StyleSheet.create({
         gap: RFValue(18, 808),
         paddingTop: "8%",
     },
-    verticalSeparator: {
-        width: RFValue(1.5, 808),
-        height: "80%",
-        alignSelf: "center",
-        backgroundColor: colors.primary, // Adicionar cor à separação
+    fullscreenPopupContainer: {
+        flex: 1, // Ocupa toda a altura
+        justifyContent: "center", // Centraliza verticalmente
+        alignItems: "center", // Centraliza horizontalmente
+        backgroundColor: "rgba(0, 0, 0, 0.5)", // Fundo semi-transparente para o modal
+        width: "100%", // Ocupa toda a largura
+        height: "100%", // Ocupa toda a altura
     },
-    cadastroContainer: {
-        alignItems: "center",
+    closeButton: {
+        backgroundColor: colors.buttonBackground,
         padding: 10,
+        borderRadius: 5,
     },
-    cadastroTitle: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: colors.primary,
-        marginBottom: 10,
+    closeButtonText: {
+        color: colors.buttonText,
+        fontSize: 16,
     },
 });

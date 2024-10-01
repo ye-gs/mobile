@@ -29,14 +29,18 @@ export default function Home() {
             <Separator />
             <HomeRoutingOptions />
             <View style={GeneralStyles().cadastroContainer1}>
-                <Text style={GeneralStyles().cadastroTitle1}>Cadastro de glicose</Text>
+                <Text style={GeneralStyles().cadastroTitle1}>
+                    Cadastro de glicose
+                </Text>
                 <AddButton
                     theme={theme}
                     onPress={() => router.navigate("/glucose")}
                 />
             </View>
             <View style={GeneralStyles().cadastroContainer1}>
-                <Text style={GeneralStyles().cadastroTitle1}>Cadastro de pressão</Text>
+                <Text style={GeneralStyles().cadastroTitle1}>
+                    Cadastro de pressão
+                </Text>
                 <AddButton
                     theme={theme}
                     onPress={() => router.navigate("/pressure")}
