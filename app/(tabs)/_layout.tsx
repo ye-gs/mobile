@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
-import {
-    FontAwesome,
-    Ionicons,
-    MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
 import Colors from "@/constants/Colors";
+import { GeneralStyles } from "@/constants/Styles";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { useUser } from "@/contexts/user";
 import { Button, Menu } from "react-native-paper";
@@ -21,7 +18,11 @@ function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];
     color: string;
 }) {
-    return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+    return <FontAwesome 
+                size={GeneralStyles().size25} /*{28}*/ 
+                style={GeneralStyles().tabBarIcon1} /*{{ marginBottom: -3 }}*/ 
+                {...props} 
+            />;
 }
 
 export default function TabLayout() {
@@ -46,7 +47,11 @@ export default function TabLayout() {
     const { theme, setTheme } = useTheme();
     const { user, setUser } = useUser();
     const styles = StyleSheet.create({
-        menu: {
+        menu: GeneralStyles().menu1 ,
+        menuContent: GeneralStyles().menuContent1 ,
+        menuItemTitle: GeneralStyles().menuItemTitle1
+
+        /*{
             backgroundColor: Colors[theme].background,
             borderColor: Colors[theme].borderColor,
             borderRadius: 10,
@@ -58,7 +63,7 @@ export default function TabLayout() {
         },
         menuItemTitle: {
             color: Colors[theme].text,
-        },
+        }, */
     });
 
     useEffect(() => {
@@ -108,8 +113,10 @@ export default function TabLayout() {
             <Menu
                 visible={visible}
                 onDismiss={closeMenu}
-                style={styles.menu}
-                contentStyle={styles.menuContent}
+                //style={styles.menu}
+                style = {GeneralStyles().menu1}
+                //contentStyle={styles.menuContent}
+                contentStyle={GeneralStyles().menuContent1}
                 anchor={
                     <Button
                         onPress={openMenu}
@@ -117,7 +124,7 @@ export default function TabLayout() {
                         icon={() => (
                             <FontAwesome
                                 color={Colors[theme].altTextColor}
-                                size={30}
+                                size={GeneralStyles().size30}
                                 name="bars"
                             />
                         )}
@@ -129,19 +136,20 @@ export default function TabLayout() {
                 <Menu.Item
                     leadingIcon={() => (
                         <Ionicons
-                            size={25}
+                            size={GeneralStyles().size25}
                             name={"exit-outline"}
                             color={Colors[theme].text}
                         ></Ionicons>
                     )}
                     onPress={handleSignOut}
                     title="Sair"
-                    titleStyle={styles.menuItemTitle}
+                    titleStyle = {GeneralStyles().menuItemTitle1}
+                    //titleStyle={styles.menuItemTitle}
                 />
                 <Menu.Item
                     leadingIcon={() => (
                         <FontAwesome
-                            size={25}
+                            size={GeneralStyles().size25}
                             name={
                                 colorSchemeMap[
                                     theme as keyof ColorSchemeMap
@@ -162,7 +170,7 @@ export default function TabLayout() {
                     <Menu.Item
                         leadingIcon={() => (
                             <MaterialCommunityIcons
-                                size={25}
+                                size={GeneralStyles().size25}
                                 name="test-tube"
                                 color={Colors[theme].text}
                             ></MaterialCommunityIcons>
@@ -171,7 +179,7 @@ export default function TabLayout() {
                             router.navigate("/test");
                         }}
                         title="Testes"
-                        titleStyle={styles.menuItemTitle}
+                        titleStyle={GeneralStyles().menuItemTitle1}
                     />
                 ) : null}
             </Menu>

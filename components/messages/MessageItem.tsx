@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import Colors from "@/constants/Colors";
+import { GeneralStyles } from "@/constants/Styles";
 
 const MessageItem = ({
     item,
@@ -43,7 +44,7 @@ const styles = (theme: string) =>
         },
         userMessage: {
             alignSelf: "flex-end",
-            backgroundColor: "#DCF8C6", // i love whatsapp,
+            backgroundColor: Colors[theme].primaryLighter //"#DCF8C6", // i love whatsapp,
         },
         botMessage: {
             alignSelf: "flex-start",

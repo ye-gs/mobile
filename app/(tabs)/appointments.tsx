@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet, FlexAlignType } from "react-native";
 import { ScrollView } from "@/components/Themed";
 import { AntDesign } from "@expo/vector-icons";
 import { GenericCard } from "@/components/GenericCard";
-import { RFValue } from "react-native-responsive-fontsize";
 import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
-import Colors from "@/constants/Colors";
+import Colors, {otherColors} from "@/constants/Colors";
+import { GeneralStyles } from "@/constants/Styles";
 import { useTheme } from "@/contexts/theme";
 import { routeAndTransformAppointments } from "@/utils/routeAndTransform";
 
@@ -47,9 +47,9 @@ const Appointments = () => {
     return (
         <ScrollView
             contentContainerStyle={{
-                flexGrow: 1,
-                paddingBottom: RFValue(100, 808),
-                alignItems: "center",
+                flexGrow: GeneralStyles().container1.flexGrow,
+                paddingBottom: GeneralStyles().container1.paddingBottom,
+                alignItems: GeneralStyles().container1.alignItems as FlexAlignType | undefined
             }}
         >
             {appointments.map((appointment) => (
@@ -70,10 +70,10 @@ const Appointments = () => {
                 />
             ))}
             <TouchableOpacity
-                style={[styles.addButton,styles.shadow]}
+                style={[GeneralStyles().addButton1,GeneralStyles().shadow1]}
                 onPress={() => router.push("/appointments/new")}
             >
-                <AntDesign name="plus" size={24} color="white" />
+                <AntDesign name="plus" size={GeneralStyles().size24} color={otherColors.white1} />
             </TouchableOpacity>
         </ScrollView>
     );

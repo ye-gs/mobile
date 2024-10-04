@@ -33,6 +33,7 @@ import {
 } from "@/cache";
 import { Menu, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { GeneralStyles } from "@/constants/Styles";
 
 export default function ChatScreen() {
     const { theme } = useTheme() as { theme: string };
@@ -220,7 +221,7 @@ export default function ChatScreen() {
                             <IconButton
                                 icon="menu"
                                 iconColor={Colors[theme].text}
-                                size={28}
+                                size={GeneralStyles().size28}
                                 onPress={() => setMenuVisible(true)}
                             />
                         }
@@ -237,7 +238,7 @@ export default function ChatScreen() {
 
     return (
         <KeyboardAvoidingView
-            style={styles(theme).container}
+            style={GeneralStyles().container2}
             behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
             <FlatList

@@ -2,7 +2,7 @@ import { auth, db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import React, { createContext, useState, useContext, useEffect } from "react";
 import Colors from "@/constants/Colors";
-
+import { useTheme as _useTheme } from "react-native-paper";
 
 export type Theme = keyof typeof Colors;
 type ThemeContextType = {

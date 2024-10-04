@@ -17,8 +17,8 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         primaryLighter: "#A3B18A",
         primaryDarker: "#344E41",
         danger: "#bd3a31",
-        black: "#000",
-        white: "#fff",
+        black: "#242424",
+        white: "#e0e0e0",
         themeColor: "#A3B18A",
     },
     dark: {
@@ -36,8 +36,8 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         primaryLighter: "#5563E2", // Kept as is
         primaryDarker: "#5563E2", // Changed from green to "#5563E2"
         danger: "#a85751", // Kept as is
-        black: "#000",
-        white: "#fff",
+        black: "#242424",
+        white: "#e0e0e0",
         themeColor: "#282828",
     },
     bluePill: {
@@ -52,9 +52,11 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         borderColor: "#E5E7EB", // Keep border color as is
         circleBackground: "#E6EEFF", // Keep circle background color as is
         altTextColor: "#0033FF", // Changed from green to a blue shade
-        primaryLighter: "#5563E2", // Assuming "#5563E2" is a blue shade
+        primaryLighter: "#DCF8C6", // Verde ZapZap NÂO MUDAR
         primaryDarker: "#002080", // Changed from dark green to a dark blue shade
         danger: "#bd3a31", // Keep danger color as is, or update if needed
+        black: "#242424",
+        white: "#e0e0e0",
         themeColor: "#5563E2", // Assuming "#5563E2" is a blue shade
     },
     drGray: {
@@ -72,8 +74,8 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         primaryLighter: "#5563E2", // Use "#5563E2"
         primaryDarker: "#344E41", // Keep as is, or update if needed
         danger: "#a85751", // Keep danger color as is, or update if needed
-        black: "#000",
-        white: "#fff",
+        black: "#242424",
+        white: "#e0e0e0",
         themeColor: "#404040", // Keep themeColor as is
     },
     rosaDesfibrilador: {
@@ -83,7 +85,7 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         background: "#FFE4E1", // Light pink background
         tint: "#FF69B4", // Hot pink
         tabIconDefault: "#ccc", // Default tab icon color
-        tabIconSelected: "#FF69B4", // Hot pink for selected tab icon
+        tabIconSelected: "#ff5eaf", // Hot pink for selected tab icon
         url: "#FF1493", // Deep pink for URLs
         borderColor: "#FFC0CB", // Light pink border color
         circleBackground: "#FFB6C1", // Light pink circle background
@@ -91,8 +93,8 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         primaryLighter: "#FFB6C1", // Light pink for primary lighter
         primaryDarker: "#FF1493", // Deep pink for primary darker
         danger: "#FF6347", // Tomato red for danger
-        black: "#000000", // Black
-        white: "#FFFFFF", // White
+        black: "#242424", // Black
+        white: "#e0e0e0", // White
         themeColor: "#FFE4E1", // Light pink for theme color
     },
     pediGree: {
@@ -110,48 +112,53 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         primaryLighter: "#EEFEEE", // Pale green for primary lighter
         primaryDarker: "#3AA450", // Dark green for primary darker
         danger: "#FF7C4C", // Orange red for danger
-        black: "#000000", // Black
-        white: "#32CD32", // White
+        black: "#242424", // Black
+        white: "#e0e0e0", // White
         themeColor: "#F0F8F0", // Cor do Botão de temas
     },
     darkPurple: {
-        text: "#FFFFFF", // Light gray text for contrast
+        text: "#bfbfbf", // Light gray text for contrast
         subtext: "#9B9B9B", // Medium gray subtext
-        subtextSoft: "#BEBEBE", // Light gray subtext
+        subtextSoft: "#d1d1d1", // Light gray subtext
         background: "#2E003E", // Dark purple background
-        tint: "#fff", // Dark violet
+        tint: "#4c0161", // Dark violet
         tabIconDefault: "#ccc", // Default tab icon color
-        tabIconSelected: "#D02BE2", // Dark violet for selected tab icon
+        tabIconSelected: "#ab23ba", // Dark violet for selected tab icon
         url: "#D02BE2", // Blue violet for URLs
-        borderColor: "#3D0C5D", // Dark purple border color
+        borderColor: "#4c1073", // Dark purple border color
         circleBackground: "#6A0D91", // Dark violet circle background
-        altTextColor: "#6A0D91", // Dark violet for alternative text
+        altTextColor: "#d0bce8", // Dark violet for alternative text
         primaryLighter: "#8A2BE2", // Blue violet for primary lighter
         primaryDarker: "#3D0C5D", // Dark purple for primary darker
         danger: "#B22222", // Firebrick red for danger
-        black: "#000000", // Black
-        white: "#FFFFFF", // White
+        black: "#242424", // Black
+        white: "#e0e0e0", // White
         themeColor: "#2E003E", // Dark purple for theme color
     },
     redPill: {
-        text: "#000000", // Light gray text for contrast
+        text: "#e0e0e0", // Light gray text for contrast
         subtext: "#9B9B9B", // Medium gray subtext
         subtextSoft: "#BEBEBE", // Light gray subtext
-        background: "#820101", // Dark purple background
-        tint: "#000000", // Dark violet
-        tabIconDefault: "#ccc", // Default tab icon color
+        background: "#cf2d2d", // Dark purple background
+        tint: "#6e0505", // Dark violet
+        tabIconDefault: "#630101", // Default tab icon color
         tabIconSelected: "#e22b65", // Dark violet for selected tab icon
         url: "#e22b65", // Blue violet for URLs
         borderColor: "#5d0c27", // Dark purple border color
         circleBackground: "#910d16", // Dark violet circle background
         altTextColor: "#910d16", // Dark violet for alternative text
-        primaryLighter: "#e22b2b", // Blue violet for primary lighter
+        primaryLighter: "#e65757", // Blue violet for primary lighter
         primaryDarker: "#5d0c15", // Dark purple for primary darker
         danger: "#B22222", // Firebrick red for danger
-        black: "#000000", // Black
-        white: "#FFFFFF", // White
-        themeColor: "#820101", // Dark purple for theme color
+        black: "#242424", // Black
+        white: "#e0e0e0", // White
+        themeColor: "#cf2d2d", // Dark purple for theme color
     }
 };
+export const otherColors = {
+    shadowColor1: "#000",
+    black1: 'black',
+    white1: 'white'
+}
 
 export default Colors;

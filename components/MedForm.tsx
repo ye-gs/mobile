@@ -192,7 +192,7 @@ const MedForm = (med: MedData) => {
         },
         text: {
             fontSize: RFValue(16, 808),
-            color: Colors[theme].text,
+            color: Colors[theme].tint,
         },
         radioButtonLabel: {
             fontSize: RFValue(14, 808),
