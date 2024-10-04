@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
-import { FontAwesome } from "@expo/vector-icons"; 
+import { FontAwesome } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import Colors from "@/constants/Colors";
 import { Text, View } from "@/components/Themed";
@@ -26,21 +26,12 @@ export const GenericAnalitosButton: React.FC<GenericAnalitosButtonProps> = ({
     iconName = "plus", // Default to "plus" if no icon is provided
 }) => (
     <View style={styles.container}>
-        <TouchableOpacity
-            style={[
-                styles.addButton,
-                {
-                    backgroundColor: Colors[theme].primary,
-                    borderColor: Colors[theme].border,
-                },
-            ]}
-            onPress={onPress}
-        >
+        <TouchableOpacity style={[styles.addButton]} onPress={onPress}>
             <View style={styles.iconContainer}>
                 <FontAwesome
                     name={analito && measure ? iconName : "plus"} // Use iconName or fallback to "plus"
                     size={RFValue(30, 808)}
-                    color={Colors[theme].text}
+                    color={"red"}
                 />
             </View>
 
@@ -59,7 +50,8 @@ export const GenericAnalitosButton: React.FC<GenericAnalitosButtonProps> = ({
                         numberOfLines={4}
                         ellipsizeMode="tail"
                     >
-                        {measure+ " "}{unidade}
+                        {measure + " "}
+                        {unidade}
                     </Text>
                 </View>
             ) : (
@@ -83,41 +75,48 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     addButton: {
-        width: RFValue(120, 808), // Maintain size to accommodate content
-        height: RFValue(140, 808),
-        borderRadius: RFValue(60, 808), // Maintain proportional border radius
+        width: RFValue(120, 808),
+        height: RFValue(160, 808),
+        borderRadius: RFValue(30, 808),
         justifyContent: "center",
         alignItems: "center",
-        borderWidth: 1,
+        borderWidth: RFValue(3, 808), // Espessura da borda
+        borderColor: "#388E3C", // Cor da borda do botão (verde)
         paddingVertical: RFValue(10, 808),
+
     },
     iconContainer: {
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: RFValue(10, 808), // Space between icon and text
+        backgroundColor: "#FFC107", // Cor do ícone (amarelo)
+        borderRadius: RFValue(20, 808), // Adiciona arredondamento ao ícone
+        padding: RFValue(10, 808),
     },
     textContainer: {
         alignItems: "center",
         marginTop: RFValue(6, 808),
-        width: "85%", // Ensure the text fits within the button width
+        width: "85%",
     },
     measureText: {
-        fontSize: RFValue(17, 808), // Larger font size for the text
+        fontSize: RFValue(17, 808),
         fontWeight: "bold",
         textAlign: "center",
-        maxWidth: "100%", // Limit width to avoid overflow
-        overflow: "hidden", // Ensure no overflow happens
+        maxWidth: "100%",
+        overflow: "hidden",
+        color: "#333333", // Cor do texto dentro do botão
     },
     analitoText: {
-        fontSize: RFValue(16, 808), // Slightly smaller than analito text
+        fontSize: RFValue(16, 808),
         textAlign: "center",
-        maxWidth: "100%", // Limit width to avoid overflow
-        overflow: "hidden", // Ensure no overflow happens
+        maxWidth: "100%",
+        overflow: "hidden",
+        color: "#333333", // Cor do texto analito
     },
     addAnalitoText: {
-        fontSize: RFValue(13, 808), // Font size for the 'add analito' message
+        fontSize: RFValue(13, 808),
         textAlign: "center",
         fontWeight: "bold",
+        color: "#333333", // Cor do texto para a mensagem 'add analito'
     },
     analitosInfo: {
         height: RFValue(10, 808),

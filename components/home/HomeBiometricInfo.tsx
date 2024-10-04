@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { useTheme } from "@/contexts/theme";
 import { RFValue } from "react-native-responsive-fontsize";
 import { getExamsFromCache } from "@/cache/index";
-import { auth, db as firestore } from "@/firebase/index"; 
+import { auth, db as firestore } from "@/firebase/index";
 import { BiometricModal } from "@/components/BiometricModal";
 import AnalitosModel from "@/components/home/AnalitosModel";
 import { GenericAnalitosButton } from "../GenericAnalitosButton";
 import { AnalitoInfo } from "../searchItem";
-import { doc, getDoc, setDoc } from "firebase/firestore"; 
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const removeAccents = (str: string) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -80,7 +80,7 @@ export function HomeBiometricInfo() {
                 const docRef = doc(
                     firestore,
                     `users/${userId}/favAnalitos/dados` // Mudança aqui
-                ); 
+                );
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const data = docSnap.data().analitos || [];
@@ -107,7 +107,7 @@ export function HomeBiometricInfo() {
                                       icon: "heart",
                                   },
                               ]
-                    ); 
+                    );
                 } else {
                     console.log("No such document!");
                 }
@@ -188,7 +188,7 @@ export function HomeBiometricInfo() {
                         const docRef = doc(
                             firestore,
                             `users/${userId}/favAnalitos/dados` // Mudança aqui
-                        ); 
+                        );
                         await setDoc(docRef, { analitos: updatedButtonData });
                     } catch (error) {
                         console.error("Erro ao salvar no Firestore:", error);
