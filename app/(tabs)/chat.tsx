@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
     FlatList,
+    FlexAlignType,
     KeyboardAvoidingView,
     Platform,
     StyleSheet,
@@ -256,7 +257,7 @@ export default function ChatScreen() {
                     )
                 }
                 keyExtractor={(item) => item.id}
-                contentContainerStyle={styles(theme).messageList}
+                contentContainerStyle={GeneralStyles().messageList1}
             />
             <MessageInput
                 inputMessage={inputMessage}
@@ -268,15 +269,15 @@ export default function ChatScreen() {
     );
 }
 
-const styles = (theme: string) =>
-    StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: Colors[theme].background,
-        },
-        messageList: {
-            flexGrow: 1,
-            justifyContent: "flex-end",
-            padding: RFValue(10),
-        },
-    });
+// const styles = (theme: string) =>
+//     StyleSheet.create({
+//         container: {
+//             flex: 1,
+//             backgroundColor: Colors[theme].background,
+//         },
+//         messageList: {
+//             flexGrow: 1,
+//             justifyContent: "flex-end",
+//             padding: RFValue(10),
+//         },
+//     });

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { AddButton } from "@/components/AddButton";
 import { useTheme } from "@/contexts/theme";
+import { GeneralStyles } from "@/constants/Styles";
 
 export default function Home() {
     const { user } = useUser();
@@ -23,19 +24,19 @@ export default function Home() {
         }
     }, [user]);
     return (
-        <View style={styles.container}>
+        <View style={GeneralStyles().container3}>
             <HomeBiometricInfo />
             <Separator />
             <HomeRoutingOptions />
-            <View style={styles.cadastroContainer}>
-                <Text style={styles.cadastroTitle}>Cadastro de glicose</Text>
+            <View style={GeneralStyles().cadastroContainer1}>
+                <Text style={GeneralStyles().cadastroTitle1}>Cadastro de glicose</Text>
                 <AddButton
                     theme={theme}
                     onPress={() => router.navigate("/glucose")}
                 />
             </View>
-            <View style={styles.cadastroContainer}>
-                <Text style={styles.cadastroTitle}>Cadastro de pressão</Text>
+            <View style={GeneralStyles().cadastroContainer1}>
+                <Text style={GeneralStyles().cadastroTitle1}>Cadastro de pressão</Text>
                 <AddButton
                     theme={theme}
                     onPress={() => router.navigate("/pressure")}
@@ -46,28 +47,28 @@ export default function Home() {
     );
 }
 
-const colors = {
-    primary: "#333",
-    secondary: "#fff",
-    background: "#f5f5f5",
-    cardBackground: "#fff",
-    cardBorder: "#ddd",
-    buttonBackground: "#007BFF",
-    buttonText: "#FFF",
-};
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-    },
-    cadastroContainer: {
-        alignItems: "center",
-        padding: 10,
-    },
-    cadastroTitle: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: colors.primary,
-        marginBottom: 10,
-    },
-});
+// const colors = {
+//     primary: "#333",
+//     secondary: "#fff",
+//     background: "#f5f5f5",
+//     cardBackground: "#fff",
+//     cardBorder: "#ddd",
+//     buttonBackground: "#007BFF",
+//     buttonText: "#FFF",
+// };
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         alignItems: "center",
+//     },
+//     cadastroContainer: {
+//         alignItems: "center",
+//         padding: 10,
+//     },
+//     cadastroTitle: {
+//         fontSize: 18,
+//         fontWeight: "bold",
+//         color: colors.primary,
+//         marginBottom: 10,
+//     },
+// });

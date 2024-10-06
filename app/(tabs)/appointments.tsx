@@ -16,41 +16,37 @@ const Appointments = () => {
     useEffect(() => {
         fetchAppointments();
     }, []);
-    const { theme } = useTheme();
+    // const { theme } = useTheme();
 
-    const styles = StyleSheet.create({
-        addButton: {
-            position: "absolute",
-            right: 30,
-            bottom: 30,
-            backgroundColor: Colors[theme].altTextColor,
-            borderRadius: 50,
-            width: 60,
-            height: 60,
-            justifyContent: "center",
-            alignItems: "center",
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 5,
-            tintColor: "black",
-        },
-        shadow: {
-            shadowColor: "#000", // Shadow color
-            shadowOffset: { width: 0, height: 2 }, // Shadow offset
-            shadowOpacity: 0.25, // Shadow opacity
-            shadowRadius: 3.84, // Shadow radius
-            elevation: 5, // Elevation for Android shadow
-        },
-    });
+    // const styles = StyleSheet.create({
+    //     addButton: {
+    //         position: "absolute",
+    //         right: 30,
+    //         bottom: 30,
+    //         backgroundColor: Colors[theme].altTextColor,
+    //         borderRadius: 50,
+    //         width: 60,
+    //         height: 60,
+    //         justifyContent: "center",
+    //         alignItems: "center",
+    //         shadowColor: "#000",
+    //         shadowOffset: { width: 0, height: 2 },
+    //         shadowOpacity: 0.25,
+    //         shadowRadius: 3.84,
+    //         elevation: 5,
+    //         tintColor: "black",
+    //     },
+    //     shadow: {
+    //         shadowColor: "#000", // Shadow color
+    //         shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    //         shadowOpacity: 0.25, // Shadow opacity
+    //         shadowRadius: 3.84, // Shadow radius
+    //         elevation: 5, // Elevation for Android shadow
+    //     },
+    // });
     return (
         <ScrollView
-            contentContainerStyle={{
-                flexGrow: GeneralStyles().container1.flexGrow,
-                paddingBottom: GeneralStyles().container1.paddingBottom,
-                alignItems: GeneralStyles().container1.alignItems as FlexAlignType | undefined
-            }}
+            contentContainerStyle={GeneralStyles().container1}
         >
             {appointments.map((appointment) => (
                 <GenericCard

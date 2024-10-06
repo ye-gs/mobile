@@ -158,7 +158,14 @@ const Colors: { [key: string]: { [key: string]: string } } = {
 export const otherColors = {
     shadowColor1: "#000",
     black1: 'black',
-    white1: 'white'
+    white1: 'white',
+    primary: "#333",
+    secondary: "#fff",
+    background: "#f5f5f5",
+    cardBackground: "#fff",
+    cardBorder: "#ddd",
+    buttonBackground: "#007BFF",
+    buttonText: "#FFF",
 }
 
 export default Colors;

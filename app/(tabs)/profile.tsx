@@ -9,40 +9,41 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
+import { GeneralStyles } from "@/constants/Styles";
 
 const Profile = () => {
     const { user } = useUser();
     const { theme } = useTheme();
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: Colors[theme].background,
-        },
-        options: {
-            top: "5%",
-            height: "60%",
-            justifyContent: "center",
-        },
-        circle: {
-            backgroundColor: Colors[theme].circleBackground,
-            padding: 5,
-            borderRadius: 15,
-            overflow: "hidden",
-        },
-        shadow: {
-            shadowColor: "#000", // Shadow color
-            shadowOffset: { width: 0, height: 2 }, // Shadow offset
-            shadowOpacity: 0.25, // Shadow opacity
-            shadowRadius: 3.84, // Shadow radius
-            elevation: 5, // Elevation for Android shadow
-        },
-    });
+    // const styles = StyleSheet.create({
+    //     container: {
+    //         flex: 1,
+    //         justifyContent: "center",
+    //         alignItems: "center",
+    //         backgroundColor: Colors[theme].background,
+    //     },
+    //     options: {
+    //         top: "5%",
+    //         height: "60%",
+    //         justifyContent: "center",
+    //     },
+    //     circle: {
+    //         backgroundColor: Colors[theme].circleBackground,
+    //         padding: 5,
+    //         borderRadius: 15,
+    //         overflow: "hidden",
+    //     },
+    //     shadow: {
+    //         shadowColor: "#000", // Shadow color
+    //         shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    //         shadowOpacity: 0.25, // Shadow opacity
+    //         shadowRadius: 3.84, // Shadow radius
+    //         elevation: 5, // Elevation for Android shadow
+    //     },
+    // });
     return (
-        <View style={styles.container}>
+        <View style={GeneralStyles().container4}>
             <ProfileCard user={user}></ProfileCard>
-            <View style={styles.options}>
+            <View style={GeneralStyles().options1}>
                 <OptionButton
                     onPress={() => {
                         router.navigate("userinfo");
@@ -51,9 +52,9 @@ const Profile = () => {
                     ImageComponent={() => (
                         <AntDesign
                             name="hearto"
-                            size={RFValue(30, 808)}
+                            size={GeneralStyles().size30}
                             color={Colors[theme].tint}
-                            style={styles.circle}
+                            style={GeneralStyles().circle1}
                         />
                     )}
                     borderBottomWidth={1}
@@ -66,9 +67,9 @@ const Profile = () => {
                     ImageComponent={() => (
                         <AntDesign
                             name="setting"
-                            size={RFValue(30, 808)}
+                            size={GeneralStyles().size30}
                             color={Colors[theme].tint}
-                            style={styles.circle}
+                            style={GeneralStyles().circle1}
                         />
                     )}
                     borderBottomWidth={1}
@@ -81,9 +82,9 @@ const Profile = () => {
                     ImageComponent={() => (
                         <Ionicons
                             name="chatbubble-ellipses-outline"
-                            size={RFValue(30, 808)}
+                            size={GeneralStyles().size30}
                             color={Colors[theme].tint}
-                            style={styles.circle}
+                            style={GeneralStyles().circle1}
                         />
                     )}
                 ></OptionButton>

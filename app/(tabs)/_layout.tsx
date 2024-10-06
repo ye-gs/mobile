@@ -29,19 +29,19 @@ export default function TabLayout() {
     type ColorSchemeMap = {
         light: "sun-o";
         dark: "moon-o";
-        blueLight: "snowflake-o";
-        gray: "cloud";
-        lightPink: "heart";
-        limeGreen: "leaf";
+        bluePill: "snowflake-o";
+        drGray: "cloud";
+        rosaDesfibrilador: "heart";
+        pediGree: "leaf";
         darkPurple: "star";
     };
     const colorSchemeMap: ColorSchemeMap = {
         light: "sun-o",
         dark: "moon-o",
-        blueLight: "snowflake-o",
-        gray: "cloud",
-        lightPink: "heart",
-        limeGreen: "leaf",
+        bluePill: "snowflake-o",
+        drGray: "cloud",
+        rosaDesfibrilador: "heart",
+        pediGree: "leaf",
         darkPurple: "star",
     };
     const { theme, setTheme } = useTheme();
