@@ -4,6 +4,7 @@ import { useTheme } from "@/contexts/theme";
 import { StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
 import { RFValue } from "react-native-responsive-fontsize";
+import { GeneralStyles } from "@/constants/Styles";
 
 export default function UserInfo() {
     const { theme } = useTheme();
@@ -49,15 +50,15 @@ export default function UserInfo() {
         },
     });
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={GeneralStyles().container2}>
             <StatusBar style="auto" />
             <ScrollView
-                contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
+                contentContainerStyle={GeneralStyles().container6}
             >
-                <View style={styles.main}>
-                    <Text style={styles.header}>YE Gestão de Saúde</Text>
-                    <View style={styles.mainContent}>
-                        <Text style={styles.mainText}>
+                <View style={GeneralStyles().main1}>
+                    <Text style={GeneralStyles().header1}>YE Gestão de Saúde</Text>
+                    <View style={GeneralStyles().mainContent1}>
+                        <Text style={GeneralStyles().mainText1}>
                             A YE Gestão de Saúde é uma empresa inovadora no
                             setor de tecnologia para a saúde, dedicada ao
                             desenvolvimento de soluções inteligentes que tornam
@@ -88,7 +89,7 @@ export default function UserInfo() {
                             equilibrada.
                         </Text>
 
-                        <Text style={styles.slogan}>
+                        <Text style={GeneralStyles().slogan1}>
                             Sua saúde em suas mãos!
                         </Text>
                     </View>

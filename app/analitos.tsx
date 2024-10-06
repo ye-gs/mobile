@@ -9,6 +9,7 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { GetItemInfo, AnalitoInfo } from "@/components/searchItem";
 import { HomeBiometricInfo } from "@/components/home/HomeBiometricInfo";
+import { GeneralStyles } from "@/constants/Styles";
 
 const Analitos = () => {
     const { analitoName } = useLocalSearchParams();
@@ -55,8 +56,8 @@ const Analitos = () => {
     }) => (
         <TouchableOpacity
             style={[
-                styles.card,
-                selectedIndex === index && styles.selectedCard,
+                GeneralStyles().card1,
+                selectedIndex === index && GeneralStyles().selectedCard1,
             ]}
             onPress={() => {
                 setSelectedIndex(index);
@@ -65,24 +66,24 @@ const Analitos = () => {
 
             }}
         >
-            <View style={styles.checkboxAndTextContainer}>
+            <View style={GeneralStyles().checkboxAndTextContainer1}>
                 <TouchableOpacity
-                    style={styles.checkboxContainer}
+                    style={GeneralStyles().checkboxContainer1}
                     onPress={() =>
                         setSelectedIndex(selectedIndex === index ? null : index)
                     }
                 />
-                <View style={styles.textContainer}>
-                    <Text style={styles.cardText}>
+                <View style={GeneralStyles().textContainer1}>
+                    <Text style={GeneralStyles().cardText1}>
                         {item.resultado} {item.unidade}
                     </Text>
-                    <Text style={styles.cardDate}>
+                    <Text style={GeneralStyles().cardDate1}>
                         {item.seconds?.toLocaleString()}
                     </Text>
                 </View>
-                <View style={styles.checkbox}>
+                <View style={GeneralStyles().checkbox1}>
                     {selectedIndex === index ? (
-                        <View style={styles.checkboxFilled} />
+                        <View style={GeneralStyles().checkboxFilled1} />
                     ) : null}
                 </View>
             </View>
@@ -90,17 +91,17 @@ const Analitos = () => {
     );
 
     return (
-        <View style={styles.container}>
-            <View style={styles.headerContainer}>
-                <Text style={styles.title}>Analito Selecionado</Text>
+        <View style={GeneralStyles().container7}>
+            <View style={GeneralStyles().headerContainer1}>
+                <Text style={GeneralStyles().title2}>Analito Selecionado</Text>
             </View>
             <TouchableOpacity onPress={() => router.push("/home")}>
-                <Text style={styles.link}>Voltar para Home</Text>
+                <Text style={GeneralStyles().link2}>Voltar para Home</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleUseLatest}>
-                <Text style={styles.link}>Usar mais recente</Text>
+                <Text style={GeneralStyles().link2}>Usar mais recente</Text>
             </TouchableOpacity>
-            <Text style={styles.analitoName}>{analitoNameStr}</Text>
+            <Text style={GeneralStyles().analitoName1}>{analitoNameStr}</Text>
 
             <FlatList
                 data={analitoInfo
@@ -119,106 +120,106 @@ const Analitos = () => {
                     })}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderAnalitoItem}
-                contentContainerStyle={styles.listContainer}
+                contentContainerStyle={GeneralStyles().listContainer1}
             />
         </View>
     );
 };
 
-const colors = {
-    primary: "#333",
-    secondary: "#fff",
-    background: "#f5f5f5",
-    cardBackground: "#fff",
-    cardBorder: "#ddd",
-    buttonBackground: "#007BFF",
-    buttonText: "#FFF",
-};
+// const colors = {
+//     primary: "#333",
+//     secondary: "#fff",
+//     background: "#f5f5f5",
+//     cardBackground: "#fff",
+//     cardBorder: "#ddd",
+//     buttonBackground: "#007BFF",
+//     buttonText: "#FFF",
+// };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.background,
-        padding: 20,
-    },
-    headerContainer: {
-        marginTop: 20,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 20,
-    },
-    title: {
-        fontSize: 26,
-        fontWeight: "bold",
-        color: colors.primary,
-    },
-    link: {
-        fontSize: 16,
-        color: colors.buttonBackground,
-    },
-    analitoName: {
-        fontSize: 22,
-        color: colors.primary,
-        marginBottom: 20,
-        textAlign: "center",
-    },
-    listContainer: {
-        paddingBottom: 40,
-        width: "98%",
-        alignSelf: "center",
-    },
-    card: {
-        backgroundColor: colors.cardBackground,
-        borderRadius: 10,
-        padding: 20,
-        marginVertical: 10,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 4, // Shadow for Android
-        width: "95%",
-        alignSelf: "center",
-    },
-    selectedCard: {
-        borderColor: colors.buttonBackground,
-        borderWidth: 2,
-    },
-    checkboxAndTextContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    checkboxContainer: {
-        marginRight: 15,
-    },
-    checkbox: {
-        width: 22,
-        height: 22,
-        borderRadius: 5,
-        borderWidth: 2,
-        borderColor: colors.primary,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    checkboxFilled: {
-        width: 12,
-        height: 12,
-        backgroundColor: colors.primary,
-    },
-    textContainer: {
-        flex: 1,
-    },
-    cardText: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: colors.primary,
-    },
-    cardDate: {
-        marginTop: 10,
-        fontSize: 16,
-        color: colors.primary,
-    },
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         backgroundColor: colors.background,
+//         padding: 20,
+//     },
+//     headerContainer: {
+//         marginTop: 20,
+//         flexDirection: "row",
+//         justifyContent: "space-between",
+//         alignItems: "center",
+//         marginBottom: 20,
+//     },
+//     title: {
+//         fontSize: 26,
+//         fontWeight: "bold",
+//         color: colors.primary,
+//     },
+//     link: {
+//         fontSize: 16,
+//         color: colors.buttonBackground,
+//     },
+//     analitoName: {
+//         fontSize: 22,
+//         color: colors.primary,
+//         marginBottom: 20,
+//         textAlign: "center",
+//     },
+//     listContainer: {
+//         paddingBottom: 40,
+//         width: "98%",
+//         alignSelf: "center",
+//     },
+//     card: {
+//         backgroundColor: colors.cardBackground,
+//         borderRadius: 10,
+//         padding: 20,
+//         marginVertical: 10,
+//         shadowColor: "#000",
+//         shadowOffset: { width: 0, height: 4 },
+//         shadowOpacity: 0.3,
+//         shadowRadius: 6,
+//         elevation: 4, // Shadow for Android
+//         width: "95%",
+//         alignSelf: "center",
+//     },
+//     selectedCard: {
+//         borderColor: colors.buttonBackground,
+//         borderWidth: 2,
+//     },
+//     checkboxAndTextContainer: {
+//         flexDirection: "row",
+//         alignItems: "center",
+//     },
+//     checkboxContainer: {
+//         marginRight: 15,
+//     },
+//     checkbox: {
+//         width: 22,
+//         height: 22,
+//         borderRadius: 5,
+//         borderWidth: 2,
+//         borderColor: colors.primary,
+//         justifyContent: "center",
+//         alignItems: "center",
+//     },
+//     checkboxFilled: {
+//         width: 12,
+//         height: 12,
+//         backgroundColor: colors.primary,
+//     },
+//     textContainer: {
+//         flex: 1,
+//     },
+//     cardText: {
+//         fontSize: 18,
+//         fontWeight: "bold",
+//         color: colors.primary,
+//     },
+//     cardDate: {
+//         marginTop: 10,
+//         fontSize: 16,
+//         color: colors.primary,
+//     },
+// });
 
 export default Analitos;

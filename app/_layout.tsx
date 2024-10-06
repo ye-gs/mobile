@@ -9,6 +9,7 @@ import { Provider } from "react-native-paper";
 import Colors from "@/constants/Colors";
 import { Try } from "expo-router/build/views/Try";
 import Constants from "expo-constants";
+import { GeneralStyles } from "@/constants/Styles";
 
 export {
     // Catch any errors thrown by the Layout component.
@@ -107,7 +108,7 @@ function RootLayoutNav() {
                     headerLeft: () => (
                         <Link href="/profile">
                             <FontAwesome
-                                size={38}
+                                size={GeneralStyles().size38}
                                 name="arrow-left"
                                 color={Colors[theme].text}
                             />
@@ -115,7 +116,7 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Suas Informações",
-                    headerTitleAlign: "center",
+                    headerTitleAlign: GeneralStyles().headerTitleAlign1,
                     headerStyle: {
                         backgroundColor: Colors[theme].background,
                     },
@@ -128,7 +129,7 @@ function RootLayoutNav() {
                     headerLeft: () => (
                         <Link href="/profile">
                             <FontAwesome
-                                size={38}
+                                size={GeneralStyles().size38}
                                 name="arrow-left"
                                 color={Colors[theme].text}
                             />
@@ -136,7 +137,7 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Configurações",
-                    headerTitleAlign: "center",
+                    headerTitleAlign: GeneralStyles().headerTitleAlign1,
                     headerStyle: {
                         backgroundColor: Colors[theme].background,
                     },
@@ -149,7 +150,7 @@ function RootLayoutNav() {
                     headerLeft: () => (
                         <Link href="/profile">
                             <FontAwesome
-                                size={38}
+                                size={GeneralStyles().size38}
                                 name="arrow-left"
                                 color={Colors[theme].text}
                             />
@@ -157,7 +158,7 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Sobre nós",
-                    headerTitleAlign: "center",
+                    headerTitleAlign: GeneralStyles().headerTitleAlign1,
                     headerStyle: {
                         backgroundColor: Colors[theme].background,
                     },
@@ -170,7 +171,7 @@ function RootLayoutNav() {
                     headerLeft: () => (
                         <Link href="/home">
                             <FontAwesome
-                                size={38}
+                                size={GeneralStyles().size38}
                                 name="arrow-left"
                                 color={Colors[theme].text}
                             />
@@ -178,7 +179,7 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Teste de Tela",
-                    headerTitleAlign: "center",
+                    headerTitleAlign: GeneralStyles().headerTitleAlign1,
                     headerStyle: {
                         backgroundColor: Colors[theme].background,
                     },
@@ -192,7 +193,7 @@ function RootLayoutNav() {
                     headerLeft: () => (
                         <Link href="/appointments">
                             <FontAwesome
-                                size={38}
+                                size={GeneralStyles().size38}
                                 name="arrow-left"
                                 color={Colors[theme].text}
                             />
@@ -200,7 +201,7 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Detalhes da Consulta",
-                    headerTitleAlign: "center",
+                    headerTitleAlign: GeneralStyles().headerTitleAlign1,
                     headerStyle: {
                         backgroundColor: Colors[theme].background,
                     },
@@ -213,7 +214,7 @@ function RootLayoutNav() {
                     headerLeft: () => (
                         <Link href="/meds">
                             <FontAwesome
-                                size={38}
+                                size={GeneralStyles().size38}
                                 name="arrow-left"
                                 color={Colors[theme].text}
                             />
@@ -221,7 +222,7 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Detalhes da Medicação",
-                    headerTitleAlign: "center",
+                    headerTitleAlign: GeneralStyles().headerTitleAlign1,
                     headerStyle: {
                         backgroundColor: Colors[theme].background,
                     },
@@ -234,7 +235,7 @@ function RootLayoutNav() {
                     headerLeft: () => (
                         <Link href="/exams">
                             <FontAwesome
-                                size={38}
+                                size={GeneralStyles().size38}
                                 name="arrow-left"
                                 color={Colors[theme].text}
                             />
@@ -242,7 +243,7 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Detalhes do Laudo Evolutivo",
-                    headerTitleAlign: "center",
+                    headerTitleAlign: GeneralStyles().headerTitleAlign1,
                     headerStyle: {
                         backgroundColor: Colors[theme].background,
                     },
@@ -255,7 +256,7 @@ function RootLayoutNav() {
                     headerLeft: () => (
                         <Link href="/home">
                             <FontAwesome
-                                size={38}
+                                size={GeneralStyles().size38}
                                 name="arrow-left"
                                 color={Colors[theme].text}
                             />
@@ -263,7 +264,7 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Medidas de Glicose",
-                    headerTitleAlign: "center",
+                    headerTitleAlign: GeneralStyles().headerTitleAlign1,
                     headerStyle: {
                         backgroundColor: Colors[theme].background,
                     },
@@ -276,7 +277,7 @@ function RootLayoutNav() {
                     headerLeft: () => (
                         <Link href="/home">
                             <FontAwesome
-                                size={38}
+                                size={GeneralStyles().size38}
                                 name="arrow-left"
                                 color={Colors[theme].text}
                             />
@@ -284,7 +285,7 @@ function RootLayoutNav() {
                     ),
                     headerShown: true,
                     headerTitle: "Medidas de Pressão",
-                    headerTitleAlign: "center",
+                    headerTitleAlign: GeneralStyles().headerTitleAlign1,
                     headerStyle: {
                         backgroundColor: Colors[theme].background,
                     },

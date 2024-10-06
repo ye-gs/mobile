@@ -57,7 +57,7 @@ const Profile = () => {
                             style={GeneralStyles().circle1}
                         />
                     )}
-                    borderBottomWidth={1}
+                    borderBottomWidth={GeneralStyles().borderBottomWidth1.borderBottomWidth}
                 ></OptionButton>
                 <OptionButton
                     text="Configurações"
@@ -72,7 +72,7 @@ const Profile = () => {
                             style={GeneralStyles().circle1}
                         />
                     )}
-                    borderBottomWidth={1}
+                    borderBottomWidth={GeneralStyles().borderBottomWidth1.borderBottomWidth}
                 ></OptionButton>
                 <OptionButton
                     text="Sobre Nós"
