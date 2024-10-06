@@ -17,7 +17,7 @@ const Meds = () => {
     useEffect(() => {
         fetchMeds();
     }, []);
-    const { theme } = useTheme();
+    // const { theme } = useTheme();
 
     // const styles = StyleSheet.create({
     //     addButton: {

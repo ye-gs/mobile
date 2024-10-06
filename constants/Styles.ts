@@ -29,6 +29,9 @@ export function GeneralStyles() {
         marginBottom: 20,
         textAlign: "center" as "center",
     }
+    const backgroundColor1 = {
+        backgroundColor: Colors[theme].background,
+    }
     const borderBottomWidth1 = {
         borderBottomWidth: 1,
     }
@@ -125,11 +128,6 @@ export function GeneralStyles() {
         flex: 1,
         backgroundColor: otherColors.background,
         padding: 20,
-    }
-    const container8 = {
-        flex: 1,
-        alignItems: "center" as FlexAlignType,
-        justifyContent: "center" as "center",
     }
     const header1 = {
         width: "100%" as DimensionValue,
@@ -237,6 +235,9 @@ export function GeneralStyles() {
     const tabBarIcon1 = {
         marginBottom: -3
     }
+    const textColor1 = {
+        color: Colors[theme].text
+    }
     const textContainer1 = {
         flex: 1,
     }
@@ -257,6 +258,7 @@ export function GeneralStyles() {
     return {
         addButton1: addButton1,
         analitoName1: analitoName1,
+        backgroundColor1: backgroundColor1,
         borderBottomWidth1: borderBottomWidth1,
         cadastroContainer1: cadastroContainer1,
         cadastroTitle1: cadastroTitle1,
@@ -275,7 +277,6 @@ export function GeneralStyles() {
         container5: container5,
         container6: container6,
         container7: container7,
-        container8: container8,
         header1: header1,
         headerContainer1: headerContainer1,
         headerTitleAlign1: "center" as "center",
@@ -301,6 +302,7 @@ export function GeneralStyles() {
         size38: RFValue(38, 800),
         slogan1: slogan1,
         tabBarIcon1: tabBarIcon1,
+        textColor1: textColor1,
         textContainer1: textContainer1,
         title1: title1,
         title2: title2,

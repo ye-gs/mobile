@@ -117,10 +117,8 @@ function RootLayoutNav() {
                     headerShown: true,
                     headerTitle: "Suas Informações",
                     headerTitleAlign: GeneralStyles().headerTitleAlign1,
-                    headerStyle: {
-                        backgroundColor: Colors[theme].background,
-                    },
-                    headerTitleStyle: { color: Colors[theme].text },
+                    headerStyle: GeneralStyles().backgroundColor1,
+                    headerTitleStyle: GeneralStyles().textColor1,
                 }}
             />
             <Stack.Screen
@@ -138,10 +136,8 @@ function RootLayoutNav() {
                     headerShown: true,
                     headerTitle: "Configurações",
                     headerTitleAlign: GeneralStyles().headerTitleAlign1,
-                    headerStyle: {
-                        backgroundColor: Colors[theme].background,
-                    },
-                    headerTitleStyle: { color: Colors[theme].text },
+                    headerStyle: GeneralStyles().backgroundColor1,
+                    headerTitleStyle: GeneralStyles().textColor1,
                 }}
             />
             <Stack.Screen
@@ -159,10 +155,8 @@ function RootLayoutNav() {
                     headerShown: true,
                     headerTitle: "Sobre nós",
                     headerTitleAlign: GeneralStyles().headerTitleAlign1,
-                    headerStyle: {
-                        backgroundColor: Colors[theme].background,
-                    },
-                    headerTitleStyle: { color: Colors[theme].text },
+                    headerStyle: GeneralStyles().backgroundColor1,
+                    headerTitleStyle: GeneralStyles().textColor1,
                 }}
             />
             <Stack.Screen
@@ -180,10 +174,8 @@ function RootLayoutNav() {
                     headerShown: true,
                     headerTitle: "Teste de Tela",
                     headerTitleAlign: GeneralStyles().headerTitleAlign1,
-                    headerStyle: {
-                        backgroundColor: Colors[theme].background,
-                    },
-                    headerTitleStyle: { color: Colors[theme].text },
+                    headerStyle: GeneralStyles().backgroundColor1,
+                    headerTitleStyle: GeneralStyles().textColor1,
                 }}
             />
             <Stack.Screen name="(tabs)" />
@@ -202,10 +194,8 @@ function RootLayoutNav() {
                     headerShown: true,
                     headerTitle: "Detalhes da Consulta",
                     headerTitleAlign: GeneralStyles().headerTitleAlign1,
-                    headerStyle: {
-                        backgroundColor: Colors[theme].background,
-                    },
-                    headerTitleStyle: { color: Colors[theme].text },
+                    headerStyle: GeneralStyles().backgroundColor1,
+                    headerTitleStyle: GeneralStyles().textColor1,
                 }}
             />
             <Stack.Screen
@@ -223,10 +213,8 @@ function RootLayoutNav() {
                     headerShown: true,
                     headerTitle: "Detalhes da Medicação",
                     headerTitleAlign: GeneralStyles().headerTitleAlign1,
-                    headerStyle: {
-                        backgroundColor: Colors[theme].background,
-                    },
-                    headerTitleStyle: { color: Colors[theme].text },
+                    headerStyle: GeneralStyles().backgroundColor1,
+                    headerTitleStyle: GeneralStyles().textColor1,
                 }}
             />
             <Stack.Screen
@@ -244,10 +232,8 @@ function RootLayoutNav() {
                     headerShown: true,
                     headerTitle: "Detalhes do Laudo Evolutivo",
                     headerTitleAlign: GeneralStyles().headerTitleAlign1,
-                    headerStyle: {
-                        backgroundColor: Colors[theme].background,
-                    },
-                    headerTitleStyle: { color: Colors[theme].text },
+                    headerStyle: GeneralStyles().backgroundColor1,
+                    headerTitleStyle: GeneralStyles().textColor1,
                 }}
             />
             <Stack.Screen
@@ -265,10 +251,8 @@ function RootLayoutNav() {
                     headerShown: true,
                     headerTitle: "Medidas de Glicose",
                     headerTitleAlign: GeneralStyles().headerTitleAlign1,
-                    headerStyle: {
-                        backgroundColor: Colors[theme].background,
-                    },
-                    headerTitleStyle: { color: Colors[theme].text },
+                    headerStyle: GeneralStyles().backgroundColor1,
+                    headerTitleStyle: GeneralStyles().textColor1,
                 }}
             />
             <Stack.Screen
@@ -286,10 +270,8 @@ function RootLayoutNav() {
                     headerShown: true,
                     headerTitle: "Medidas de Pressão",
                     headerTitleAlign: GeneralStyles().headerTitleAlign1,
-                    headerStyle: {
-                        backgroundColor: Colors[theme].background,
-                    },
-                    headerTitleStyle: { color: Colors[theme].text },
+                    headerStyle: GeneralStyles().backgroundColor1,
+                    headerTitleStyle: GeneralStyles().textColor1,
                 }}
             />
         </Stack>

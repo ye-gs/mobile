@@ -7,48 +7,48 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { GeneralStyles } from "@/constants/Styles";
 
 export default function UserInfo() {
-    const { theme } = useTheme();
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: Colors[theme].background, // Adicionando cor de fundo para melhor visualização
-        },
-        main: {
-            width: "90%",
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: "10%",
-        },
-        header: {
-            width: "100%",
-            fontSize: RFValue(30, 808),
-            fontWeight: "bold",
-            color: Colors[theme].altTextColor,
-            textAlign: "center",
-        },
-        mainContent: {
-            width: "100%",
-            backgroundColor: Colors[theme].primaryLighter,
-            color: Colors[theme].primaryDarker,
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 15,
-            paddingVertical: "5%", // Adicionando padding vertical para melhor espaçamento
-            paddingHorizontal: "4%",
-            marginTop: "2%", // Ajustando o margin-top para espaçamento entre o header e o conteúdo
-        },
-        mainText: {
-            fontSize: RFValue(14, 808),
-            fontWeight: "bold",
-            textAlign: "justify",
-        },
-        slogan: {
-            fontSize: RFValue(25, 808),
-            fontWeight: "bold",
-            textAlign: "center",
-            marginTop: "5%", // Ajustando margin-top para espaçamento entre o texto principal e o slogan
-        },
-    });
+    // const { theme } = useTheme();
+    // const styles = StyleSheet.create({
+    //     container: {
+    //         flex: 1,
+    //         backgroundColor: Colors[theme].background, // Adicionando cor de fundo para melhor visualização
+    //     },
+    //     main: {
+    //         width: "90%",
+    //         alignItems: "center",
+    //         justifyContent: "center",
+    //         marginTop: "10%",
+    //     },
+    //     header: {
+    //         width: "100%",
+    //         fontSize: RFValue(30, 808),
+    //         fontWeight: "bold",
+    //         color: Colors[theme].altTextColor,
+    //         textAlign: "center",
+    //     },
+    //     mainContent: {
+    //         width: "100%",
+    //         backgroundColor: Colors[theme].primaryLighter,
+    //         color: Colors[theme].primaryDarker,
+    //         alignItems: "center",
+    //         justifyContent: "center",
+    //         borderRadius: 15,
+    //         paddingVertical: "5%", // Adicionando padding vertical para melhor espaçamento
+    //         paddingHorizontal: "4%",
+    //         marginTop: "2%", // Ajustando o margin-top para espaçamento entre o header e o conteúdo
+    //     },
+    //     mainText: {
+    //         fontSize: RFValue(14, 808),
+    //         fontWeight: "bold",
+    //         textAlign: "justify",
+    //     },
+    //     slogan: {
+    //         fontSize: RFValue(25, 808),
+    //         fontWeight: "bold",
+    //         textAlign: "center",
+    //         marginTop: "5%", // Ajustando margin-top para espaçamento entre o texto principal e o slogan
+    //     },
+    // });
     return (
         <ScrollView style={GeneralStyles().container2}>
             <StatusBar style="auto" />

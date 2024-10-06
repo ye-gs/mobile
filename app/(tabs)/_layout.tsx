@@ -46,25 +46,25 @@ export default function TabLayout() {
     };
     const { theme, setTheme } = useTheme();
     const { user, setUser } = useUser();
-    const styles = StyleSheet.create({
-        menu: GeneralStyles().menu1 ,
-        menuContent: GeneralStyles().menuContent1 ,
-        menuItemTitle: GeneralStyles().menuItemTitle1
+    // const styles = StyleSheet.create({
+    //     menu: GeneralStyles().menu1 ,
+    //     menuContent: GeneralStyles().menuContent1 ,
+    //     menuItemTitle: GeneralStyles().menuItemTitle1
 
-        /*{
-            backgroundColor: Colors[theme].background,
-            borderColor: Colors[theme].borderColor,
-            borderRadius: 10,
-        },
-        menuContent: {
-            backgroundColor: Colors[theme].background,
-            borderWidth: 1,
-            borderColor: Colors[theme].borderColor,
-        },
-        menuItemTitle: {
-            color: Colors[theme].text,
-        }, */
-    });
+    //     /*{
+    //         backgroundColor: Colors[theme].background,
+    //         borderColor: Colors[theme].borderColor,
+    //         borderRadius: 10,
+    //     },
+    //     menuContent: {
+    //         backgroundColor: Colors[theme].background,
+    //         borderWidth: 1,
+    //         borderColor: Colors[theme].borderColor,
+    //     },
+    //     menuItemTitle: {
+    //         color: Colors[theme].text,
+    //     }, */
+    // });
 
     useEffect(() => {
         const fetchUserTheme = async () => {
@@ -164,7 +164,7 @@ export default function TabLayout() {
                         switchTheme(); // Pick a random theme
                     }}
                     title="Tema Aleatorio"
-                    titleStyle={styles.menuItemTitle}
+                    titleStyle={GeneralStyles().menuItemTitle1}
                 />
                 {isAdmin ? (
                     <Menu.Item
@@ -190,15 +190,10 @@ export default function TabLayout() {
         <Tabs
             screenOptions={{
                 tabBarActiveTintColor: Colors[theme].tint,
-                tabBarStyle: {
-                    backgroundColor: Colors[theme].background,
-                },
-                headerStyle: {
-                    backgroundColor: Colors[theme].background,
-                },
-                headerTitleStyle: {
-                    color: Colors[theme].text,
-                },
+                tabBarStyle: GeneralStyles().backgroundColor1,
+                    //backgroundColor: Colors[theme].background,
+                headerStyle: GeneralStyles().backgroundColor1,
+                headerTitleStyle: GeneralStyles().textColor1,
                 headerRight: () => <MenuButton />,
                 headerShown: useClientOnlyValue(false, true),
             }}

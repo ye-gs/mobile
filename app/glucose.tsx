@@ -10,8 +10,8 @@ const GlucosePage = () => {
     return (
         <View
             style={[
-                GeneralStyles().container8,
-                { backgroundColor: Colors[theme].background },
+                GeneralStyles().container4,
+                //{ backgroundColor: Colors[theme].background },
             ]}
         >
             <GlucoseMeasures />
