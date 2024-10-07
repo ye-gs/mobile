@@ -42,7 +42,7 @@ export function GeneralStyles() {
     const cadastroTitle1 = {
         fontSize: 18,
         fontWeight: "bold" as "bold",
-        color: otherColors.primary,
+        color: Colors[theme].text,
         marginBottom: 10,
     }
     const card1 = {

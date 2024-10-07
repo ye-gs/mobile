@@ -114,7 +114,7 @@ export default function UserInfo() {
             ></ProfileCard>
             <View style={styles.options}>
                 <TextInput
-                    label="Nome"
+                    label={<Text style={{color: Colors[theme].altTextColor}}>Nome</Text>}
                     defaultValue={userName}
                     onChangeText={(text) => setUserName(text)}
                     style={styles.input}
@@ -126,7 +126,7 @@ export default function UserInfo() {
                 ></TextInput>
 
                 <TextInput
-                    label="Email"
+                    label={<Text style={{color: Colors[theme].altTextColor}}>Email</Text>}
                     defaultValue={user?.email!}
                     style={styles.input}
                     textColor={Colors[theme].text}
@@ -155,9 +155,9 @@ export default function UserInfo() {
                     display="default"
                     onCancel={hideDatePicker}
                 />
-                <TextInput
-                    label="Altura"
-                    defaultValue={altura}
+                <TextInput 
+                    label={<Text style={{color: Colors[theme].altTextColor}}>Altura</Text>}
+                    defaultValue={altura ? undefined : "0"}
                     onChangeText={(text) => setAltura(text)}
                     style={styles.input}
                     inputMode="numeric"
@@ -168,8 +168,8 @@ export default function UserInfo() {
                     activeUnderlineColor={Colors[theme].altTextColor}
                 ></TextInput>
                 <TextInput
-                    label="Peso"
-                    defaultValue={peso}
+                    label={<Text style={{color: Colors[theme].altTextColor}}>Peso</Text>}
+                    defaultValue={peso ? undefined : "0"}
                     inputMode="numeric"
                     onChangeText={(text) => setPeso(text)}
                     style={styles.input}

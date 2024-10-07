@@ -101,10 +101,11 @@ const GlucoseMeasures = () => {
                 { backgroundColor: Colors[theme].background },
             ]}
         >
-            <Text style={styles.title}>Glucose Measures</Text>
+            <Text style={[styles.title, {color: Colors[theme].tint}]}>Glucose Measures</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Insira a medida de glicose"
+                placeholderTextColor={Colors[theme].text}
                 value={newMeasure}
                 onChangeText={setNewMeasure}
                 keyboardType="numeric"

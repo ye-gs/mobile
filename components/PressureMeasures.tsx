@@ -109,10 +109,11 @@ const PressureMeasures = () => {
                 { backgroundColor: Colors[theme].background },
             ]}
         >
-            <Text style={styles.title}>Pressure Measures</Text>
+            <Text style={[styles.title, {color: Colors[theme].tint}]}>Measures</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Digite o valor sistólico"
+                placeholderTextColor={Colors[theme].text}
                 value={newSystolic}
                 onChangeText={setNewSystolic}
                 keyboardType="numeric"
@@ -120,6 +121,7 @@ const PressureMeasures = () => {
             <TextInput
                 style={styles.input}
                 placeholder="Digite o valor diastólico"
+                placeholderTextColor={Colors[theme].text}
                 value={newDiastolic}
                 onChangeText={setNewDiastolic}
                 keyboardType="numeric"

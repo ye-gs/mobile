@@ -4,7 +4,7 @@ import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
 import { Button, TextInput, Portal, Dialog } from "react-native-paper";
 import { StyleSheet } from "react-native";
-import Colors from "@/constants/Colors";
+import Colors, { otherColors } from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import { RFValue } from "react-native-responsive-fontsize";
 import { AppointmentData } from "@/types/appointment";
@@ -184,9 +184,11 @@ const AppointmentForm = (appointment: AppointmentData) => {
         },
         cancelButton: {
             color: Colors[theme].danger,
+            fontSize: RFValue(14, 808),
         },
         confirmButton: {
             color: "green",
+            fontSize: RFValue(14, 808),
         },
         datepickerButton: {
             borderWidth: 2,
@@ -209,6 +211,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                 <TextInput
                     label={<Text style={styles.text}>Nome do Doutor</Text>}
                     placeholder="Nome do Doutor"
+                    placeholderTextColor={Colors[theme].tint}
                     onChangeText={setDoctor}
                     defaultValue={appointment.doctor}
                     contentStyle={[
@@ -227,18 +230,19 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     label={
                         <Text style={styles.text}>Descrição da Consulta</Text>
                     }
-                    placeholder="Descrição da Consulta"
+                    placeholder="Consulta"
+                    placeholderTextColor={Colors[theme].tint}
                     onChangeText={setDescription}
                     defaultValue={appointment.description}
                     contentStyle={[
                         styles.input,
-                        { backgroundColor: Colors[theme].circleBackground },
+                        { backgroundColor: Colors[theme].circleBackground, },
                     ]}
                     style={{ backgroundColor: "transparent" }}
                     textColor={Colors[theme].text}
                     underlineColor="transparent"
                     activeUnderlineColor={Colors[theme].tint}
-                    selectionColor={Colors[theme].text}
+                    selectionColor={Colors[theme].altTextColor}
                     activeOutlineColor={Colors[theme].tint}
                     underlineStyle={styles.underLine}
                 />
@@ -274,11 +278,11 @@ const AppointmentForm = (appointment: AppointmentData) => {
                         Data da consulta{" "}
                         {datetime
                             ? datetime.toLocaleTimeString("pt-BR", {
-                                    month: "2-digit",
-                                    day: "2-digit", 
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                              })
+                                month: "2-digit",
+                                day: "2-digit", 
+                                hour: "2-digit",
+                                minute: "2-digit",
+                            })
                             : "Nenhuma data selecionada"}
                     </Text>
                 </Button>

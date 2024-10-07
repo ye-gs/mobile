@@ -26,7 +26,7 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         subtext: "#7A7979",
         subtextSoft: "#8E98A1",
         background: "#282828",
-        tint: "#5563E2", // Kept as is
+        tint: "#4551ba", // Kept as is
         tabIconDefault: "#ccc",
         tabIconSelected: "#5563E2", // Kept as is
         url: "#407CE2",
