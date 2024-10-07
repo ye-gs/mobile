@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
     View,
     Text,
     StyleSheet,
     FlatList,
     TouchableOpacity,
+    TextInput,
+    KeyboardAvoidingView,
+    Platform,
 } from "react-native";
 import { GetItemInfo, AnalitoInfo } from "@/components/searchItem";
 import { RFValue } from "react-native-responsive-fontsize";
+import debounce from "lodash.debounce";
 
 interface AnalitosProps {
     selectedAnalyte: string;
-    onClose: () => void; // Nova prop para controlar o fechamento
-    onSelect: () => void; // Nova prop para controlar a seleção
+    onClose: () => void;
+    onSelect: (analitoInfo: AnalitoInfo) => void;
 }
 
 const AnalitosModel: React.FC<AnalitosProps> = ({
@@ -22,15 +26,56 @@ const AnalitosModel: React.FC<AnalitosProps> = ({
 }) => {
     const [analitoInfo, setAnalitoInfo] = useState<AnalitoInfo[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const [debouncedText, setDebouncedText] = useState<string>("");
 
+    const filters = {
+        analito: true,
+        resultado: true,
+        unidade: true,
+        valorReferencia: true,
+        seconds: true,
+    };
+
+    const [customMeasure, setCustomMeasure] = useState<AnalitoInfo>({
+        analyteIndex: 0,
+        examIndex: 0,
+        seconds: undefined,
+        resultado: "",
+        unidade: "",
+        analitos: selectedAnalyte,
+    });
+
+    // Carregar dados do analito
     useEffect(() => {
         const fetchData = async () => {
-            const data = await GetItemInfo(selectedAnalyte);
+            const data = await GetItemInfo(selectedAnalyte, filters);
             setAnalitoInfo(data);
         };
-
         fetchData();
     }, [selectedAnalyte]);
+
+    // Definir a unidade inicial do analito ao carregar dados
+    useEffect(() => {
+        if (analitoInfo.length > 0) {
+            setCustomMeasure((prev) => ({
+                ...prev,
+                unidade: analitoInfo[0].unidade,
+            }));
+        }
+    }, [analitoInfo]);
+
+    const debouncedCustomMeasureChange = useCallback(
+        debounce((value: string) => {
+            setDebouncedText(value);
+        }, 500),
+        []
+    );
+
+    useEffect(() => {
+        return () => {
+            debouncedCustomMeasureChange.cancel();
+        };
+    }, [debouncedCustomMeasureChange]);
 
     const handleUseLatest = () => {
         if (analitoInfo.length > 0) {
@@ -41,32 +86,39 @@ const AnalitosModel: React.FC<AnalitosProps> = ({
                 return 0;
             });
             setSelectedIndex(0);
-            console.log(
-                `Usando o item mais recente: ${sortedAnalitoInfo[0].resultado}`
-            );
-            onSelect(); // Fechar o modelo
+            onSelect(sortedAnalitoInfo[0]);
         }
     };
 
-    const renderAnalitoItem = ({
-        item,
-        index,
-    }: {
-        item: AnalitoInfo;
-        index: number;
-    }) => (
-        <TouchableOpacity
-            style={[
-                styles.card,
-                selectedIndex === index && styles.selectedCard,
-            ]}
-            onPress={() => {
-                setSelectedIndex(index);
-                console.log(item.resultado);
-                onSelect(); // Fechar o modelo
-            }}
-        >
-            <View style={styles.checkboxAndTextContainer}>
+    const handleCustomMeasureSubmit = () => {
+        if (customMeasure?.resultado?.trim()) {
+            // Call onSelect with the custom measure
+            onSelect(customMeasure);
+            // Optionally, reset the custom measure input
+            setCustomMeasure((prev) => ({ ...prev, resultado: "" }));
+        }
+    };
+
+    const filteredAnalitoInfo = analitoInfo.filter(
+        (item) => item.resultado !== null && item.resultado !== undefined
+    );
+
+    const renderAnalitoItem = useCallback(
+        ({ item, index }: { item: AnalitoInfo; index: number }) => (
+            <TouchableOpacity
+                style={[
+                    styles.card,
+                    selectedIndex === index && styles.selectedCard,
+                ]}
+                onPress={() => {
+                    setSelectedIndex(index);
+                    setCustomMeasure((prev) => ({
+                        ...prev,
+                        unidade: item.unidade,
+                    }));
+                    onSelect(item);
+                }}
+            >
                 <View style={styles.textContainer}>
                     <Text style={styles.cardText}>
                         {item.resultado} {item.unidade}
@@ -75,40 +127,63 @@ const AnalitosModel: React.FC<AnalitosProps> = ({
                         {item.seconds?.toLocaleString()}
                     </Text>
                 </View>
+            </TouchableOpacity>
+        ),
+        [selectedIndex]
+    );
+
+    const ListHeader = (
+        <TouchableOpacity
+            onPress={handleCustomMeasureSubmit}
+            style={styles.card} // Adding the same styles for consistency
+        >
+            <View style={styles.customTextContainer}>
+                <TextInput
+                    style={styles.inputCardText}
+                    placeholder="Medida personalizada"
+                    value={customMeasure.resultado}
+                    onChangeText={(text) => {
+                        setCustomMeasure((prev) => ({
+                            ...prev,
+                            resultado: text,
+                        }));
+                        debouncedCustomMeasureChange(text);
+                    }}
+                    inputMode="numeric"
+                />
+                <Text style={styles.unidade}>{customMeasure.unidade}</Text>
             </View>
         </TouchableOpacity>
     );
 
     return (
-        <View style={[styles.container, styles.widthContainer]}>
-            <View style={styles.container}>
-                <View style={styles.headerContainer}>
-                    <Text style={styles.title}>Analito Selecionado</Text>
-                </View>
-                <View style={styles.header}>
-                    <Text style={styles.analitoName}>{selectedAnalyte}</Text>
-                    <TouchableOpacity onPress={handleUseLatest}>
-                        <Text style={styles.link}>Usar mais recente</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <FlatList
-                    data={analitoInfo.filter(
-                        (item) =>
-                            item.resultado !== null &&
-                            item.resultado !== undefined
-                    )}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={renderAnalitoItem}
-                    contentContainerStyle={styles.listContainer}
-                    style={styles.flatList}
-                />
-
-                <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                    <Text style={styles.closeButtonText}>Fechar</Text>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            style={styles.container}
+        >
+            <View style={styles.headerContainer}>
+                <Text style={styles.title}>Analito Selecionado</Text>
+                <Text style={styles.analitoName}>{selectedAnalyte}</Text>
+                <TouchableOpacity onPress={handleUseLatest}>
+                    <Text style={styles.link}>Usar mais recente</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+
+            <FlatList
+                data={filteredAnalitoInfo}
+                scrollEnabled={true}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderAnalitoItem}
+                contentContainerStyle={styles.listContainer}
+                style={styles.flatList}
+                ListHeaderComponent={ListHeader}
+                keyboardShouldPersistTaps="handled"
+            />
+
+            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>Fechar</Text>
+            </TouchableOpacity>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -128,42 +203,46 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background,
         paddingHorizontal: 0,
-        borderRadius: 20,
+        borderTopEndRadius: RFValue(20, 808),
+        borderTopStartRadius: RFValue(20, 808),
+        width: "95%",
+        marginTop: RFValue(20, 808),
     },
     widthContainer: {
         width: "95%",
         alignSelf: "center",
-        marginTop: 25,
+        marginTop: RFValue(25, 808),
     },
     headerContainer: {
-        marginTop: 20,
-        marginBottom: 20,
+        marginTop: RFValue(22, 808),
+        marginBottom: RFValue(20, 808),
     },
     title: {
-        fontSize: RFValue(26), // Use RFValue for responsive font size
+        fontSize: RFValue(26),
         fontWeight: "bold",
         color: colors.primary,
         textAlign: "center",
     },
     header: {
         justifyContent: "space-around",
-        marginBottom: 10,
-        marginTop: 10,
+        marginBottom: RFValue(10, 808),
+        marginTop: RFValue(10, 808),
         alignItems: "center",
     },
     link: {
-        fontSize: RFValue(16), // Use RFValue for responsive font size
+        fontSize: RFValue(16, 808),
         color: colors.buttonBackground,
         textAlign: "center",
         padding: 5,
         borderColor: colors.buttonBackground,
         borderWidth: 1,
-        borderRadius: 10,
-        marginTop: 10,
+        borderRadius: RFValue(10, 808),
+        marginTop: RFValue(10, 808),
         width: "90%",
+        alignSelf: "center",
     },
     analitoName: {
-        fontSize: RFValue(22), // Use RFValue for responsive font size
+        fontSize: RFValue(22, 808),
         color: colors.primary,
         textAlign: "center",
         fontWeight: "bold",
@@ -173,14 +252,14 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     listContainer: {
-        paddingBottom: 40,
-        paddingHorizontal: 10,
+        paddingBottom: RFValue(20, 808),
+        paddingHorizontal: RFValue(10, 808),
     },
     card: {
         backgroundColor: colors.cardBackground,
-        borderRadius: 10,
-        padding: 20,
-        marginVertical: 10,
+        borderRadius: RFValue(10, 808),
+        padding: RFValue(20, 808),
+        marginVertical: RFValue(10, 808),
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
@@ -196,48 +275,59 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
     },
-    checkboxContainer: {
-        marginRight: 15,
-    },
-    checkbox: {
-        width: 22,
-        height: 22,
-        borderRadius: 5,
-        borderWidth: 2,
-        borderColor: colors.primary,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    checkboxFilled: {
-        width: 12,
-        height: 12,
-        backgroundColor: colors.primary,
-    },
     textContainer: {
         flex: 1,
     },
+    customTextContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between", // Alinha os itens ao longo do eixo principal
+    },
     cardText: {
-        fontSize: RFValue(18), // Use RFValue for responsive font size
+        fontSize: RFValue(22, 808),
         fontWeight: "bold",
         color: colors.primary,
     },
+    inputCardText: {
+        fontSize: RFValue(19, 808),
+        fontWeight: "bold",
+        color: colors.primary,
+        borderWidth: 1,
+        padding: RFValue(10, 808),
+        borderColor: colors.primary,
+        borderRadius: RFValue(10, 808),
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 4,
+        backgroundColor: colors.secondary,
+        flex: 1, // Permite que o TextInput ocupe espaço disponível
+        marginRight: RFValue(10, 808), // Espaço entre o TextInput e a unidade
+    },
+    unidade: {
+        marginTop: 10,
+        fontSize: RFValue(16, 808),
+        color: colors.primary,
+        fontWeight: "bold",
+    },
     cardDate: {
         marginTop: 10,
-        fontSize: RFValue(16), // Use RFValue for responsive font size
+        fontSize: RFValue(16, 808),
         color: colors.primary,
     },
     closeButton: {
         backgroundColor: colors.buttonBackground,
-        borderRadius: 20,
-        paddingVertical: 15,
+        borderRadius: RFValue(20, 808),
+        paddingVertical: RFValue(15, 808),
         alignItems: "center",
         alignSelf: "center",
-        marginVertical: 20,
+        marginVertical: RFValue(20, 808),
         width: "90%",
     },
     closeButtonText: {
         color: colors.buttonText,
-        fontSize: RFValue(18),
+        fontSize: RFValue(18, 808),
         fontWeight: "bold",
     },
 });

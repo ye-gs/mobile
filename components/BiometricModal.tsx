@@ -1,4 +1,3 @@
-import { GeneralStyles } from "@/constants/Styles";
 import React from "react";
 import {
     View,
@@ -8,8 +7,7 @@ import {
     TouchableOpacity,
     TextInput,
     StyleSheet,
-    ActivityIndicator,
-    ViewStyle, // Indicador de carregamento
+    ActivityIndicator, // Indicador de carregamento
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
@@ -88,12 +86,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 10,
-        backgroundColor: "#282828", // Cor de fundo sólida
+        backgroundColor: COLORS.background, // Cor de fundo sólida
     },
     modalText: {
         fontSize: RFValue(18, 808),
         marginBottom: 20,
-        color: "#4551ba", // Cor do texto principal
+        color: COLORS.textPrimary, // Cor do texto principal
     },
     searchInput: {
         width: "100%",
