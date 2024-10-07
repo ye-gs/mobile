@@ -109,7 +109,9 @@ const PressureMeasures = () => {
                 { backgroundColor: Colors[theme].background },
             ]}
         >
-            <Text style={[styles.title, {color: Colors[theme].tint}]}>Measures</Text>
+            <Text style={[styles.title, { color: Colors[theme].tint }]}>
+                Medições de pressão
+            </Text>
             <TextInput
                 style={styles.input}
                 placeholder="Digite o valor sistólico"

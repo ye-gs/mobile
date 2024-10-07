@@ -101,7 +101,9 @@ const GlucoseMeasures = () => {
                 { backgroundColor: Colors[theme].background },
             ]}
         >
-            <Text style={[styles.title, {color: Colors[theme].tint}]}>Glucose Measures</Text>
+            <Text style={[styles.title, { color: Colors[theme].tint }]}>
+                Medições de Glicose
+            </Text>
             <TextInput
                 style={styles.input}
                 placeholder="Insira a medida de glicose"
