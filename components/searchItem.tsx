@@ -45,7 +45,7 @@ export interface AnalitoInfo {
     limiteInferior?: string | number;
     ficha?: string;
 }
-
+const userId = auth.currentUser?.uid ?? "";
 export async function SearchItemByName(item: string): Promise<ItemPosition[]> {
     const userId = auth.currentUser?.uid ?? "";
 
@@ -238,6 +238,106 @@ export async function GetItemInfo(
         throw error; // Re-lança o erro para que o chamador possa lidar com ele
     }
 }
+
+export async function getExamsFromCacheFiltered(
+    userId: string, // Adicionando userId como argumento
+    filters?: FilterInterface // O filtro continua sendo opcional
+): Promise<Exam[]> {
+    const hasFilters = filters && Object.keys(filters).length > 0;
+
+    // Desestruturação dos filtros e aplicação de valores padrão
+    const {
+        analito = false,
+        resultado = !hasFilters,
+        unidade = !hasFilters,
+        valorReferencia = !hasFilters,
+        referenciaIdade = !hasFilters,
+        limiteSuperior = !hasFilters,
+        limiteInferior = !hasFilters,
+        ficha = !hasFilters,
+        seconds = !hasFilters || filters?.seconds === true,
+    } = filters || {};
+
+    try {
+        // Recupera os exames do cache usando o userId fornecido
+        const exams: Exam[] = await getExamsFromCache(userId);
+        const filteredExams: Exam[] = [];
+
+        // Aplica os filtros aos exames
+        exams.forEach((exam) => {
+            const filteredExam: Partial<Exam> = {};
+
+            // Aplicando filtro de ANALITOS
+            if (analito && exam.ANALITOS) {
+                filteredExam.ANALITOS = exam.ANALITOS;
+            }
+
+            // Aplicando filtro de seconds (Data)
+            if (seconds && exam.Data) {
+                filteredExam.Data = exam.Data;
+            }
+
+            // Aplicando filtro de RESULTADOS
+            if (resultado && exam.RESULTADOS) {
+                filteredExam.RESULTADOS = exam.RESULTADOS;
+            }
+
+            // Aplicando filtro de Unidade
+            if (unidade && exam.Unidade) {
+                filteredExam.Unidade = exam.Unidade;
+            }
+
+            // Aplicando filtro de VALORES DE REFERÊNCIA
+            if (valorReferencia && exam["VALORES DE REFERÊNCIA"]) {
+                filteredExam["VALORES DE REFERÊNCIA"] = exam["VALORES DE REFERÊNCIA"];
+            }
+
+            // Aplicando filtro de Referência varia com idade
+            if (referenciaIdade && exam["Referência varia com idade"]) {
+                filteredExam["Referência varia com idade"] = exam["Referência varia com idade"];
+            }
+
+            // Aplicando filtro de Limite superior
+            if (limiteSuperior && exam["Limite superior"]) {
+                filteredExam["Limite superior"] = exam["Limite superior"];
+            }
+
+            // Aplicando filtro de Limite inferior
+            if (limiteInferior && exam["Limite inferior"]) {
+                filteredExam["Limite inferior"] = exam["Limite inferior"];
+            }
+
+            // Aplicando filtro de Ficha
+            if (ficha && exam.Ficha) {
+                filteredExam.Ficha = exam.Ficha;
+            }
+
+            // Adiciona o exame filtrado ao array final se houver dados filtrados
+            if (Object.keys(filteredExam).length > 0) {
+                filteredExams.push(filteredExam as Exam);
+            }
+        });
+        console.log("Exames filtrados:", filteredExams);
+
+        return filteredExams;
+    } catch (error) {
+        console.error("Erro ao buscar exames filtrados:", error);
+        return [];
+    }
+}
+
+
+const filtersF = {
+    resultado: true, // Queremos ver o resultado
+    unidade: true, // Queremos ver a unidade
+    valorReferencia: true, // Queremos ver o valor de referência
+};
+
+getExamsFromCacheFiltered(userId,filtersF).then((filteredExams) => {
+    console.log("Exames filtrados:");
+    console.log(filteredExams);
+});
+
 
 // Exemplo de uso da função SearchItemByName com o item "VCM"
 if (false) {
