@@ -6,13 +6,14 @@ import { getExamsFromCache } from "@/cache/index";
 import { auth, db as firestore } from "@/firebase/index";
 import { BiometricModal } from "@/components/BiometricModal";
 import AnalitosModel from "@/components/home/AnalitosModel";
-import { GenericAnalitosButton } from "../GenericAnalitosButton";
-import { AnalitoInfo } from "../searchItem";
+import { GenericAnalitosButton } from "@/components/GenericAnalitosButton";
+import { AnalitoInfo } from "@/components/searchItem";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-
+import { FontAwesome } from "@expo/vector-icons";
 const removeAccents = (str: string) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 };
+type FontAwesomeIconNames = keyof typeof FontAwesome.glyphMap;
 
 interface IExam {
     ANALITOS: string[];
@@ -31,10 +32,10 @@ export function HomeBiometricInfo() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedButton, setSelectedButton] = useState<number | null>(null);
 
-    const [buttonData, setButtonData] = useState([
-        { analito: null, measure: null, unidade: null, icon: "heart" },
-        { analito: null, measure: null, unidade: null, icon: "heart" },
-        { analito: null, measure: null, unidade: null, icon: "heart" },
+    const [buttonData, setButtonData] = useState<{ analito: string | undefined; measure: string | undefined; unidade: string | undefined; icon: FontAwesomeIconNames }[]>([
+        { analito: undefined, measure: undefined, unidade: undefined, icon: "heart" },
+        { analito: undefined, measure: undefined, unidade: undefined, icon: "heart" },
+        { analito: undefined, measure: undefined, unidade: undefined, icon: "heart" },
     ]);
 
     const styles = StyleSheet.create({

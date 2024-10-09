@@ -10,9 +10,9 @@ type FontAwesomeIconNames = keyof typeof FontAwesome.glyphMap;
 
 interface GenericAnalitosButtonProps {
     theme: string | number;
-    analito: string | null;
-    measure: string | number | null;
-    unidade: string | number | null;
+    analito: string | undefined;
+    measure: string | number | undefined;
+    unidade: string | number | undefined;
     onPress: () => void;
     iconName?: FontAwesomeIconNames;
 }

@@ -100,6 +100,11 @@ export async function SearchItemByPosition(
 
         positions.forEach(({ examIndex, analyteIndex }) => {
             const exam = exams[examIndex];
+            
+            if (!exam) {
+                return;
+            }
+            
 
             if (exam && exam.ANALITOS && analyteIndex < exam.ANALITOS.length) {
                 const result: Partial<AnalitoInfo> = {};
