@@ -21,7 +21,7 @@ function TabBarIcon(props: {
 }) {
     return (
         <FontAwesome
-            size={GeneralStyles().size25} /*{28}*/
+            size={GeneralStyles().size30} /*{28}*/
             style={GeneralStyles().tabBarIcon1} /*{{ marginBottom: -3 }}*/
             {...props}
         />
@@ -139,7 +139,7 @@ export default function TabLayout() {
                 <Menu.Item
                     leadingIcon={() => (
                         <Ionicons
-                            size={GeneralStyles().size25}
+                            size={GeneralStyles().size30}
                             name={"exit-outline"}
                             color={Colors[theme].text}
                         ></Ionicons>
@@ -152,7 +152,7 @@ export default function TabLayout() {
                 <Menu.Item
                     leadingIcon={() => (
                         <FontAwesome
-                            size={GeneralStyles().size25}
+                            size={GeneralStyles().size30}
                             name={
                                 colorSchemeMap[
                                     theme as keyof ColorSchemeMap
@@ -173,7 +173,7 @@ export default function TabLayout() {
                     <Menu.Item
                         leadingIcon={() => (
                             <MaterialCommunityIcons
-                                size={GeneralStyles().size25}
+                                size={GeneralStyles().size30}
                                 name="test-tube"
                                 color={Colors[theme].text}
                             ></MaterialCommunityIcons>
