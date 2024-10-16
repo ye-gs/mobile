@@ -10,6 +10,8 @@ import {
     ActivityIndicator, // Indicador de carregamento
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+import { useTheme } from "@/contexts/theme"; // Importa o hook useTheme
+import Colors from  "@/constants/Colors"; // Importa as cores
 
 interface BiometricModalProps {
     modalVisible: boolean;
@@ -29,55 +31,60 @@ export const BiometricModal: React.FC<BiometricModalProps> = ({
     handleCloseModal,
     renderItem,
     loading, // Inclui o estado de carregamento
-}) => (
-    <Modal
-        animationType="slide"
-        transparent={false} // Remove a transparência
-        visible={modalVisible}
-        onRequestClose={handleCloseModal}
-    >
-        <View style={styles.modalView}>
-            <Text style={styles.modalText}>Adicionar Dados Biométricos</Text>
+}) => {
+    const { theme } = useTheme(); // Use o hook useTheme para obter o tema atual
 
-            {/* Campo de busca */}
-            <TextInput
-                style={styles.searchInput}
-                placeholder="Buscar análito..."
-                placeholderTextColor="#FFFFFF"
-                value={searchTerm}
-                onChangeText={setSearchTerm} // Atualiza o estado do termo de busca
-            />
+    const currentColors = Colors[theme]; // Acessa as cores baseadas no tema atual
 
-            {/* Indicador de carregamento */}
-            {loading ? (
-                <ActivityIndicator size="large" color="#007BFF" />
-            ) : (
-                <FlatList
-                    style={styles.listContainer}
-                    data={analytes}
-                    renderItem={renderItem}
-                    keyExtractor={(item, index) => index.toString()}
+    return (
+        <Modal
+            animationType="slide"
+            transparent={false} // Remove a transparência
+            visible={modalVisible}
+            onRequestClose={handleCloseModal}
+        >
+            <View style={[styles.modalView, { backgroundColor: currentColors.background }]}>
+                <Text style={[styles.modalText, { color: currentColors.text }]}>
+                    Adicionar Dados Biométricos
+                </Text>
+
+                {/* Campo de busca */}
+                <TextInput
+                    style={[
+                        styles.searchInput,
+                        { 
+                            backgroundColor: currentColors.circleBackground, 
+                            color: currentColors.altTextColor, 
+                            borderColor: currentColors.borderColor 
+                        }
+                    ]}
+                    placeholder="Buscar análito..."
+                    placeholderTextColor={currentColors.altTextColor}
+                    value={searchTerm}
+                    onChangeText={setSearchTerm} // Atualiza o estado do termo de busca
                 />
-            )}
 
-            <TouchableOpacity
-                style={styles.closeButton}
-                onPress={handleCloseModal}
-            >
-                <Text style={styles.closeButtonText}>Fechar</Text>
-            </TouchableOpacity>
-        </View>
-    </Modal>
-);
+                {/* Indicador de carregamento */}
+                {loading ? (
+                    <ActivityIndicator size="large" color={currentColors.primaryLighter} />
+                ) : (
+                    <FlatList
+                        style={styles.listContainer}
+                        data={analytes}
+                        renderItem={renderItem}
+                        keyExtractor={(item, index) => index.toString()}
+                    />
+                )}
 
-const COLORS = {
-    background: "#f5f5f5",
-    textPrimary: "#333333",
-    textInputBackground: "#333333",
-    textInputPlaceholder: "#FFFFFF",
-    buttonBackground: "#007BFF",
-    buttonText: "#FFFFFF",
-    border: "#007BFF",
+                <TouchableOpacity
+                    style={[styles.closeButton, { backgroundColor: currentColors.primaryLighter }]}
+                    onPress={handleCloseModal}
+                >
+                    <Text style={[styles.closeButtonText, { color: currentColors.text }]}>Fechar</Text>
+                </TouchableOpacity>
+            </View>
+        </Modal>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -86,21 +93,16 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 10,
-        backgroundColor: COLORS.background, // Cor de fundo sólida
     },
     modalText: {
         fontSize: RFValue(18, 808),
         marginBottom: 20,
-        color: COLORS.textPrimary, // Cor do texto principal
     },
     searchInput: {
         width: "100%",
         padding: 10,
         borderRadius: 5,
         marginBottom: 20,
-        backgroundColor: COLORS.textInputBackground, // Fundo do input
-        color: COLORS.textInputPlaceholder, // Texto branco no input
-        borderColor: COLORS.border, // Borda azul
         borderWidth: 1,
     },
     listContainer: {
@@ -110,12 +112,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         padding: 10,
         borderRadius: 20,
-        backgroundColor: COLORS.buttonBackground, // Botão de fechar com cor sólida
         width: "90%",
         alignItems: "center",
     },
     closeButtonText: {
-        color: COLORS.buttonText, // Texto branco no botão
         fontSize: RFValue(16, 808),
     },
 });

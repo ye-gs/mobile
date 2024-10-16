@@ -234,7 +234,6 @@ export function HomeBiometricInfo() {
             {buttonData.map((button, index) => (
                 <GenericAnalitosButton
                     key={index}
-                    theme={theme}
                     analito={button.analito}
                     measure={button.measure}
                     unidade={button.unidade}

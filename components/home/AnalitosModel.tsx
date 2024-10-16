@@ -12,7 +12,8 @@ import {
 import { GetItemInfo, AnalitoInfo } from "@/components/searchItem";
 import { RFValue } from "react-native-responsive-fontsize";
 import debounce from "lodash.debounce";
-
+import { useTheme } from "@/contexts/theme";
+import Colors from "@/constants/Colors";
 interface AnalitosProps {
     selectedAnalyte: string;
     onClose: () => void;
@@ -102,7 +103,153 @@ const AnalitosModel: React.FC<AnalitosProps> = ({
     const filteredAnalitoInfo = analitoInfo.filter(
         (item) => item.resultado !== null && item.resultado !== undefined
     );
-
+    const { theme } = useTheme();
+    const colors = {
+        primary: Colors[theme].text,
+        secondary: Colors[theme].background,
+        background: Colors[theme].background,
+        cardBackground: Colors[theme].background,
+        cardBorder: Colors[theme].text,
+        buttonBackground: Colors[theme].primaryLighter,
+        buttonText: Colors[theme].background,
+        buttonTextColse: Colors[theme].tint,
+        closeButtonBackground: Colors[theme].danger,
+    };
+    
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: colors.background,
+            paddingHorizontal: 0,
+            borderTopEndRadius: RFValue(20, 808),
+            borderTopStartRadius: RFValue(20, 808),
+            width: "95%",
+            marginTop: RFValue(20, 808),
+        },
+        widthContainer: {
+            width: "95%",
+            alignSelf: "center",
+            marginTop: RFValue(25, 808),
+        },
+        headerContainer: {
+            marginTop: RFValue(22, 808),
+            marginBottom: RFValue(20, 808),
+        },
+        title: {
+            fontSize: RFValue(26),
+            fontWeight: "bold",
+            color: colors.primary,
+            textAlign: "center",
+        },
+        header: {
+            justifyContent: "space-around",
+            marginBottom: RFValue(10, 808),
+            marginTop: RFValue(10, 808),
+            alignItems: "center",
+        },
+        link: {
+            fontSize: RFValue(16, 808),
+            color: colors.buttonTextColse,
+            textAlign: "center",
+            padding: 5,
+            borderColor: colors.buttonTextColse,
+            borderWidth: 1,
+            borderRadius: RFValue(10, 808),
+            marginTop: RFValue(10, 808),
+            width: "90%",
+            alignSelf: "center",
+        },
+        analitoName: {
+            fontSize: RFValue(22, 808),
+            color: colors.primary,
+            textAlign: "center",
+            fontWeight: "bold",
+        },
+        flatList: {
+            flex: 1,
+            width: "100%",
+        },
+        listContainer: {
+            paddingBottom: RFValue(20, 808),
+            paddingHorizontal: RFValue(10, 808),
+        },
+        card: {
+            backgroundColor: colors.cardBackground,
+            borderRadius: RFValue(10, 808),
+            padding: RFValue(20, 808),
+            marginVertical: RFValue(10, 808),
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 6,
+            elevation: 4,
+            width: "100%",
+        },
+        selectedCard: {
+            borderColor: colors.buttonBackground,
+            borderWidth: 2,
+        },
+        checkboxAndTextContainer: {
+            flexDirection: "row",
+            alignItems: "center",
+        },
+        textContainer: {
+            flex: 1,
+        },
+        customTextContainer: {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between", // Alinha os itens ao longo do eixo principal
+        },
+        cardText: {
+            fontSize: RFValue(22, 808),
+            fontWeight: "bold",
+            color: colors.primary,
+        },
+        inputCardText: {
+            fontSize: RFValue(19, 808),
+            fontWeight: "bold",
+            color: colors.primary,
+            borderWidth: 1,
+            padding: RFValue(10, 808),
+            borderColor: colors.primary,
+            borderRadius: RFValue(10, 808),
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 6,
+            elevation: 4,
+            backgroundColor: colors.secondary,
+            flex: 1, // Permite que o TextInput ocupe espaço disponível
+            marginRight: RFValue(10, 808), // Espaço entre o TextInput e a unidade
+        },
+        unidade: {
+            marginTop: 10,
+            fontSize: RFValue(16, 808),
+            color: colors.primary,
+            fontWeight: "bold",
+        },
+        cardDate: {
+            marginTop: 10,
+            fontSize: RFValue(16, 808),
+            color: colors.primary,
+        },
+        closeButton: {
+            backgroundColor: colors.buttonBackground,
+            borderRadius: RFValue(20, 808),
+            paddingVertical: RFValue(15, 808),
+            alignItems: "center",
+            alignSelf: "center",
+            marginVertical: RFValue(20, 808),
+            width: "90%",
+        },
+        closeButtonText: {
+            color: colors.buttonTextColse,
+            fontSize: RFValue(18, 808),
+            fontWeight: "bold",
+        },
+    });
+    
     const renderAnalitoItem = useCallback(
         ({ item, index }: { item: AnalitoInfo; index: number }) => (
             <TouchableOpacity
@@ -187,149 +334,5 @@ const AnalitosModel: React.FC<AnalitosProps> = ({
     );
 };
 
-const colors = {
-    primary: "#333",
-    secondary: "#fff",
-    background: "#f5f5f5",
-    cardBackground: "#fff",
-    cardBorder: "#ddd",
-    buttonBackground: "#007BFF",
-    buttonText: "#FFF",
-    closeButtonBackground: "#FF0000",
-};
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.background,
-        paddingHorizontal: 0,
-        borderTopEndRadius: RFValue(20, 808),
-        borderTopStartRadius: RFValue(20, 808),
-        width: "95%",
-        marginTop: RFValue(20, 808),
-    },
-    widthContainer: {
-        width: "95%",
-        alignSelf: "center",
-        marginTop: RFValue(25, 808),
-    },
-    headerContainer: {
-        marginTop: RFValue(22, 808),
-        marginBottom: RFValue(20, 808),
-    },
-    title: {
-        fontSize: RFValue(26),
-        fontWeight: "bold",
-        color: colors.primary,
-        textAlign: "center",
-    },
-    header: {
-        justifyContent: "space-around",
-        marginBottom: RFValue(10, 808),
-        marginTop: RFValue(10, 808),
-        alignItems: "center",
-    },
-    link: {
-        fontSize: RFValue(16, 808),
-        color: colors.buttonBackground,
-        textAlign: "center",
-        padding: 5,
-        borderColor: colors.buttonBackground,
-        borderWidth: 1,
-        borderRadius: RFValue(10, 808),
-        marginTop: RFValue(10, 808),
-        width: "90%",
-        alignSelf: "center",
-    },
-    analitoName: {
-        fontSize: RFValue(22, 808),
-        color: colors.primary,
-        textAlign: "center",
-        fontWeight: "bold",
-    },
-    flatList: {
-        flex: 1,
-        width: "100%",
-    },
-    listContainer: {
-        paddingBottom: RFValue(20, 808),
-        paddingHorizontal: RFValue(10, 808),
-    },
-    card: {
-        backgroundColor: colors.cardBackground,
-        borderRadius: RFValue(10, 808),
-        padding: RFValue(20, 808),
-        marginVertical: RFValue(10, 808),
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 4,
-        width: "100%",
-    },
-    selectedCard: {
-        borderColor: colors.buttonBackground,
-        borderWidth: 2,
-    },
-    checkboxAndTextContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    textContainer: {
-        flex: 1,
-    },
-    customTextContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between", // Alinha os itens ao longo do eixo principal
-    },
-    cardText: {
-        fontSize: RFValue(22, 808),
-        fontWeight: "bold",
-        color: colors.primary,
-    },
-    inputCardText: {
-        fontSize: RFValue(19, 808),
-        fontWeight: "bold",
-        color: colors.primary,
-        borderWidth: 1,
-        padding: RFValue(10, 808),
-        borderColor: colors.primary,
-        borderRadius: RFValue(10, 808),
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 4,
-        backgroundColor: colors.secondary,
-        flex: 1, // Permite que o TextInput ocupe espaço disponível
-        marginRight: RFValue(10, 808), // Espaço entre o TextInput e a unidade
-    },
-    unidade: {
-        marginTop: 10,
-        fontSize: RFValue(16, 808),
-        color: colors.primary,
-        fontWeight: "bold",
-    },
-    cardDate: {
-        marginTop: 10,
-        fontSize: RFValue(16, 808),
-        color: colors.primary,
-    },
-    closeButton: {
-        backgroundColor: colors.buttonBackground,
-        borderRadius: RFValue(20, 808),
-        paddingVertical: RFValue(15, 808),
-        alignItems: "center",
-        alignSelf: "center",
-        marginVertical: RFValue(20, 808),
-        width: "90%",
-    },
-    closeButtonText: {
-        color: colors.buttonText,
-        fontSize: RFValue(18, 808),
-        fontWeight: "bold",
-    },
-});
 
 export default AnalitosModel;

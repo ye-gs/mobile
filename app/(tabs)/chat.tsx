@@ -28,6 +28,7 @@ import { Menu, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { GeneralStyles } from "@/constants/Styles";
 import Constants from "expo-constants";
+import { useUser } from "@/contexts/user";
 
 export default function ChatScreen() {
     const { theme } = useTheme() as { theme: string };
@@ -38,7 +39,7 @@ export default function ChatScreen() {
     const userId = auth.currentUser?.uid;
     const flatListRef = useRef<FlatList>(null);
     const navigation = useNavigation();
-
+    const { user } = useUser();
     interface Item {
         id: string;
         text: string;
@@ -104,6 +105,7 @@ export default function ChatScreen() {
                 : null;
 
             const body = JSON.stringify({
+                uname: user?.displayName || "Usuário",
                 uid: userId,
                 weight: userData?.weight,
                 height: userData?.height,

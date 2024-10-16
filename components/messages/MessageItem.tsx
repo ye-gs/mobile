@@ -47,7 +47,7 @@ const styles = (theme: string) =>
         },
         userMessage: {
             alignSelf: "flex-end",
-            backgroundColor: Colors[theme].primaryLighter,
+            backgroundColor: Colors[theme].zapZap ?? Colors[theme].primaryLighter,
         },
         botMessage: {
             alignSelf: "flex-start",

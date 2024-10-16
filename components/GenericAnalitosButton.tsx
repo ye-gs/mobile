@@ -4,12 +4,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import Colors from "@/constants/Colors";
 import { Text, View } from "@/components/Themed";
+import { useTheme } from "@/contexts/theme";
 
 // Define the specific type for icon names
 type FontAwesomeIconNames = keyof typeof FontAwesome.glyphMap;
 
 interface GenericAnalitosButtonProps {
-    theme: string | number;
     analito: string | undefined;
     measure: string | number | undefined;
     unidade: string | number | undefined;
@@ -18,57 +18,60 @@ interface GenericAnalitosButtonProps {
 }
 
 export const GenericAnalitosButton: React.FC<GenericAnalitosButtonProps> = ({
-    theme,
     analito,
     measure,
     unidade,
     onPress,
     iconName = "plus", // Default to "plus" if no icon is provided
-}) => (
-    <View style={styles.container}>
-        <TouchableOpacity style={[styles.addButton]} onPress={onPress}>
-            <View style={styles.iconContainer}>
-                <FontAwesome
-                    name={analito && measure ? iconName : "plus"} // Use iconName or fallback to "plus"
-                    size={RFValue(30, 808)}
-                    color={"red"}
-                />
-            </View>
+}) => {
+    const { theme } = useTheme(); // Mova o hook para dentro do componente funcional
 
-            {/* Conditionally render the texts */}
-            {analito && measure ? (
-                <View style={styles.textContainer}>
-                    <Text
-                        style={styles.analitoText}
-                        numberOfLines={4}
-                        ellipsizeMode="head"
-                    >
-                        {analito}
-                    </Text>
-                    <Text
-                        style={styles.measureText}
-                        numberOfLines={4}
-                        ellipsizeMode="tail"
-                    >
-                        {measure + " "}
-                        {unidade}
-                    </Text>
+    return (
+        <View style={styles.container}>
+            <TouchableOpacity style={[styles.addButton, { borderColor: Colors[theme].tint }]} onPress={onPress}>
+                <View style={[styles.iconContainer, { backgroundColor: Colors[theme].circleBackground }]}>
+                    <FontAwesome
+                        name={analito && measure ? iconName : "plus"} // Use iconName or fallback to "plus"
+                        size={RFValue(30, 808)}
+                        color={Colors[theme].altTextColor} // Cor do ícone
+                    />
                 </View>
-            ) : (
-                <View style={styles.textContainer}>
-                    <Text
-                        style={styles.addAnalitoText}
-                        numberOfLines={3}
-                        ellipsizeMode="middle"
-                    >
-                        Aperte para adicionar exame
-                    </Text>
-                </View>
-            )}
-        </TouchableOpacity>
-        <View style={styles.analitosInfo} />
-    </View>
-);
+
+                {/* Conditionally render the texts */}
+                {analito && measure ? (
+                    <View style={styles.textContainer}>
+                        <Text
+                            style={styles.analitoText}
+                            numberOfLines={4}
+                            ellipsizeMode="head"
+                        >
+                            {analito}
+                        </Text>
+                        <Text
+                            style={styles.measureText}
+                            numberOfLines={4}
+                            ellipsizeMode="tail"
+                        >
+                            {measure + " "}
+                            {unidade}
+                        </Text>
+                    </View>
+                ) : (
+                    <View style={styles.textContainer}>
+                        <Text
+                            style={styles.addAnalitoText}
+                            numberOfLines={3}
+                            ellipsizeMode="middle"
+                        >
+                            Aperte para adicionar exame
+                        </Text>
+                    </View>
+                )}
+            </TouchableOpacity>
+            <View style={styles.analitosInfo} />
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -81,14 +84,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderWidth: RFValue(3, 808), // Espessura da borda
-        borderColor: "#388E3C", // Cor da borda do botão (verde)
         paddingVertical: RFValue(10, 808),
-
     },
     iconContainer: {
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#FFC107", // Cor do ícone (amarelo)
         borderRadius: RFValue(20, 808), // Adiciona arredondamento ao ícone
         padding: RFValue(10, 808),
     },
