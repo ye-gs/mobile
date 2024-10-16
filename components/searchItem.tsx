@@ -21,6 +21,17 @@ interface ItemPosition {
     analyteIndex: number; // Posição do item dentro de ANALITOS
 }
 
+export interface FilterInterface{
+    analito?: boolean;
+    resultado?: boolean;
+    unidade?: boolean;
+    valorReferencia?: boolean;
+    referenciaIdade?: boolean;
+    limiteSuperior?: boolean;
+    limiteInferior?: boolean;
+    ficha?: boolean;
+    seconds?: boolean;
+}
 export interface AnalitoInfo {
     analyteIndex: number;
     examIndex: number;
@@ -34,7 +45,7 @@ export interface AnalitoInfo {
     limiteInferior?: string | number;
     ficha?: string;
 }
-
+const userId = auth.currentUser?.uid ?? "";
 export async function SearchItemByName(item: string): Promise<ItemPosition[]> {
     const userId = auth.currentUser?.uid ?? "";
 
@@ -65,20 +76,12 @@ export async function SearchItemByName(item: string): Promise<ItemPosition[]> {
 
 export async function SearchItemByPosition(
     positions: ItemPosition[],
-    filters?: {
-        resultado?: boolean;
-        unidade?: boolean;
-        valorReferencia?: boolean;
-        referenciaIdade?: boolean;
-        limiteSuperior?: boolean;
-        limiteInferior?: boolean;
-        ficha?: boolean;
-        seconds?: boolean;
-    }
+    filters?: FilterInterface
 ): Promise<AnalitoInfo[]> {
     const hasFilters = filters && Object.keys(filters).length > 0;
 
     const {
+        analito = false, // Valor padrão false, não é obrigatório
         resultado = !hasFilters,
         unidade = !hasFilters,
         valorReferencia = !hasFilters,
@@ -92,99 +95,120 @@ export async function SearchItemByPosition(
     const userId = auth.currentUser?.uid ?? "";
 
     try {
-        // Recupera os exames do cache e loga os exames
         const exams: Exam[] = await getExamsFromCache(userId);
-
         const results: AnalitoInfo[] = [];
 
-        // Itera sobre as posições fornecidas
         positions.forEach(({ examIndex, analyteIndex }) => {
             const exam = exams[examIndex];
+            
+            if (!exam) {
+                return;
+            }
+            
 
-            if (
-                exam &&
-                exam.ANALITOS &&
-                exam.ANALITOS[analyteIndex] !== undefined
-            ) {
+            if (exam && exam.ANALITOS && analyteIndex < exam.ANALITOS.length) {
                 const result: Partial<AnalitoInfo> = {};
+                
+                // Somente adiciona o nome do analito se o filtro estiver ativado
+                if (analito) {
+                    result.analitos = exam.ANALITOS[analyteIndex];
+                }
 
-                if (seconds && exam.Data && exam.Data[analyteIndex]) {
+                // Checagem de seconds
+                if (seconds && exam.Data && analyteIndex < exam.Data.length) {
                     result.seconds = new Date(
                         exam.Data[analyteIndex].seconds * 1000
                     );
                 }
 
+                // Checagem de resultado
                 if (
                     resultado &&
                     exam.RESULTADOS &&
+                    analyteIndex < exam.RESULTADOS.length &&
                     exam.RESULTADOS[analyteIndex] !== null
                 ) {
                     result.resultado = exam.RESULTADOS[analyteIndex];
-                } else if (resultado) {
-                    return; // Se o valor de resultado for null, pula este item
+                } else if (resultado && !exam.RESULTADOS?.[analyteIndex]) {
+                    return;
                 }
 
+                // Checagem de unidade
                 if (
                     unidade &&
                     exam.Unidade &&
+                    analyteIndex < exam.Unidade.length &&
                     exam.Unidade[analyteIndex] !== null
                 ) {
                     result.unidade = exam.Unidade[analyteIndex];
-                } else if (unidade) {
-                    return; // Se o valor de unidade for null, pula este item
+                } else if (unidade && !exam.Unidade?.[analyteIndex]) {
+                    return;
                 }
 
+                // Checagem de valor de referência
                 if (
                     valorReferencia &&
                     exam["VALORES DE REFERÊNCIA"] &&
+                    analyteIndex < exam["VALORES DE REFERÊNCIA"].length &&
                     exam["VALORES DE REFERÊNCIA"][analyteIndex] !== null
                 ) {
                     result.valorReferencia =
                         exam["VALORES DE REFERÊNCIA"][analyteIndex];
-                } else if (valorReferencia) {
-                    return; // Se o valor de valorReferencia for null, pula este item
+                } else if (valorReferencia && !exam["VALORES DE REFERÊNCIA"]?.[analyteIndex]) {
+                    return;
                 }
 
+                // Checagem de referência por idade
                 if (
                     referenciaIdade &&
                     exam["Referência varia com idade"] &&
+                    analyteIndex < exam["Referência varia com idade"].length &&
                     exam["Referência varia com idade"][analyteIndex] !== null
                 ) {
                     result.referenciaIdade =
                         exam["Referência varia com idade"][analyteIndex];
-                } else if (referenciaIdade) {
-                    return; // Se o valor de referenciaIdade for null, pula este item
+                } else if (referenciaIdade && !exam["Referência varia com idade"]?.[analyteIndex]) {
+                    return;
                 }
 
+                // Checagem de limite superior
                 if (
                     limiteSuperior &&
                     exam["Limite superior"] &&
+                    analyteIndex < exam["Limite superior"].length &&
                     exam["Limite superior"][analyteIndex] !== null
                 ) {
                     result.limiteSuperior =
                         exam["Limite superior"][analyteIndex];
-                } else if (limiteSuperior) {
-                    return; // Se o valor de limiteSuperior for null, pula este item
+                } else if (limiteSuperior && !exam["Limite superior"]?.[analyteIndex]) {
+                    return;
                 }
 
+                // Checagem de limite inferior
                 if (
                     limiteInferior &&
                     exam["Limite inferior"] &&
+                    analyteIndex < exam["Limite inferior"].length &&
                     exam["Limite inferior"][analyteIndex] !== null
                 ) {
                     result.limiteInferior =
                         exam["Limite inferior"][analyteIndex];
-                } else if (limiteInferior) {
-                    return; // Se o valor de limiteInferior for null, pula este item
+                } else if (limiteInferior && !exam["Limite inferior"]?.[analyteIndex]) {
+                    return;
                 }
 
-                if (ficha && exam.Ficha && exam.Ficha[analyteIndex] !== null) {
+                // Checagem de ficha
+                if (
+                    ficha &&
+                    exam.Ficha &&
+                    analyteIndex < exam.Ficha.length &&
+                    exam.Ficha[analyteIndex] !== null
+                ) {
                     result.ficha = exam.Ficha[analyteIndex];
-                } else if (ficha) {
-                    return; // Se o valor de ficha for null, pula este item
+                } else if (ficha && !exam.Ficha?.[analyteIndex]) {
+                    return;
                 }
 
-                // Só adiciona o resultado se tiver pelo menos um dado relevante
                 if (Object.keys(result).length > 0) {
                     results.push(result as AnalitoInfo);
                 }
@@ -202,18 +226,10 @@ export async function SearchItemByPosition(
     }
 }
 
+
 export async function GetItemInfo(
     item: string,
-    filters?: {
-        resultado?: boolean;
-        unidade?: boolean;
-        valorReferencia?: boolean;
-        referenciaIdade?: boolean;
-        limiteSuperior?: boolean;
-        limiteInferior?: boolean;
-        ficha?: boolean;
-        seconds?: boolean;
-    }
+    filters?: FilterInterface
 ) {
     try {
         const resultadoNome = await SearchItemByName(item);
@@ -227,6 +243,106 @@ export async function GetItemInfo(
         throw error; // Re-lança o erro para que o chamador possa lidar com ele
     }
 }
+
+export async function getExamsFromCacheFiltered(
+    userId: string, // Adicionando userId como argumento
+    filters?: FilterInterface // O filtro continua sendo opcional
+): Promise<Exam[]> {
+    const hasFilters = filters && Object.keys(filters).length > 0;
+
+    // Desestruturação dos filtros e aplicação de valores padrão
+    const {
+        analito = false,
+        resultado = !hasFilters,
+        unidade = !hasFilters,
+        valorReferencia = !hasFilters,
+        referenciaIdade = !hasFilters,
+        limiteSuperior = !hasFilters,
+        limiteInferior = !hasFilters,
+        ficha = !hasFilters,
+        seconds = !hasFilters || filters?.seconds === true,
+    } = filters || {};
+
+    try {
+        // Recupera os exames do cache usando o userId fornecido
+        const exams: Exam[] = await getExamsFromCache(userId);
+        const filteredExams: Exam[] = [];
+
+        // Aplica os filtros aos exames
+        exams.forEach((exam) => {
+            const filteredExam: Partial<Exam> = {};
+
+            // Aplicando filtro de ANALITOS
+            if (analito && exam.ANALITOS) {
+                filteredExam.ANALITOS = exam.ANALITOS;
+            }
+
+            // Aplicando filtro de seconds (Data)
+            if (seconds && exam.Data) {
+                filteredExam.Data = exam.Data;
+            }
+
+            // Aplicando filtro de RESULTADOS
+            if (resultado && exam.RESULTADOS) {
+                filteredExam.RESULTADOS = exam.RESULTADOS;
+            }
+
+            // Aplicando filtro de Unidade
+            if (unidade && exam.Unidade) {
+                filteredExam.Unidade = exam.Unidade;
+            }
+
+            // Aplicando filtro de VALORES DE REFERÊNCIA
+            if (valorReferencia && exam["VALORES DE REFERÊNCIA"]) {
+                filteredExam["VALORES DE REFERÊNCIA"] = exam["VALORES DE REFERÊNCIA"];
+            }
+
+            // Aplicando filtro de Referência varia com idade
+            if (referenciaIdade && exam["Referência varia com idade"]) {
+                filteredExam["Referência varia com idade"] = exam["Referência varia com idade"];
+            }
+
+            // Aplicando filtro de Limite superior
+            if (limiteSuperior && exam["Limite superior"]) {
+                filteredExam["Limite superior"] = exam["Limite superior"];
+            }
+
+            // Aplicando filtro de Limite inferior
+            if (limiteInferior && exam["Limite inferior"]) {
+                filteredExam["Limite inferior"] = exam["Limite inferior"];
+            }
+
+            // Aplicando filtro de Ficha
+            if (ficha && exam.Ficha) {
+                filteredExam.Ficha = exam.Ficha;
+            }
+
+            // Adiciona o exame filtrado ao array final se houver dados filtrados
+            if (Object.keys(filteredExam).length > 0) {
+                filteredExams.push(filteredExam as Exam);
+            }
+        });
+        console.log("Exames filtrados:", filteredExams);
+
+        return filteredExams;
+    } catch (error) {
+        console.error("Erro ao buscar exames filtrados:", error);
+        return [];
+    }
+}
+
+
+const filtersF = {
+    resultado: true, // Queremos ver o resultado
+    unidade: true, // Queremos ver a unidade
+    valorReferencia: true, // Queremos ver o valor de referência
+};
+
+getExamsFromCacheFiltered(userId,filtersF).then((filteredExams) => {
+    console.log("Exames filtrados:");
+    console.log(filteredExams);
+});
+
 
 // Exemplo de uso da função SearchItemByName com o item "VCM"
 if (false) {

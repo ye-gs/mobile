@@ -52,7 +52,8 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         borderColor: "#E5E7EB", // Keep border color as is
         circleBackground: "#E6EEFF", // Keep circle background color as is
         altTextColor: "#0033FF", // Changed from green to a blue shade
-        primaryLighter: "#DCF8C6", // Verde ZapZap NÂO MUDAR
+        zapZap: "#DCF8C6", // Verde ZapZap NÂO MUDAR
+        primaryLighter: "#E6EEFF", // Keep primary lighter color as is
         primaryDarker: "#002080", // Changed from dark green to a dark blue shade
         danger: "#bd3a31", // Keep danger color as is, or update if needed
         black: "#242424",

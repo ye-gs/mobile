@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { RFValue } from "react-native-responsive-fontsize";
 import { GeneralStyles } from "@/constants/Styles";
+import { ScrollView } from "@/components/Themed";
 
 const Profile = () => {
     const { user } = useUser();
@@ -41,7 +42,7 @@ const Profile = () => {
     //     },
     // });
     return (
-        <View style={GeneralStyles().container4}>
+        <ScrollView contentContainerStyle={GeneralStyles().container4}>
             <ProfileCard user={user}></ProfileCard>
             <View style={GeneralStyles().options1}>
                 <OptionButton
@@ -57,7 +58,9 @@ const Profile = () => {
                             style={GeneralStyles().circle1}
                         />
                     )}
-                    borderBottomWidth={GeneralStyles().borderBottomWidth1.borderBottomWidth}
+                    borderBottomWidth={
+                        GeneralStyles().borderBottomWidth1.borderBottomWidth
+                    }
                 ></OptionButton>
                 <OptionButton
                     text="Configurações"
@@ -72,7 +75,9 @@ const Profile = () => {
                             style={GeneralStyles().circle1}
                         />
                     )}
-                    borderBottomWidth={GeneralStyles().borderBottomWidth1.borderBottomWidth}
+                    borderBottomWidth={
+                        GeneralStyles().borderBottomWidth1.borderBottomWidth
+                    }
                 ></OptionButton>
                 <OptionButton
                     text="Sobre Nós"
@@ -82,14 +87,45 @@ const Profile = () => {
                     ImageComponent={() => (
                         <Ionicons
                             name="chatbubble-ellipses-outline"
-                            size={GeneralStyles().size30}
+                            size={RFValue(30, 808)}
                             color={Colors[theme].tint}
                             style={GeneralStyles().circle1}
                         />
                     )}
+                    borderBottomWidth={1}
+                ></OptionButton>
+                <OptionButton
+                    text="Cadastrar medida de glicose"
+                    onPress={() => {
+                        router.navigate("glucose");
+                    }}
+                    ImageComponent={() => (
+                        <AntDesign
+                            name="medicinebox"
+                            size={RFValue(30, 808)}
+                            color={Colors[theme].tint}
+                            style={GeneralStyles().circle1}
+                        />
+                    )}
+                    borderBottomWidth={1}
+                ></OptionButton>
+                <OptionButton
+                    text="Cadastrar medida de pressão"
+                    onPress={() => {
+                        router.navigate("pressure");
+                    }}
+                    ImageComponent={() => (
+                        <AntDesign
+                            name="heart"
+                            size={RFValue(30, 808)}
+                            color={Colors[theme].tint}
+                            style={GeneralStyles().circle1}
+                        />
+                    )}
+                    borderBottomWidth={1}
                 ></OptionButton>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
