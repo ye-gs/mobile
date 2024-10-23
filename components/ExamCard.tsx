@@ -1,7 +1,12 @@
 import React, { useRef } from "react";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
-import { GestureResponderEvent, Pressable, StyleSheet, Animated } from "react-native";
+import {
+    GestureResponderEvent,
+    Pressable,
+    StyleSheet,
+    Animated,
+} from "react-native";
 import { View, Text } from "./Themed";
 import { AntDesign } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -101,7 +106,7 @@ export function ExamCard(props: { id: string; onPress: Function }) {
                     },
                 ]}
             >
-                <View style={[styles.timeView,styles.shadow]}>
+                <View style={[styles.timeView, styles.shadow]}>
                     <Text style={styles.timeViewText}>
                         {examCreationDate.toLocaleTimeString()}
                     </Text>

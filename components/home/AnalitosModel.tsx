@@ -115,7 +115,7 @@ const AnalitosModel: React.FC<AnalitosProps> = ({
         buttonTextColse: Colors[theme].tint,
         closeButtonBackground: Colors[theme].danger,
     };
-    
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -249,7 +249,7 @@ const AnalitosModel: React.FC<AnalitosProps> = ({
             fontWeight: "bold",
         },
     });
-    
+
     const renderAnalitoItem = useCallback(
         ({ item, index }: { item: AnalitoInfo; index: number }) => (
             <TouchableOpacity
@@ -333,6 +333,5 @@ const AnalitosModel: React.FC<AnalitosProps> = ({
         </KeyboardAvoidingView>
     );
 };
-
 
 export default AnalitosModel;

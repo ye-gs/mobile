@@ -42,9 +42,7 @@ const Exams = () => {
     //     },
     // });
     return (
-        <ScrollView
-            contentContainerStyle={GeneralStyles().container1}
-        >
+        <ScrollView contentContainerStyle={GeneralStyles().container1}>
             {exams.map((exam) => (
                 <ExamCard
                     id={exam.id}
@@ -60,7 +58,11 @@ const Exams = () => {
                 style={[GeneralStyles().addButton1, GeneralStyles().shadow1]}
                 onPress={() => router.push("/exams/new")}
             >
-                <AntDesign name="plus" size={GeneralStyles().size24} color={otherColors.white1} />
+                <AntDesign
+                    name="plus"
+                    size={GeneralStyles().size24}
+                    color={otherColors.white1}
+                />
             </TouchableOpacity>
         </ScrollView>
     );

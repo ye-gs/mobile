@@ -64,7 +64,7 @@ export function HomeAppointmentHistory() {
     });
 
     return (
-        <View style={[styles.container,styles.shadow]}>
+        <View style={[styles.container, styles.shadow]}>
             <View style={styles.history__heading}>
                 <Text style={styles.history__title}>Próximas consultas</Text>
                 <Text

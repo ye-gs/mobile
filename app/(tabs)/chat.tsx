@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-    FlatList,
-    KeyboardAvoidingView,
-    Platform,
-    View,
-} from "react-native";
+import { FlatList, KeyboardAvoidingView, Platform, View } from "react-native";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 import {
@@ -23,7 +18,11 @@ import { db, auth } from "@/firebase/index";
 import MessageItem from "@/components/messages/MessageItem";
 import MessageInput from "@/components/messages/MessageInput";
 import TypingMessageItem from "@/components/messages/TypingMessageItem";
-import { getAppointmentsFromCache, getExamsFromCache, getMedsFromCache } from "@/cache";
+import {
+    getAppointmentsFromCache,
+    getExamsFromCache,
+    getMedsFromCache,
+} from "@/cache";
 import { Menu, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { GeneralStyles } from "@/constants/Styles";
@@ -57,8 +56,14 @@ export default function ChatScreen() {
     useEffect(() => {
         if (!userId) return;
 
-        const messagesCollectionRef = collection(db, `users/${userId}/messages`);
-        const messagesQuery = query(messagesCollectionRef, orderBy("createdAt", "asc"));
+        const messagesCollectionRef = collection(
+            db,
+            `users/${userId}/messages`
+        );
+        const messagesQuery = query(
+            messagesCollectionRef,
+            orderBy("createdAt", "asc")
+        );
 
         const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
             const loadedMessages = snapshot.docs.map((doc) => ({
@@ -100,9 +105,10 @@ export default function ChatScreen() {
             }
 
             const userData = document.data();
-            const bmi = userData?.weight && userData?.height 
-                ? userData.weight / (userData.height * userData.height) 
-                : null;
+            const bmi =
+                userData?.weight && userData?.height
+                    ? userData.weight / (userData.height * userData.height)
+                    : null;
 
             const body = JSON.stringify({
                 uname: user?.displayName || "Usuário",
@@ -124,7 +130,8 @@ export default function ChatScreen() {
 
             const apiUrl = Constants.expoConfig?.extra?.chatGptAPIUrl;
             //const apiUrl = "http://192.168.0.86:9000/2015-03-31/functions/function/invocations";
-            const authHeader = "Bearer " + (await auth.currentUser?.getIdToken());
+            const authHeader =
+                "Bearer " + (await auth.currentUser?.getIdToken());
             const res = await fetch(apiUrl, {
                 method: "POST",
                 headers: {
@@ -142,7 +149,10 @@ export default function ChatScreen() {
                 createdAt: serverTimestamp(),
             };
 
-            await addDoc(collection(db, `users/${userId}/messages`), botMessage);
+            await addDoc(
+                collection(db, `users/${userId}/messages`),
+                botMessage
+            );
         } catch (error) {
             console.error("Erro ao enviar a requisição:", error);
         }
@@ -153,7 +163,10 @@ export default function ChatScreen() {
     const handleDeleteConversation = async () => {
         if (!userId) return;
 
-        const messagesCollectionRef = collection(db, `users/${userId}/messages`);
+        const messagesCollectionRef = collection(
+            db,
+            `users/${userId}/messages`
+        );
         const querySnapshot = await getDocs(messagesCollectionRef);
 
         // Deletar todas as mensagens da coleção do usuário
@@ -196,7 +209,11 @@ export default function ChatScreen() {
         >
             <FlatList
                 ref={flatListRef}
-                data={isTyping ? [...messages, { id: "typing", isTyping: true }] : messages}
+                data={
+                    isTyping
+                        ? [...messages, { id: "typing", isTyping: true }]
+                        : messages
+                }
                 renderItem={({ item }) =>
                     item.isTyping ? (
                         <TypingMessageItem theme={theme} />

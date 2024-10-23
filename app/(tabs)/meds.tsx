@@ -40,7 +40,8 @@ const Meds = () => {
     // });
     return (
         <ScrollView
-            contentContainerStyle={GeneralStyles().container1
+            contentContainerStyle={
+                GeneralStyles().container1
                 // flexGrow: 1,
                 // paddingBottom: RFValue(100, 808),
                 // alignItems: "center",
@@ -67,7 +68,11 @@ const Meds = () => {
                 style={GeneralStyles().addButton1}
                 onPress={() => router.push("/meds/new")}
             >
-                <AntDesign name="plus" size={GeneralStyles().size24} color={otherColors.white1} />
+                <AntDesign
+                    name="plus"
+                    size={GeneralStyles().size24}
+                    color={otherColors.white1}
+                />
             </TouchableOpacity>
         </ScrollView>
     );

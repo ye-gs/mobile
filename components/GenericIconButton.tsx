@@ -1,5 +1,10 @@
 import { NumberProp, SvgProps } from "react-native-svg";
-import { StyleSheet, Pressable, DimensionValue, GestureResponderEvent } from "react-native";
+import {
+    StyleSheet,
+    Pressable,
+    DimensionValue,
+    GestureResponderEvent,
+} from "react-native";
 import { Text, View } from "./Themed";
 import { RFValue } from "react-native-responsive-fontsize";
 
@@ -46,7 +51,7 @@ export function GenericIconButton(props: {
             alignItems: "center",
             backgroundColor: "rgba(0,0,0,0)",
             // Add position relative for better shadow handling
-            position: 'relative',
+            position: "relative",
         },
         endImageView: {
             width: "18%",
@@ -89,4 +94,3 @@ export function GenericIconButton(props: {
         </Pressable>
     );
 }
-    

@@ -189,7 +189,10 @@ const updateCacheSection = async (
 };
 
 // Função para atualizar o cache de appointments
-const updateAppointmentsCache = async (userId: string, appointments: string) => {
+const updateAppointmentsCache = async (
+    userId: string,
+    appointments: string
+) => {
     await updateCacheSection(userId, "appointments", appointments);
 };
 

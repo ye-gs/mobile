@@ -3,7 +3,12 @@
  * https://docs.expo.io/guides/color-schemes/
  */
 
-import { Text as DefaultText, View as DefaultView, TouchableOpacity as DefaultTouchableOpacity, ScrollView as DefaultScrollView} from "react-native";
+import {
+    Text as DefaultText,
+    View as DefaultView,
+    TouchableOpacity as DefaultTouchableOpacity,
+    ScrollView as DefaultScrollView,
+} from "react-native";
 import Colors from "@/constants/Colors";
 import { useTheme } from "@/contexts/theme";
 
@@ -14,7 +19,8 @@ type ThemeProps = {
 
 export type TextProps = ThemeProps & DefaultText["props"];
 export type ViewProps = ThemeProps & DefaultView["props"];
-export type TouchableOpacityProps = ThemeProps & DefaultTouchableOpacity["props"];
+export type TouchableOpacityProps = ThemeProps &
+    DefaultTouchableOpacity["props"];
 export type ScrollViewProps = ThemeProps & DefaultScrollView["props"];
 export function useThemeColor(
     props: { light?: string; dark?: string },

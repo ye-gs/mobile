@@ -32,10 +32,32 @@ export function HomeBiometricInfo() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedButton, setSelectedButton] = useState<number | null>(null);
 
-    const [buttonData, setButtonData] = useState<{ analito: string | undefined; measure: string | undefined; unidade: string | undefined; icon: FontAwesomeIconNames }[]>([
-        { analito: undefined, measure: undefined, unidade: undefined, icon: "heart" },
-        { analito: undefined, measure: undefined, unidade: undefined, icon: "heart" },
-        { analito: undefined, measure: undefined, unidade: undefined, icon: "heart" },
+    const [buttonData, setButtonData] = useState<
+        {
+            analito: string | undefined;
+            measure: string | undefined;
+            unidade: string | undefined;
+            icon: FontAwesomeIconNames;
+        }[]
+    >([
+        {
+            analito: undefined,
+            measure: undefined,
+            unidade: undefined,
+            icon: "heart",
+        },
+        {
+            analito: undefined,
+            measure: undefined,
+            unidade: undefined,
+            icon: "heart",
+        },
+        {
+            analito: undefined,
+            measure: undefined,
+            unidade: undefined,
+            icon: "heart",
+        },
     ]);
 
     const styles = StyleSheet.create({

@@ -17,9 +17,9 @@ export function GenericInput(props: {
     width?: DimensionValue;
     height?: DimensionValue;
     onChange?: Function;
-    paddingVertical?: DimensionValue,
-    imageSize?: NumberProp,
-    endImageSize?: NumberProp
+    paddingVertical?: DimensionValue;
+    imageSize?: NumberProp;
+    endImageSize?: NumberProp;
 }) {
     const styles = StyleSheet.create({
         container: {
@@ -60,7 +60,12 @@ export function GenericInput(props: {
     return (
         <View style={styles.container}>
             <View style={styles.startImageView}>
-                {StartImageComponent ? <StartImageComponent width={props.imageSize} height={props.imageSize} /> : null}
+                {StartImageComponent ? (
+                    <StartImageComponent
+                        width={props.imageSize}
+                        height={props.imageSize}
+                    />
+                ) : null}
             </View>
             <TextInput
                 onChangeText={(text) =>
@@ -77,7 +82,8 @@ export function GenericInput(props: {
             <View style={styles.endImageView}>
                 {EndImageComponent ? (
                     <EndImageComponent
-                        width={props.endImageSize} height={props.endImageSize}
+                        width={props.endImageSize}
+                        height={props.endImageSize}
                         onPress={() => (onPress ? onPress() : "")}
                     />
                 ) : (

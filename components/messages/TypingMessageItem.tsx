@@ -53,15 +53,23 @@ const TypingMessageItem = ({ theme }: { theme: string }) => {
     }, []);
 
     return (
-        <View style={[styles(theme).messageContainer, styles(theme).botMessage]}>
+        <View
+            style={[styles(theme).messageContainer, styles(theme).botMessage]}
+        >
             <View style={styles(theme).dotContainer}>
-                <Animated.Text style={[styles(theme).dot, { opacity: dot1Animation }]}>
+                <Animated.Text
+                    style={[styles(theme).dot, { opacity: dot1Animation }]}
+                >
                     •
                 </Animated.Text>
-                <Animated.Text style={[styles(theme).dot, { opacity: dot2Animation }]}>
+                <Animated.Text
+                    style={[styles(theme).dot, { opacity: dot2Animation }]}
+                >
                     •
                 </Animated.Text>
-                <Animated.Text style={[styles(theme).dot, { opacity: dot3Animation }]}>
+                <Animated.Text
+                    style={[styles(theme).dot, { opacity: dot3Animation }]}
+                >
                     •
                 </Animated.Text>
             </View>

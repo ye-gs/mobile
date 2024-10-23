@@ -5,7 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { GenericCard } from "@/components/GenericCard";
 import { useAppointments } from "@/hooks/appointment";
 import { router } from "expo-router";
-import Colors, {otherColors} from "@/constants/Colors";
+import Colors, { otherColors } from "@/constants/Colors";
 import { GeneralStyles } from "@/constants/Styles";
 import { useTheme } from "@/contexts/theme";
 import { routeAndTransformAppointments } from "@/utils/routeAndTransform";
@@ -45,9 +45,7 @@ const Appointments = () => {
     //     },
     // });
     return (
-        <ScrollView
-            contentContainerStyle={GeneralStyles().container1}
-        >
+        <ScrollView contentContainerStyle={GeneralStyles().container1}>
             {appointments.map((appointment) => (
                 <GenericCard
                     key={appointment.id}
@@ -66,10 +64,14 @@ const Appointments = () => {
                 />
             ))}
             <TouchableOpacity
-                style={[GeneralStyles().addButton1,GeneralStyles().shadow1]}
+                style={[GeneralStyles().addButton1, GeneralStyles().shadow1]}
                 onPress={() => router.push("/appointments/new")}
             >
-                <AntDesign name="plus" size={GeneralStyles().size24} color={otherColors.white1} />
+                <AntDesign
+                    name="plus"
+                    size={GeneralStyles().size24}
+                    color={otherColors.white1}
+                />
             </TouchableOpacity>
         </ScrollView>
     );

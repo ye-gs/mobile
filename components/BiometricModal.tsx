@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useTheme } from "@/contexts/theme"; // Importa o hook useTheme
-import Colors from  "@/constants/Colors"; // Importa as cores
+import Colors from "@/constants/Colors"; // Importa as cores
 
 interface BiometricModalProps {
     modalVisible: boolean;
@@ -43,7 +43,12 @@ export const BiometricModal: React.FC<BiometricModalProps> = ({
             visible={modalVisible}
             onRequestClose={handleCloseModal}
         >
-            <View style={[styles.modalView, { backgroundColor: currentColors.background }]}>
+            <View
+                style={[
+                    styles.modalView,
+                    { backgroundColor: currentColors.background },
+                ]}
+            >
                 <Text style={[styles.modalText, { color: currentColors.text }]}>
                     Adicionar Dados Biométricos
                 </Text>
@@ -52,11 +57,11 @@ export const BiometricModal: React.FC<BiometricModalProps> = ({
                 <TextInput
                     style={[
                         styles.searchInput,
-                        { 
-                            backgroundColor: currentColors.circleBackground, 
-                            color: currentColors.altTextColor, 
-                            borderColor: currentColors.borderColor 
-                        }
+                        {
+                            backgroundColor: currentColors.circleBackground,
+                            color: currentColors.altTextColor,
+                            borderColor: currentColors.borderColor,
+                        },
                     ]}
                     placeholder="Buscar análito..."
                     placeholderTextColor={currentColors.altTextColor}
@@ -66,7 +71,10 @@ export const BiometricModal: React.FC<BiometricModalProps> = ({
 
                 {/* Indicador de carregamento */}
                 {loading ? (
-                    <ActivityIndicator size="large" color={currentColors.primaryLighter} />
+                    <ActivityIndicator
+                        size="large"
+                        color={currentColors.primaryLighter}
+                    />
                 ) : (
                     <FlatList
                         style={styles.listContainer}
@@ -77,10 +85,20 @@ export const BiometricModal: React.FC<BiometricModalProps> = ({
                 )}
 
                 <TouchableOpacity
-                    style={[styles.closeButton, { backgroundColor: currentColors.primaryLighter }]}
+                    style={[
+                        styles.closeButton,
+                        { backgroundColor: currentColors.primaryLighter },
+                    ]}
                     onPress={handleCloseModal}
                 >
-                    <Text style={[styles.closeButtonText, { color: currentColors.text }]}>Fechar</Text>
+                    <Text
+                        style={[
+                            styles.closeButtonText,
+                            { color: currentColors.text },
+                        ]}
+                    >
+                        Fechar
+                    </Text>
                 </TouchableOpacity>
             </View>
         </Modal>

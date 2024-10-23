@@ -154,12 +154,12 @@ const Colors: { [key: string]: { [key: string]: string } } = {
         black: "#242424", // Black
         white: "#e0e0e0", // White
         themeColor: "#cf2d2d", // Dark purple for theme color
-    }
+    },
 };
 export const otherColors = {
     shadowColor1: "#000",
-    black1: 'black',
-    white1: 'white',
+    black1: "black",
+    white1: "white",
     primary: "#333",
     secondary: "#fff",
     background: "#f5f5f5",
@@ -167,6 +167,6 @@ export const otherColors = {
     cardBorder: "#ddd",
     buttonBackground: "#007BFF",
     buttonText: "#FFF",
-}
+};
 
 export default Colors;

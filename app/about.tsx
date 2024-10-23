@@ -52,11 +52,11 @@ export default function UserInfo() {
     return (
         <ScrollView style={GeneralStyles().container2}>
             <StatusBar style="auto" />
-            <ScrollView
-                contentContainerStyle={GeneralStyles().container6}
-            >
+            <ScrollView contentContainerStyle={GeneralStyles().container6}>
                 <View style={GeneralStyles().main1}>
-                    <Text style={GeneralStyles().header1}>YE Gestão de Saúde</Text>
+                    <Text style={GeneralStyles().header1}>
+                        YE Gestão de Saúde
+                    </Text>
                     <View style={GeneralStyles().mainContent1}>
                         <Text style={GeneralStyles().mainText1}>
                             A YE Gestão de Saúde é uma empresa inovadora no

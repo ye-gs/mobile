@@ -21,7 +21,7 @@ interface ItemPosition {
     analyteIndex: number; // Posição do item dentro de ANALITOS
 }
 
-export interface FilterInterface{
+export interface FilterInterface {
     analito?: boolean;
     resultado?: boolean;
     unidade?: boolean;
@@ -100,15 +100,14 @@ export async function SearchItemByPosition(
 
         positions.forEach(({ examIndex, analyteIndex }) => {
             const exam = exams[examIndex];
-            
+
             if (!exam) {
                 return;
             }
-            
 
             if (exam && exam.ANALITOS && analyteIndex < exam.ANALITOS.length) {
                 const result: Partial<AnalitoInfo> = {};
-                
+
                 // Somente adiciona o nome do analito se o filtro estiver ativado
                 if (analito) {
                     result.analitos = exam.ANALITOS[analyteIndex];
@@ -154,7 +153,10 @@ export async function SearchItemByPosition(
                 ) {
                     result.valorReferencia =
                         exam["VALORES DE REFERÊNCIA"][analyteIndex];
-                } else if (valorReferencia && !exam["VALORES DE REFERÊNCIA"]?.[analyteIndex]) {
+                } else if (
+                    valorReferencia &&
+                    !exam["VALORES DE REFERÊNCIA"]?.[analyteIndex]
+                ) {
                     return;
                 }
 
@@ -167,7 +169,10 @@ export async function SearchItemByPosition(
                 ) {
                     result.referenciaIdade =
                         exam["Referência varia com idade"][analyteIndex];
-                } else if (referenciaIdade && !exam["Referência varia com idade"]?.[analyteIndex]) {
+                } else if (
+                    referenciaIdade &&
+                    !exam["Referência varia com idade"]?.[analyteIndex]
+                ) {
                     return;
                 }
 
@@ -180,7 +185,10 @@ export async function SearchItemByPosition(
                 ) {
                     result.limiteSuperior =
                         exam["Limite superior"][analyteIndex];
-                } else if (limiteSuperior && !exam["Limite superior"]?.[analyteIndex]) {
+                } else if (
+                    limiteSuperior &&
+                    !exam["Limite superior"]?.[analyteIndex]
+                ) {
                     return;
                 }
 
@@ -193,7 +201,10 @@ export async function SearchItemByPosition(
                 ) {
                     result.limiteInferior =
                         exam["Limite inferior"][analyteIndex];
-                } else if (limiteInferior && !exam["Limite inferior"]?.[analyteIndex]) {
+                } else if (
+                    limiteInferior &&
+                    !exam["Limite inferior"]?.[analyteIndex]
+                ) {
                     return;
                 }
 
@@ -226,11 +237,7 @@ export async function SearchItemByPosition(
     }
 }
 
-
-export async function GetItemInfo(
-    item: string,
-    filters?: FilterInterface
-) {
+export async function GetItemInfo(item: string, filters?: FilterInterface) {
     try {
         const resultadoNome = await SearchItemByName(item);
         const resultadoPosicao = await SearchItemByPosition(
@@ -294,12 +301,14 @@ export async function getExamsFromCacheFiltered(
 
             // Aplicando filtro de VALORES DE REFERÊNCIA
             if (valorReferencia && exam["VALORES DE REFERÊNCIA"]) {
-                filteredExam["VALORES DE REFERÊNCIA"] = exam["VALORES DE REFERÊNCIA"];
+                filteredExam["VALORES DE REFERÊNCIA"] =
+                    exam["VALORES DE REFERÊNCIA"];
             }
 
             // Aplicando filtro de Referência varia com idade
             if (referenciaIdade && exam["Referência varia com idade"]) {
-                filteredExam["Referência varia com idade"] = exam["Referência varia com idade"];
+                filteredExam["Referência varia com idade"] =
+                    exam["Referência varia com idade"];
             }
 
             // Aplicando filtro de Limite superior
@@ -331,18 +340,16 @@ export async function getExamsFromCacheFiltered(
     }
 }
 
-
 const filtersF = {
     resultado: true, // Queremos ver o resultado
     unidade: true, // Queremos ver a unidade
     valorReferencia: true, // Queremos ver o valor de referência
 };
 
-getExamsFromCacheFiltered(userId,filtersF).then((filteredExams) => {
+getExamsFromCacheFiltered(userId, filtersF).then((filteredExams) => {
     console.log("Exames filtrados:");
     console.log(filteredExams);
 });
-
 
 // Exemplo de uso da função SearchItemByName com o item "VCM"
 if (false) {

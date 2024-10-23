@@ -4,17 +4,37 @@ import { FontAwesome } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import Colors from "@/constants/Colors";
 
-const MessageInput = ({ inputMessage, setInputMessage, handleSendMessage, theme }: { inputMessage: string; setInputMessage: (text: string) => void; handleSendMessage: () => void; theme: string }) => (
+const MessageInput = ({
+    inputMessage,
+    setInputMessage,
+    handleSendMessage,
+    theme,
+}: {
+    inputMessage: string;
+    setInputMessage: (text: string) => void;
+    handleSendMessage: () => void;
+    theme: string;
+}) => (
     <View style={styles(theme).inputContainer}>
         <TextInput
-            style={[styles(theme).input, { backgroundColor: Colors[theme].background }]}
+            style={[
+                styles(theme).input,
+                { backgroundColor: Colors[theme].background },
+            ]}
             placeholder="Digite uma mensagem..."
             placeholderTextColor={Colors[theme].text}
             value={inputMessage}
             onChangeText={setInputMessage}
         />
-        <TouchableOpacity style={styles(theme).sendButton} onPress={handleSendMessage}>
-            <FontAwesome name="send" size={RFValue(24)} color={Colors[theme].tint} />
+        <TouchableOpacity
+            style={styles(theme).sendButton}
+            onPress={handleSendMessage}
+        >
+            <FontAwesome
+                name="send"
+                size={RFValue(24)}
+                color={Colors[theme].tint}
+            />
         </TouchableOpacity>
     </View>
 );

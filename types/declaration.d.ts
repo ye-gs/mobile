@@ -5,15 +5,16 @@ declare module "*.svg" {
     export default content;
 }
 
-type WeightValue = 'normal'
-| 'bold'
-| '100'
-| '200'
-| '300'
-| '400'
-| '500'
-| '600'
-| '700'
-| '800'
-| '900'
-| undefined;
+type WeightValue =
+    | "normal"
+    | "bold"
+    | "100"
+    | "200"
+    | "300"
+    | "400"
+    | "500"
+    | "600"
+    | "700"
+    | "800"
+    | "900"
+    | undefined;

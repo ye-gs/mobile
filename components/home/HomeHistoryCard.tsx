@@ -94,7 +94,9 @@ export function HomeHistoryCard(props: HomeHistoryCardProps) {
     );
 }
 
-export function ConsultationsList(props: { consultations: HomeHistoryCardProps[] }) {
+export function ConsultationsList(props: {
+    consultations: HomeHistoryCardProps[];
+}) {
     const renderItem = ({ item }: { item: HomeHistoryCardProps }) => (
         <HomeHistoryCard
             description={item.description}

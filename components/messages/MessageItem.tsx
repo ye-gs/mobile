@@ -29,7 +29,9 @@ const MessageItem = ({
             ]}
         >
             {/* Renderiza o texto da mensagem com Markdown */}
-            <Markdown style={markdownStyles(theme)as MarkdownProps['style']}>{item.text}</Markdown>
+            <Markdown style={markdownStyles(theme) as MarkdownProps["style"]}>
+                {item.text}
+            </Markdown>
 
             {/* Exibe o timestamp da mensagem */}
             <Text style={styles(theme).timestamp}>{formattedDate}</Text>
@@ -47,7 +49,8 @@ const styles = (theme: string) =>
         },
         userMessage: {
             alignSelf: "flex-end",
-            backgroundColor: Colors[theme].zapZap ?? Colors[theme].primaryLighter,
+            backgroundColor:
+                Colors[theme].zapZap ?? Colors[theme].primaryLighter,
         },
         botMessage: {
             alignSelf: "flex-start",
@@ -74,14 +77,14 @@ const markdownStyles = (theme: string) => ({
         fontStyle: "italic",
     },
     paragraph: {
-        marginTop: RFValue(5,808),
-        marginBottom: RFValue(5,808),
+        marginTop: RFValue(5, 808),
+        marginBottom: RFValue(5, 808),
     },
     tableBorder: {
         borderWidth: 1,
-        borderColor: '#FFF',
-        borderStyle: 'solid',
-      }
+        borderColor: "#FFF",
+        borderStyle: "solid",
+    },
 });
 
 export default MessageItem;

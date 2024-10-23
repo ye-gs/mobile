@@ -18,7 +18,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
     const [theme, setTheme] = useState<Theme>("light");
-    const user = auth.currentUser
+    const user = auth.currentUser;
     useEffect(() => {
         const fetchUserTheme = async () => {
             if (user) {
@@ -31,7 +31,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
             }
         };
 
-        fetchUserTheme().catch(console.error)
+        fetchUserTheme().catch(console.error);
     }, []);
     return (
         <ThemeContext.Provider value={{ theme, setTheme }}>

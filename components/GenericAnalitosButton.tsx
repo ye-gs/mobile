@@ -28,8 +28,16 @@ export const GenericAnalitosButton: React.FC<GenericAnalitosButtonProps> = ({
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={[styles.addButton, { borderColor: Colors[theme].tint }]} onPress={onPress}>
-                <View style={[styles.iconContainer, { backgroundColor: Colors[theme].circleBackground }]}>
+            <TouchableOpacity
+                style={[styles.addButton, { borderColor: Colors[theme].tint }]}
+                onPress={onPress}
+            >
+                <View
+                    style={[
+                        styles.iconContainer,
+                        { backgroundColor: Colors[theme].circleBackground },
+                    ]}
+                >
                     <FontAwesome
                         name={analito && measure ? iconName : "plus"} // Use iconName or fallback to "plus"
                         size={RFValue(30, 808)}

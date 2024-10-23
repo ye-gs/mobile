@@ -236,7 +236,7 @@ const AppointmentForm = (appointment: AppointmentData) => {
                     defaultValue={appointment.description}
                     contentStyle={[
                         styles.input,
-                        { backgroundColor: Colors[theme].circleBackground, },
+                        { backgroundColor: Colors[theme].circleBackground },
                     ]}
                     style={{ backgroundColor: "transparent" }}
                     textColor={Colors[theme].text}
@@ -278,11 +278,11 @@ const AppointmentForm = (appointment: AppointmentData) => {
                         Data da consulta{" "}
                         {datetime
                             ? datetime.toLocaleTimeString("pt-BR", {
-                                month: "2-digit",
-                                day: "2-digit", 
-                                hour: "2-digit",
-                                minute: "2-digit",
-                            })
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                              })
                             : "Nenhuma data selecionada"}
                     </Text>
                 </Button>

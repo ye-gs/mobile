@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { View, Text } from "./Themed";
 import { useMeds } from "@/hooks/meds";
 import { router } from "expo-router";
-import { TextInput, Checkbox, Dialog, Portal, Button } from "react-native-paper";
+import {
+    TextInput,
+    Checkbox,
+    Dialog,
+    Portal,
+    Button,
+} from "react-native-paper";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
@@ -32,7 +38,9 @@ const MedForm = (med: MedData) => {
     const [time, setTime] = useState(med.time);
     const [isBookmarked, setIsBookmarked] = useState(Boolean(med.isBookmarked));
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [selectedDays, setSelectedDays] = useState<string[]>(med.frequency.split(",") || []);
+    const [selectedDays, setSelectedDays] = useState<string[]>(
+        med.frequency.split(",") || []
+    );
     const [dialogVisible, setDialogVisible] = useState(false);
     const [dialogAction, setDialogAction] = useState<"save" | "delete" | null>(
         null
@@ -73,29 +81,29 @@ const MedForm = (med: MedData) => {
 
     const handleDialogConfirm = async () => {
         hideDialog();
-    
+
         // Ordem desejada dos dias da semana
         const dayOrder = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
-    
+
         // Limpa a lista de dias selecionados para remover valores vazios e ordena conforme a ordem definida
         const frequency = selectedDays
             .filter((day) => day) // Remove qualquer string vazia
             .sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b)) // Ordena conforme a ordem desejada
             .join(","); // Une os dias em uma string separada por vírgulas
-    
+
         if (dialogAction === "save") {
             if (isBookmarked) {
                 let notificationDate = new Date();
                 notificationDate.setHours(Number(time.split(":")[0]));
                 notificationDate.setMinutes(Number(time.split(":")[1]));
-    
+
                 await Notifications.setNotificationChannelAsync("whatsapp", {
                     name: "Whatsapp Notifications",
                     importance: Notifications.AndroidImportance.MAX,
                     vibrationPattern: [0, 250, 250, 250],
                     sound: "whatsapp.wav",
                 });
-    
+
                 await Notifications.scheduleNotificationAsync({
                     identifier: "whatsapp",
                     content: {
@@ -112,7 +120,7 @@ const MedForm = (med: MedData) => {
                     },
                 });
             }
-    
+
             const medData = {
                 name,
                 time,
@@ -120,7 +128,7 @@ const MedForm = (med: MedData) => {
                 frequency,
                 isBookmarked,
             };
-    
+
             if (med.slug !== "new") {
                 await editMed(med.slug, medData);
             } else {
@@ -134,7 +142,6 @@ const MedForm = (med: MedData) => {
             await fetchMeds();
         }
     };
-    
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -321,9 +328,7 @@ const MedForm = (med: MedData) => {
 
                 <View style={styles.bookmarkView}>
                     <Text style={styles.title}>
-                        {isBookmarked
-                            ? "Recebendo notificação"
-                            : "Desativado"}
+                        {isBookmarked ? "Recebendo notificação" : "Desativado"}
                     </Text>
                     <BookmarkImage
                         style={styles.bookmark}

@@ -127,7 +127,7 @@ export function GenericCard(props: {
                     },
                 ]}
             >
-                <View style={[styles.timeView,styles.shadow]}>
+                <View style={[styles.timeView, styles.shadow]}>
                     <Text style={styles.timeViewText}>{time}</Text>
                 </View>
                 <View style={styles.contentView}>
