@@ -18,7 +18,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     const nodeEnv = process.env.NODE_ENV || "development";
     const chatGptAPIUrl =
         process.env.EXPO_PUBLIC_CHAT_GPT_API_URL ||
-        "https://89fpxwrfl2.execute-api.sa-east-1.amazonaws.com/prod/gepeto";
+        "https://5pq6x1phbi.execute-api.sa-east-1.amazonaws.com/prod/gepeto";
     if (
         !firebaseApiKey ||
         !authDomain ||

@@ -1,28 +1,128 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { useTheme } from "@/contexts/theme";
 import { RFValue } from "react-native-responsive-fontsize";
-import { getExamsFromCache } from "@/cache/index"; // Importar a função de cache
-import { auth } from "@/firebase/index";
-import { AddButton } from "@/components/AddButton";
+import { getExamsFromCache } from "@/cache/index";
+import { auth, db as firestore } from "@/firebase/index";
 import { BiometricModal } from "@/components/BiometricModal";
-import { router } from "expo-router";
-import { Exam } from "@/types/exam";
+import AnalitosModel from "@/components/home/AnalitosModel";
+import { GenericAnalitosButton } from "@/components/GenericAnalitosButton";
+import { AnalitoInfo } from "@/components/searchItem";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { FontAwesome } from "@expo/vector-icons";
+const removeAccents = (str: string) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+};
+type FontAwesomeIconNames = keyof typeof FontAwesome.glyphMap;
+
 interface IExam {
     ANALITOS: string[];
     DATA: string;
     RESULTADOS: string;
 }
+
 export function HomeBiometricInfo() {
-    const { theme } = useTheme() as { theme: string };
+    const { theme } = useTheme();
     const [modalVisible, setModalVisible] = useState(false);
-    const [exams, setExams] = useState<IExam[]>([]);//Todo: add type
+    const [popupVisible, setPopupVisible] = useState(false);
+    const [selectedAnalyte, setSelectedAnalyte] = useState<string | null>(null);
+    const [exams, setExams] = useState<IExam[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de busca
+    const [searchTerm, setSearchTerm] = useState("");
+    const [selectedButton, setSelectedButton] = useState<number | null>(null);
 
-    // Função para carregar os exames do cache
-    const loadExams = async () => {
+    const [buttonData, setButtonData] = useState<{ analito: string | undefined; measure: string | undefined; unidade: string | undefined; icon: FontAwesomeIconNames }[]>([
+        { analito: undefined, measure: undefined, unidade: undefined, icon: "heart" },
+        { analito: undefined, measure: undefined, unidade: undefined, icon: "heart" },
+        { analito: undefined, measure: undefined, unidade: undefined, icon: "heart" },
+    ]);
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: "#f5f5f5",
+            padding: 20,
+        },
+        card: {
+            backgroundColor: "#fff",
+            borderRadius: 10,
+            padding: 20,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 6,
+            elevation: 4,
+        },
+        cardText: {
+            fontSize: 18,
+            fontWeight: "bold",
+            color: "#333",
+        },
+        biometricInfo: {
+            flexDirection: "row",
+            gap: RFValue(18, 808),
+            paddingTop: "8%",
+        },
+        fullscreenPopupContainer: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            width: "100%",
+            height: "100%",
+        },
+    });
+
+    const loadButtonData = useCallback(async () => {
+        const userId = auth.currentUser?.uid;
+        if (userId) {
+            try {
+                const docRef = doc(
+                    firestore,
+                    `users/${userId}/favAnalitos/dados` // Mudança aqui
+                );
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data().analitos || [];
+                    setButtonData(
+                        data.length > 0
+                            ? data
+                            : [
+                                  {
+                                      analito: null,
+                                      measure: null,
+                                      unidade: null,
+                                      icon: "heart",
+                                  },
+                                  {
+                                      analito: null,
+                                      measure: null,
+                                      unidade: null,
+                                      icon: "heart",
+                                  },
+                                  {
+                                      analito: null,
+                                      measure: null,
+                                      unidade: null,
+                                      icon: "heart",
+                                  },
+                              ]
+                    );
+                } else {
+                    console.log("No such document!");
+                }
+            } catch (error) {
+                console.error("Error fetching button data:", error);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        loadButtonData();
+    }, [loadButtonData]);
+
+    const loadExams = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -42,35 +142,79 @@ export function HomeBiometricInfo() {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
-    // Carregar exames ao montar o componente e sempre que o usuário mudar
     useEffect(() => {
         loadExams();
-    }, [auth.currentUser?.uid]);
+    }, [auth.currentUser?.uid, loadExams]);
 
-    const handleAddBiometric = () => {
+    const handleAddBiometric = useCallback((buttonIndex: number) => {
+        setSelectedButton(buttonIndex);
         setModalVisible(true);
-        // Recarregar os exames ao abrir o modal para garantir que estão atualizados
-        loadExams();
-    };
+    }, []);
 
-    const handleCloseModal = () => {
+    const handleCloseModal = useCallback(() => {
         setModalVisible(false);
-    };
+    }, []);
+
+    const handleAnalytePress = useCallback((analyte: string) => {
+        setSelectedAnalyte(analyte);
+        setPopupVisible(true);
+    }, []);
+
+    const closePopup = useCallback(() => {
+        setPopupVisible(false);
+        setSelectedAnalyte(null);
+    }, []);
+
+    const handleAnalyteSelect = useCallback(
+        async (analitoInfo: AnalitoInfo) => {
+            if (selectedButton !== null) {
+                const updatedButtonData = [...buttonData];
+                updatedButtonData[selectedButton] = {
+                    ...updatedButtonData[selectedButton],
+                    analito: analitoInfo.analitos,
+                    measure: analitoInfo.resultado,
+                    unidade: analitoInfo.unidade,
+                };
+
+                setButtonData(updatedButtonData);
+                setPopupVisible(false);
+                setModalVisible(false);
+                setSelectedAnalyte(null);
+
+                const userId = auth.currentUser?.uid;
+                if (userId) {
+                    try {
+                        const docRef = doc(
+                            firestore,
+                            `users/${userId}/favAnalitos/dados` // Mudança aqui
+                        );
+                        await setDoc(docRef, { analitos: updatedButtonData });
+                    } catch (error) {
+                        console.error("Erro ao salvar no Firestore:", error);
+                        setError("Erro ao salvar dados no Firestore");
+                    }
+                }
+            }
+        },
+        [selectedButton, buttonData]
+    );
+
+    const analytes = useMemo(() => {
+        return [...new Set(exams.flatMap((exam) => exam.ANALITOS))].filter(
+            (analyte) =>
+                removeAccents(analyte.toLowerCase()).includes(
+                    removeAccents(searchTerm.toLowerCase())
+                )
+        );
+    }, [exams, searchTerm]);
 
     const renderItem = ({ item }: { item: string }) => (
         <View style={styles.container}>
             <TouchableOpacity
                 style={[styles.card]}
-                onPress={() => {
-                    console.log("Selected analyte:", item); // Log apenas o nome do item
-                    handleCloseModal(); // Fechar o modal após a seleção
-                    router.push({
-                        pathname: "/analitos",
-                        params: { analitoName: item },
-                    });
-                }}
+                onPress={() => handleAnalytePress(item)}
             >
                 <Text style={styles.cardText}>{item}</Text>
             </TouchableOpacity>
@@ -78,34 +222,26 @@ export function HomeBiometricInfo() {
     );
 
     if (loading) {
-        return <Text>Carregando...</Text>; // Exibir mensagem de carregamento
+        return <Text>Carregando...</Text>;
     }
 
     if (error) {
-        return <Text>{error}</Text>; // Exibir mensagem de erro
+        return <Text>{error}</Text>;
     }
-
-    // Função para remover acentuação
-    const removeAccents = (str: string) => {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    };
-
-    // Flatten the list of analytes and filter by the search term
-    const analytes = [
-        ...new Set(exams.flatMap((exam) => exam.ANALITOS)),
-    ].filter((analyte) =>
-        removeAccents(analyte.toLowerCase()).includes(
-            removeAccents(searchTerm.toLowerCase())
-        )
-    );
 
     return (
         <View style={styles.biometricInfo}>
-            <AddButton theme={theme} onPress={handleAddBiometric} />
-            <View style={styles.verticalSeparator} />
-            <AddButton theme={theme} onPress={handleAddBiometric} />
-            <View style={styles.verticalSeparator} />
-            <AddButton theme={theme} onPress={handleAddBiometric} />
+            {buttonData.map((button, index) => (
+                <GenericAnalitosButton
+                    key={index}
+                    analito={button.analito}
+                    measure={button.measure}
+                    unidade={button.unidade}
+                    iconName={button.icon}
+                    onPress={() => handleAddBiometric(index)}
+                />
+            ))}
+
             <BiometricModal
                 modalVisible={modalVisible}
                 searchTerm={searchTerm}
@@ -115,119 +251,21 @@ export function HomeBiometricInfo() {
                 renderItem={renderItem}
                 loading={loading}
             />
+
+            <Modal
+                transparent={true}
+                visible={popupVisible}
+                onRequestClose={closePopup}
+                animationType="slide"
+            >
+                <View style={styles.fullscreenPopupContainer}>
+                    <AnalitosModel
+                        selectedAnalyte={selectedAnalyte || ""}
+                        onClose={closePopup}
+                        onSelect={handleAnalyteSelect}
+                    />
+                </View>
+            </Modal>
         </View>
     );
 }
-
-// Stylesheet já fornecido por você
-const colors = {
-    primary: "#333",
-    secondary: "#fff",
-    background: "#f5f5f5",
-    cardBackground: "#fff",
-    cardBorder: "#ddd",
-    buttonBackground: "#007BFF",
-    buttonText: "#FFF",
-};
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.background,
-        padding: 20,
-    },
-    headerContainer: {
-        marginTop: 20,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 20,
-    },
-    title: {
-        fontSize: 26,
-        fontWeight: "bold",
-        color: colors.primary,
-    },
-    link: {
-        fontSize: 16,
-        color: colors.buttonBackground,
-    },
-    analitoName: {
-        fontSize: 22,
-        color: colors.primary,
-        marginBottom: 20,
-        textAlign: "center",
-    },
-    listContainer: {
-        paddingBottom: 40,
-    },
-    card: {
-        backgroundColor: colors.cardBackground,
-        borderRadius: 10,
-        padding: 20,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 4, // Shadow for Android
-    },
-    selectedCard: {
-        borderColor: colors.buttonBackground,
-        borderWidth: 2,
-    },
-    checkboxAndTextContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    checkboxContainer: {
-        marginRight: 15,
-    },
-    checkbox: {
-        width: 22,
-        height: 22,
-        borderRadius: 5,
-        borderWidth: 2,
-        borderColor: colors.primary,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    checkboxFilled: {
-        width: 12,
-        height: 12,
-        backgroundColor: colors.primary,
-    },
-    textContainer: {
-        flex: 1,
-    },
-    cardText: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: colors.primary,
-    },
-    cardDate: {
-        marginTop: 10,
-        fontSize: 16,
-        color: colors.primary,
-    },
-    biometricInfo: {
-        flexDirection: "row",
-        gap: RFValue(18, 808),
-        paddingTop: "8%",
-    },
-    verticalSeparator: {
-        width: RFValue(1.5, 808),
-        height: "80%",
-        alignSelf: "center",
-        backgroundColor: colors.primary, // Adicionar cor à separação
-    },
-    cadastroContainer: {
-        alignItems: "center",
-        padding: 10,
-    },
-    cadastroTitle: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: colors.primary,
-        marginBottom: 10,
-    },
-});

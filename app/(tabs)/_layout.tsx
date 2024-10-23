@@ -1,5 +1,9 @@
 import React, { useEffect } from "react";
-import { FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+    FontAwesome,
+    Ionicons,
+    MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { GeneralStyles } from "@/constants/Styles";
@@ -8,21 +12,20 @@ import { useUser } from "@/contexts/user";
 import { Button, Menu } from "react-native-paper";
 import { useTheme } from "@/contexts/theme";
 import { auth, db } from "@/firebase";
-import { StyleSheet } from "react-native";
 import { ThemeNames } from "@/constants/ThemeNames";
 import { doc, getDoc } from "firebase/firestore";
-import { Theme } from "@/contexts/theme";
-import GlucosePage from "../glucose";
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];
     color: string;
 }) {
-    return <FontAwesome 
-                size={GeneralStyles().size25} /*{28}*/ 
-                style={GeneralStyles().tabBarIcon1} /*{{ marginBottom: -3 }}*/ 
-                {...props} 
-            />;
+    return (
+        <FontAwesome
+            size={GeneralStyles().size30} /*{28}*/
+            style={GeneralStyles().tabBarIcon1} /*{{ marginBottom: -3 }}*/
+            {...props}
+        />
+    );
 }
 
 export default function TabLayout() {
@@ -114,7 +117,7 @@ export default function TabLayout() {
                 visible={visible}
                 onDismiss={closeMenu}
                 //style={styles.menu}
-                style = {GeneralStyles().menu1}
+                style={GeneralStyles().menu1}
                 //contentStyle={styles.menuContent}
                 contentStyle={GeneralStyles().menuContent1}
                 anchor={
@@ -136,20 +139,20 @@ export default function TabLayout() {
                 <Menu.Item
                     leadingIcon={() => (
                         <Ionicons
-                            size={GeneralStyles().size25}
+                            size={GeneralStyles().size30}
                             name={"exit-outline"}
                             color={Colors[theme].text}
                         ></Ionicons>
                     )}
                     onPress={handleSignOut}
                     title="Sair"
-                    titleStyle = {GeneralStyles().menuItemTitle1}
+                    titleStyle={GeneralStyles().menuItemTitle1}
                     //titleStyle={styles.menuItemTitle}
                 />
                 <Menu.Item
                     leadingIcon={() => (
                         <FontAwesome
-                            size={GeneralStyles().size25}
+                            size={GeneralStyles().size30}
                             name={
                                 colorSchemeMap[
                                     theme as keyof ColorSchemeMap
@@ -170,7 +173,7 @@ export default function TabLayout() {
                     <Menu.Item
                         leadingIcon={() => (
                             <MaterialCommunityIcons
-                                size={GeneralStyles().size25}
+                                size={GeneralStyles().size30}
                                 name="test-tube"
                                 color={Colors[theme].text}
                             ></MaterialCommunityIcons>
@@ -191,7 +194,7 @@ export default function TabLayout() {
             screenOptions={{
                 tabBarActiveTintColor: Colors[theme].tint,
                 tabBarStyle: GeneralStyles().backgroundColor1,
-                    //backgroundColor: Colors[theme].background,
+                //backgroundColor: Colors[theme].background,
                 headerStyle: GeneralStyles().backgroundColor1,
                 headerTitleStyle: GeneralStyles().textColor1,
                 headerRight: () => <MenuButton />,
