@@ -8,6 +8,14 @@
             "distribution": "internal",
             "channel": "development"
         },
+        "development-no-dev-client": {
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "developmentClient": false,
+            "distribution": "internal",
+            "channel": "development"
+        },
         "test": {
             "developmentClient": false,
             "distribution": "internal",
