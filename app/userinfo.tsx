@@ -166,7 +166,7 @@ export default function UserInfo() {
                 <TextInput
                     label={
                         <Text style={{ color: Colors[theme].altTextColor }}>
-                            Altura
+                            Altura (m)
                         </Text>
                     }
                     defaultValue={altura ? altura : "0"}
@@ -182,7 +182,7 @@ export default function UserInfo() {
                 <TextInput
                     label={
                         <Text style={{ color: Colors[theme].altTextColor }}>
-                            Peso
+                            Peso (kg)
                         </Text>
                     }
                     defaultValue={peso ? peso : "0"}
