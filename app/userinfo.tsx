@@ -66,6 +66,7 @@ export default function UserInfo() {
             weight: pesoNumerico,
             gender: genero,
         });
+        alert("Mudanças salvas com sucesso");
     };
     const [datePickerVisible, setDatePickerVisible] = useState(false);
     const showDatePicker = () => {
@@ -169,7 +170,7 @@ export default function UserInfo() {
                             Altura (m)
                         </Text>
                     }
-                    defaultValue={altura ? altura : "0"}
+                    defaultValue={altura}
                     onChangeText={(text) => setAltura(text)}
                     style={styles.input}
                     inputMode="numeric"
