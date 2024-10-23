@@ -20,7 +20,7 @@ export default function UserInfo() {
     if (user == null) return null;
     const { theme } = useTheme();
     if (user == null) return null;
-    const [userDocData, setUserDocData] = useState<DocumentData | null >(null);
+    const [userDocData, setUserDocData] = useState<DocumentData | null>(null);
     const [datetime, setDatetime] = useState<Date | null>(null);
     const [altura, setAltura] = useState<string | undefined>(undefined);
     const [peso, setPeso] = useState<string | undefined>(undefined);
@@ -114,7 +114,11 @@ export default function UserInfo() {
             ></ProfileCard>
             <View style={styles.options}>
                 <TextInput
-                    label={<Text style={{color: Colors[theme].altTextColor}}>Nome</Text>}
+                    label={
+                        <Text style={{ color: Colors[theme].altTextColor }}>
+                            Nome
+                        </Text>
+                    }
                     defaultValue={userName}
                     onChangeText={(text) => setUserName(text)}
                     style={styles.input}
@@ -126,7 +130,11 @@ export default function UserInfo() {
                 ></TextInput>
 
                 <TextInput
-                    label={<Text style={{color: Colors[theme].altTextColor}}>Email</Text>}
+                    label={
+                        <Text style={{ color: Colors[theme].altTextColor }}>
+                            Email
+                        </Text>
+                    }
                     defaultValue={user?.email!}
                     style={styles.input}
                     textColor={Colors[theme].text}
@@ -155,9 +163,13 @@ export default function UserInfo() {
                     display="default"
                     onCancel={hideDatePicker}
                 />
-                <TextInput 
-                    label={<Text style={{color: Colors[theme].altTextColor}}>Altura</Text>}
-                    defaultValue={altura ? undefined : "0"}
+                <TextInput
+                    label={
+                        <Text style={{ color: Colors[theme].altTextColor }}>
+                            Altura
+                        </Text>
+                    }
+                    defaultValue={altura ? altura : "0"}
                     onChangeText={(text) => setAltura(text)}
                     style={styles.input}
                     inputMode="numeric"
@@ -168,8 +180,12 @@ export default function UserInfo() {
                     activeUnderlineColor={Colors[theme].altTextColor}
                 ></TextInput>
                 <TextInput
-                    label={<Text style={{color: Colors[theme].altTextColor}}>Peso</Text>}
-                    defaultValue={peso ? undefined : "0"}
+                    label={
+                        <Text style={{ color: Colors[theme].altTextColor }}>
+                            Peso
+                        </Text>
+                    }
+                    defaultValue={peso ? peso : "0"}
                     inputMode="numeric"
                     onChangeText={(text) => setPeso(text)}
                     style={styles.input}
