@@ -21,8 +21,8 @@ function TabBarIcon(props: {
 }) {
     return (
         <FontAwesome
-            size={GeneralStyles().size30} /*{28}*/
-            style={GeneralStyles().tabBarIcon1} /*{{ marginBottom: -3 }}*/
+            size={28} /*{28}*/
+            style={GeneralStyles().tabBarIcon1}
             {...props}
         />
     );
