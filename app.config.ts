@@ -16,9 +16,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     const examFunctionUrl = process.env.EXPO_PUBLIC_EXAM_FUNCTION_URL;
     const webhookUrl = process.env.EXPO_PUBLIC_WEBHOOK_URL;
     const nodeEnv = process.env.NODE_ENV || "development";
+
+    const oldUrl =
+        "https://5pq6x1phbi.execute-api.sa-east-1.amazonaws.com/prod/gepeto";
     const chatGptAPIUrl =
         process.env.EXPO_PUBLIC_CHAT_GPT_API_URL ||
-        "https://5pq6x1phbi.execute-api.sa-east-1.amazonaws.com/prod/gepeto";
+        "https://89fpxwrfl2.execute-api.sa-east-1.amazonaws.com/prod/gepeto";
     if (
         !firebaseApiKey ||
         !authDomain ||
