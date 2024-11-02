@@ -127,7 +127,7 @@ export default function TabLayout() {
                         icon={() => (
                             <FontAwesome
                                 color={Colors[theme].altTextColor}
-                                size={GeneralStyles().size30}
+                                size={28}
                                 name="bars"
                             />
                         )}
@@ -139,7 +139,7 @@ export default function TabLayout() {
                 <Menu.Item
                     leadingIcon={() => (
                         <Ionicons
-                            size={GeneralStyles().size30}
+                            size={28}
                             name={"exit-outline"}
                             color={Colors[theme].text}
                         ></Ionicons>
@@ -152,7 +152,7 @@ export default function TabLayout() {
                 <Menu.Item
                     leadingIcon={() => (
                         <FontAwesome
-                            size={GeneralStyles().size30}
+                            size={28}
                             name={
                                 colorSchemeMap[
                                     theme as keyof ColorSchemeMap
@@ -169,7 +169,7 @@ export default function TabLayout() {
                     title="Tema Aleatorio"
                     titleStyle={GeneralStyles().menuItemTitle1}
                 />
-                {isAdmin ? (
+                {/* {isAdmin ? (
                     <Menu.Item
                         leadingIcon={() => (
                             <MaterialCommunityIcons
@@ -184,7 +184,7 @@ export default function TabLayout() {
                         title="Testes"
                         titleStyle={GeneralStyles().menuItemTitle1}
                     />
-                ) : null}
+                ) : null} */}
             </Menu>
         );
     }
